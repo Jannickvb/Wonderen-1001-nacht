@@ -1,7 +1,10 @@
-/audio/
 /control/
-/images/
 /model/
-/video/
 /view/
+<<<<<<< HEAD
 /entities/
+=======
+/audio/
+/images/
+/video/
+>>>>>>> a020d8f4d573f55cbbd7fbb55d1fd099dc4a4bb2
