@@ -2,8 +2,8 @@ package control;
 
 import java.util.ArrayList;
 
-import model.GameState;
-import model.MenuState;
+import model.gamestates.GameState;
+import model.gamestates.MenuState;
 
 public class GameStateManager {
 	private ArrayList<GameState> gameStates = new ArrayList<GameState>();

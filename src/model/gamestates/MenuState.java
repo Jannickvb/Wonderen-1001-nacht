@@ -1,4 +1,4 @@
-package model;
+package model.gamestates;
 
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
