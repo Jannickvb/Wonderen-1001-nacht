@@ -17,11 +17,7 @@ public class ImageHandler {
 	}
 
 	public BufferedImage getImage(int imageID){
-		try {
-			return images.get(imageID);
-		} catch (Exception e) {
-			System.out.println("No Image Selected");
-		}
+		return images.get(imageID);
 	}
 	
 	public BufferedImage loadImage(String imagePath){		
