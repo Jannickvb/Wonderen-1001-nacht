@@ -19,10 +19,12 @@ import wiiusej.wiiusejevents.wiiuseapievents.StatusEvent;
 public class WiiMoteHandler implements WiimoteListener{
 	
 	private Wiimote[] wiimotes;
+	private int aX;
+	private int aY;
 	
 	public WiiMoteHandler()
 	{
-		wiimotes = WiiUseApiManager.getWiimotes(4, true);
+		wiimotes = WiiUseApiManager.getWiimotes(2, true);
 		for(int i = 0;i<wiimotes.length;i++){
 			wiimotes[i].addWiiMoteEventListeners((WiimoteListener) this);
 			wiimotes[i].activateMotionSensing();
@@ -30,13 +32,34 @@ public class WiiMoteHandler implements WiimoteListener{
 			wiimotes[i].setSensorBarBelowScreen();
 			}
 	}
+	
+	public void reconnect()
+	{
+		wiimotes = WiiUseApiManager.getWiimotes(2, true);
+		for(int i = 0;i<wiimotes.length;i++){
+			wiimotes[i].addWiiMoteEventListeners((WiimoteListener) this);
+			wiimotes[i].activateMotionSensing();
+			wiimotes[i].activateIRTRacking();
+			wiimotes[i].setSensorBarBelowScreen();
+			}
+	}
+	
+	public boolean isConnected()
+	{
+		boolean connected = true;
+		if(wiimotes.length < 2)
+		{
+			connected = false;
+		}
+		return connected;
+	}
 
 	@Override
 	public void onButtonsEvent(WiimoteButtonsEvent e) {
 		// TODO Auto-generated method stub
 		if(e.isButtonAJustPressed())
 		{
-			System.out.println("a");
+			//start game
 		}
 	}
 
@@ -79,9 +102,12 @@ public class WiiMoteHandler implements WiimoteListener{
 	}
 
 	@Override
-	public void onIrEvent(IREvent arg0) {
+	public void onIrEvent(IREvent e) {
 		// TODO Auto-generated method stub
-		
+		//System.out.println("Ax:" + e.getAx() + "Ay:" + e.getAy());
+		//System.out.println("X:" + e.getX() + "Y:" + e.getY());
+		setaX(e.getAx());
+		setaY(e.getAy());
 	}
 
 	@Override
@@ -106,5 +132,21 @@ public class WiiMoteHandler implements WiimoteListener{
 	public void onStatusEvent(StatusEvent arg0) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public int getaY() {
+		return aY;
+	}
+
+	public void setaY(int aY) {
+		this.aY = aY;
+	}
+
+	public int getaX() {
+		return aX;
+	}
+
+	public void setaX(int aX) {
+		this.aX = aX;
 	}
 }
