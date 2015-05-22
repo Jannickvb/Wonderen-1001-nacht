@@ -30,11 +30,20 @@ public class GamePanel extends JPanel{
 		});
 		paint.start();
 		
+		Timer update = new Timer(1000/20, new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				gsm.currentstate.update();
+			}
+		});
+		update.start();
+		
 		addKeyListener(new KeyListener() {
 			
 			@Override
 			public void keyTyped(KeyEvent e) {
-				//
+				
 			}
 			
 			@Override
@@ -45,6 +54,8 @@ public class GamePanel extends JPanel{
 			@Override
 			public void keyPressed(KeyEvent e) {
 				gsm.currentstate.keyPressed(e);
+				if(e.getKeyCode() == KeyEvent.VK_ESCAPE)
+					System.exit(0);
 			}
 		});
 	}

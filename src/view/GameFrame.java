@@ -11,6 +11,8 @@ public class GameFrame extends JFrame{
 		super("bazenspelletje");
 		setPreferredSize(new Dimension(800,600));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
+		setUndecorated(true);
 		pack();
 		setLocationRelativeTo(null);
 		setContentPane(new GamePanel(new ControlManager(this)));

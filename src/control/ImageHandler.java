@@ -8,27 +8,34 @@ import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
+import view.Main;
+
 public class ImageHandler {
 	
-	private ArrayList<BufferedImage> images = new ArrayList<BufferedImage>();
+	public static ArrayList<BufferedImage> images = new ArrayList<BufferedImage>();
 	
 	public ImageHandler() {
-		//insert image first
-	}
-
-	public BufferedImage getImage(int imageID){
-		return images.get(imageID);
+		
 	}
 	
-	public BufferedImage loadImage(String imagePath){		
-		BufferedImage image = null;
-		try {
-			image = ImageIO.read(getClass().getResourceAsStream(imagePath));
-		} catch (IOException e) {
-			System.out.println("Wrong Path");
+	static{
+		try{
+			images.add(ImageIO.read(Main.class.getResource("/images/bg_menu.png")));
+		}catch(IOException e){
+			e.printStackTrace();
 		}
-		return image;
 	}
+	
+	public enum ImageType{
+		menubg, player
+	}
+	
+	public static BufferedImage getImage(ImageType img){
+		return images.get(img.ordinal());
+	}
+	
+	
+	
 	
 }
 

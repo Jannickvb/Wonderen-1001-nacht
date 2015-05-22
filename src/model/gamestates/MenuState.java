@@ -3,24 +3,28 @@ package model.gamestates;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
+import java.awt.geom.AffineTransform;
 
 import control.ControlManager;
+import control.ImageHandler;
 
 public class MenuState extends GameState{
 
 	private boolean pl1Ready,pl2Ready;
-	private int width,height;
+	private int width,height,midX,midY,bgWidth,bgHeight;
 	private Image background;
 	private Image readyCheck;
 	public MenuState(ControlManager cm) {
 		super(cm);
-		width = cm.getWidth();
-		height = cm.getHeight();
+		background = ImageHandler.getImage(ImageHandler.ImageType.menubg);
 	}
 
 	@Override
 	public void draw(Graphics2D g2) {
-		g2.drawImage(background, null,null);
+		AffineTransform tx = new AffineTransform();
+		tx.translate(midX, midY);
+		g2.setTransform(tx);
+		g2.drawImage(background, -bgWidth/2,-bgHeight/2,null);
 		if(pl1Ready)
 			g2.drawImage(background, 20, 20,null);
 		if(pl2Ready)
@@ -30,8 +34,12 @@ public class MenuState extends GameState{
 
 	@Override
 	public void update() {
-		// TODO Auto-generated method stub
-		
+		width = cm.getWidth();
+		height = cm.getHeight();
+		bgWidth = background.getWidth(null);
+		bgHeight = background.getHeight(null);
+		midX = width/2;
+		midY = height/2;
 	}
 
 	@Override
