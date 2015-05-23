@@ -3,6 +3,9 @@ package model.gamestates;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 
+import wiiusej.wiiusejevents.physicalevents.ExpansionEvent;
+import wiiusej.wiiusejevents.physicalevents.IREvent;
+import wiiusej.wiiusejevents.physicalevents.WiimoteButtonsEvent;
 import control.ControlManager;
 
 public abstract class GameState {
@@ -17,4 +20,7 @@ public abstract class GameState {
 	public abstract void init();
 	public abstract void keyPressed(KeyEvent e);
 	public abstract void keyReleased(KeyEvent e);
+	public String toString(){
+		return this.getClass().getSimpleName();
+	}
 }

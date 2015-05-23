@@ -34,7 +34,7 @@ public class GamePanel extends JPanel{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				gsm.currentstate.update();
+				gsm.getCurrentState().update();
 			}
 		});
 		update.start();
@@ -48,12 +48,12 @@ public class GamePanel extends JPanel{
 			
 			@Override
 			public void keyReleased(KeyEvent e) {
-				gsm.currentstate.keyReleased(e);
+				gsm.getCurrentState().keyReleased(e);
 			}
 			
 			@Override
 			public void keyPressed(KeyEvent e) {
-				gsm.currentstate.keyPressed(e);
+				gsm.getCurrentState().keyPressed(e);
 				if(e.getKeyCode() == KeyEvent.VK_ESCAPE)
 					System.exit(0);
 			}
@@ -64,7 +64,7 @@ public class GamePanel extends JPanel{
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
 		
-		gsm.currentstate.draw(g2);
+		gsm.getCurrentState().draw(g2);
 	}
 	
 	

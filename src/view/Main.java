@@ -7,7 +7,9 @@ public class Main {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					new GameFrame();
+					GameFrame frame = new GameFrame();
+					frame.setFullScreenEnabled(GameFrame.WindowMode.fullscreenWindow.ordinal());
+					frame.setVisible(true);
 				}catch(Exception e){
 					e.printStackTrace();
 				}
