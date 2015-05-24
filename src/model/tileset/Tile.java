@@ -3,6 +3,9 @@ package model.tileset;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
+import control.ImageHandler;
+import control.ImageHandler.ImageType;
+
 public class Tile {
 	
 	public boolean isSolid;
@@ -17,7 +20,9 @@ public class Tile {
 		this.x = x;
 		this.y = y;
 		this.id = id;
-		tilemap.getSubimage(((tilemap.getWidth()/size)/id)*size,(id/(tilemap.getWidth()/size)*size), size, size);
+		tilemap = ImageHandler.getImage(ImageType.tilemap);
+		tile = tilemap.getSubimage((id*size)%tilemap.getWidth(),(((id*size)/tilemap.getWidth())*size), size, size);
+		tilemap = null;
 	}
 	
 	public void setSolid(boolean isSolid){
