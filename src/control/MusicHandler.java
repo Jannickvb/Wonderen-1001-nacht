@@ -31,6 +31,10 @@ public static ArrayList<AudioInputStream> audio = new ArrayList<AudioInputStream
 		
 	}
 	
+	public static AudioInputStream getTrack(AudioType song){
+		return audio.get(song.ordinal());
+	}
+	
 	public void playSound(AudioType name) throws LineUnavailableException, IOException{
 		this.clip = AudioSystem.getClip();
 		this.clip.open(audio.get(name.ordinal()));

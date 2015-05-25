@@ -3,10 +3,15 @@ package view;
 import java.awt.Dimension;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
+import java.io.IOException;
 
+import javax.sound.sampled.LineUnavailableException;
 import javax.swing.JFrame;
 
 import control.ControlManager;
+import control.ImageHandler;
+import control.ImageHandler.ImageType;
+import control.MusicHandler.AudioType;
 
 public class GameFrame extends JFrame{
 	
@@ -14,7 +19,7 @@ public class GameFrame extends JFrame{
 	int windowMode = 0;
 	GraphicsDevice device = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[0];
 	
-	public GameFrame(){
+	public GameFrame() throws LineUnavailableException, IOException{
 		super("Wonderen van 1001-nacht");
 		setSize(800,600);
 		setLocationRelativeTo(null);

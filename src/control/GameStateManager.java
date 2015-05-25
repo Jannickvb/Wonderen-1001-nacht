@@ -12,6 +12,8 @@ public class GameStateManager {
 	public GameState currentstate;
 	private int index = 0;
 	private ControlManager cm;
+	
+	
 	public GameStateManager(ControlManager cm){
 		this.cm = cm;
 		reloadGameStates();

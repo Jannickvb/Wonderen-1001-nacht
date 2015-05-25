@@ -12,6 +12,7 @@ import javax.swing.Timer;
 
 import control.ControlManager;
 import control.GameStateManager;
+import control.MusicHandler.AudioType;
 
 public class GamePanel extends JPanel{
 	private ControlManager cm;
@@ -21,6 +22,7 @@ public class GamePanel extends JPanel{
 		requestFocus(true);
 		this.cm = cm;
 		this.gsm = cm.getGameStateManager();
+		
 		Timer paint = new Timer(1000/60, new ActionListener() {
 			
 			@Override
