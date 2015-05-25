@@ -3,6 +3,7 @@ package control;
 import java.util.ArrayList;
 
 import model.gamestates.GameState;
+import model.gamestates.IntroMovState;
 import model.gamestates.MenuState;
 import model.gamestates.PlayState;
 
@@ -17,13 +18,14 @@ public class GameStateManager {
 	public GameStateManager(ControlManager cm){
 		this.cm = cm;
 		reloadGameStates();
-		currentstate = gameStates.get(0);
+		currentstate = gameStates.get(1);
 		initializeSequence();
 	}
 	
 	public void reloadGameStates() { 
 		gameStates.clear();
 		gameStates.add(new MenuState(cm));
+		gameStates.add(new IntroMovState(cm));
 		gameStates.add(new PlayState(cm));
 	}
 	

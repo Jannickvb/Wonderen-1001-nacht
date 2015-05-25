@@ -16,23 +16,13 @@ public class InputHandler {
 		wiimote.reconnect();
 	}
 	
-	public int getY1()
+	public int getY()
 	{
-		return wiimote.getp1aY();
+		return wiimote.getaY();
 	}
 	
-	public int getX1()
+	public int getX()
 	{
-		return wiimote.getp1aX();
-	}
-	
-	public int getY2()
-	{
-		return wiimote.getP2aY();
-	}
-	
-	public int getX2()
-	{
-		return wiimote.getP2aX();
+		return wiimote.getaX();
 	}
 }

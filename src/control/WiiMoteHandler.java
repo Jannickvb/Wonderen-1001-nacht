@@ -19,10 +19,8 @@ import wiiusej.wiiusejevents.wiiuseapievents.StatusEvent;
 public class WiiMoteHandler implements WiimoteListener{
 	
 	private Wiimote[] wiimotes;
-	private int p1aX;
-	private int p1aY;
-	private int p2aX;
-	private int p2aY;
+	private int aX;
+	private int aY;
 	
 	public WiiMoteHandler()
 	{
@@ -106,20 +104,10 @@ public class WiiMoteHandler implements WiimoteListener{
 	@Override
 	public void onIrEvent(IREvent e) {
 		// TODO Auto-generated method stub
-		if(e.getWiimoteId() == 1)
-		{
-			System.out.println("Ax:" + e.getAx() + "Ay:" + e.getAy());
-			System.out.println("X:" + e.getX() + "Y:" + e.getY());
-			setp1aX(e.getAx());
-			setp1aY(e.getAy());
-		}
-		else
-		{
-			System.out.println("Ax:" + e.getAx() + "Ay:" + e.getAy());
-			System.out.println("X:" + e.getX() + "Y:" + e.getY());
-			setP2aX(e.getAx());
-			setP2aY(e.getAy());
-		}
+		//System.out.println("Ax:" + e.getAx() + "Ay:" + e.getAy());
+		//System.out.println("X:" + e.getX() + "Y:" + e.getY());
+		setaX(e.getAx());
+		setaY(e.getAy());
 	}
 
 	@Override
@@ -146,35 +134,19 @@ public class WiiMoteHandler implements WiimoteListener{
 		
 	}
 
-	public int getp1aY() {
-		return p1aY;
+	public int getaY() {
+		return aY;
 	}
 
-	public void setp1aY(int aY) {
-		this.p1aY = aY;
+	public void setaY(int aY) {
+		this.aY = aY;
 	}
 
-	public int getp1aX() {
-		return p1aX;
+	public int getaX() {
+		return aX;
 	}
 
-	public void setp1aX(int aX) {
-		this.p1aX = aX;
-	}
-
-	public int getP2aY() {
-		return p2aY;
-	}
-
-	public void setP2aY(int p2Ay) {
-		this.p2aY = p2Ay;
-	}
-
-	public int getP2aX() {
-		return p2aX;
-	}
-
-	public void setP2aX(int p2Ax) {
-		this.p2aX = p2Ax;
+	public void setaX(int aX) {
+		this.aX = aX;
 	}
 }

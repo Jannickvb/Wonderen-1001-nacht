@@ -58,6 +58,8 @@ public class GamePanel extends JPanel{
 				gsm.getCurrentState().keyPressed(e);
 				if(e.getKeyCode() == KeyEvent.VK_ESCAPE)
 					System.exit(0);
+				if(e.getKeyCode() == KeyEvent.VK_SPACE)
+					gsm.next();
 			}
 		});
 	}
