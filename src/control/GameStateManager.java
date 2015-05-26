@@ -48,6 +48,9 @@ public class GameStateManager {
 	
 	public void initializeSequence(){
 		gameSequence.add(gameStates.get(0));
+		gameSequence.add(gameStates.get(1));
+		gameSequence.add(gameStates.get(2));
+		gameSequence.add(gameStates.get(3));
 	}
 	
 	public void next(){
@@ -55,6 +58,7 @@ public class GameStateManager {
 		if(index == gameSequence.size()) {
 			index = 0;
 		}
+		initializeGameState();
 	}
 	
 	public void back(){
@@ -62,6 +66,7 @@ public class GameStateManager {
 		if(index == -1) {
 			index = gameSequence.size() - 1;
 		}
+		initializeGameState();
 	}
 	
 	public GameState getCurrentState(){

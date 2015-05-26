@@ -4,8 +4,6 @@ package model.gamestates;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 
-import javax.swing.JFrame;
-
 import uk.co.caprica.vlcj.component.EmbeddedMediaPlayerComponent;
 import control.ControlManager;
 import control.VideoHandler;
@@ -13,11 +11,13 @@ import control.VideoHandler;
 public class IntroMovState extends GameState{
 
 	private EmbeddedMediaPlayerComponent ourMediaPlayer;
-	
+	private VideoHandler video;
 	
 	public IntroMovState(ControlManager cm) {
 		super(cm);
-		new VideoHandler("E:/Documenten/Eclipse Workspace/Wonderen-1001-nacht/res/video/Intro.mpg").run();
+		String userProjectPath = System.getProperty("user.dir");
+		String userpath = userProjectPath.replaceAll("\\\\", "/");
+		video = new VideoHandler(userpath + "/res/video/Intro.mpg");
 	}
 	
 	@Override
