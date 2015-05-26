@@ -54,19 +54,21 @@ public class GameStateManager {
 	}
 	
 	public void next(){
+		initializeGameState();
 		index++;
 		if(index == gameSequence.size()) {
 			index = 0;
 		}
-		initializeGameState();
+		
 	}
 	
 	public void back(){
+		initializeGameState();
 		index--;
 		if(index == -1) {
 			index = gameSequence.size() - 1;
 		}
-		initializeGameState();
+		
 	}
 	
 	

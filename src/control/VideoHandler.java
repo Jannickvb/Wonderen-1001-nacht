@@ -26,7 +26,8 @@ public class VideoHandler {
         ourMediaPlayer = new EmbeddedMediaPlayerComponent(){
 		    public void finished(MediaPlayer mediaPlayer) {
 		        ourMediaPlayer.release(); 
-		        ourFrame.dispatchEvent(new WindowEvent(ourFrame, WindowEvent.WINDOW_CLOSING));
+		        //ourFrame.dispatchEvent(new WindowEvent(ourFrame, WindowEvent.WINDOW_CLOSING));
+		        ourFrame.dispose();
 		    }
 		};
 		ourFrame.setContentPane(ourMediaPlayer);

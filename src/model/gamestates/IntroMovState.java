@@ -1,6 +1,7 @@
 package model.gamestates;
 
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
@@ -42,7 +43,10 @@ public class IntroMovState extends GameState{
 	@Override
 	public void draw(Graphics2D g2) {
 		// TODO Auto-generated method stub
-		
+		g2.setPaint(Color.BLACK);
+		g2.setColor(Color.BLACK);
+		g2.fillRect(0, 0, cm.getWidth(), cm.getHeight());
+		g2.setBackground(Color.BLACK);
 	}
 	
 	@Override
