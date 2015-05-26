@@ -23,7 +23,7 @@ public class VideoHandler {
 		File file = new File(filePath);
 		mediaPath = file.getAbsolutePath();
         NativeLibrary.addSearchPath(RuntimeUtil.getLibVlcLibraryName(), "C:/Program Files/VideoLAN/VLC");
-		ourMediaPlayer = new EmbeddedMediaPlayerComponent(){
+        ourMediaPlayer = new EmbeddedMediaPlayerComponent(){
 		    public void finished(MediaPlayer mediaPlayer) {
 		        ourMediaPlayer.release(); 
 		        ourFrame.dispatchEvent(new WindowEvent(ourFrame, WindowEvent.WINDOW_CLOSING));
@@ -34,6 +34,10 @@ public class VideoHandler {
 		ourFrame.setUndecorated(true);
 		ourFrame.setVisible(true);
 		ourFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	}
+	
+	public EmbeddedMediaPlayerComponent getMediaPlayer(){
+		return ourMediaPlayer;
 	}
 	
 	public void run(){

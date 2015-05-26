@@ -19,7 +19,7 @@ public class GameStateManager {
 	public GameStateManager(ControlManager cm){
 		this.cm = cm;
 		reloadGameStates();
-		currentstate = gameStates.get(1);
+		currentstate = gameStates.get(0);
 		initializeSequence();
 	}
 	
@@ -40,7 +40,7 @@ public class GameStateManager {
 		currentstate.init();
 	}
 	
-	
+	  
 	/**
 	 * Use this method to hardcode the game sequence
 	 * the methods to run the sequence aren't implemented yet
@@ -68,6 +68,7 @@ public class GameStateManager {
 		}
 		initializeGameState();
 	}
+	
 	
 	public GameState getCurrentState(){
 		currentstate = gameSequence.get(index);
