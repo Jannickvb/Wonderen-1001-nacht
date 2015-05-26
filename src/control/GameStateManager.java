@@ -6,6 +6,7 @@ import model.gamestates.GameState;
 import model.gamestates.IntroMovState;
 import model.gamestates.MenuState;
 import model.gamestates.PlayState;
+import model.gamestates.TutorialState;
 
 public class GameStateManager {
 	private ArrayList<GameState> gameStates = new ArrayList<GameState>();
@@ -26,6 +27,7 @@ public class GameStateManager {
 		gameStates.clear();
 		gameStates.add(new MenuState(cm));
 		gameStates.add(new IntroMovState(cm));
+		gameStates.add(new TutorialState(cm));
 		gameStates.add(new PlayState(cm));
 	}
 	

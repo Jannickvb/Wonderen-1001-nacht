@@ -16,14 +16,24 @@ public class InputHandler {
 		wiimote.reconnect();
 	}
 	
-	public int getY()
+	public int getY1()
 	{
-		return wiimote.getaY();
+		return wiimote.getp1aY();
 	}
 	
-	public int getX()
+	public int getX1()
 	{
-		return wiimote.getaX();
+		return wiimote.getp1aX();
+	}
+	
+	public int getY2()
+	{
+		return wiimote.getP2aY();
+	}
+	
+	public int getX2()
+	{
+		return wiimote.getP2aX();
 	}
 	
 	//Adruino stuff:
