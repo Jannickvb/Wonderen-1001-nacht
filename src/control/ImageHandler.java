@@ -22,13 +22,14 @@ public class ImageHandler {
 		try{
 			images.add(ImageIO.read(Main.class.getResource("/images/bg_menu.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/snow64.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/Tutorial.jpg")));
 		}catch(IOException e){
 			e.printStackTrace();
 		}
 	}
 	
 	public enum ImageType{
-		menubg, tilemap
+		menubg, tilemap, tutorial
 	}
 	
 	public static BufferedImage getImage(ImageType img){

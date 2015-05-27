@@ -3,10 +3,13 @@ package model.gamestates;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 
 import javax.swing.JFrame;
+import javax.swing.Timer;
 
 import uk.co.caprica.vlcj.component.EmbeddedMediaPlayerComponent;
 import uk.co.caprica.vlcj.player.MediaPlayer;
@@ -17,6 +20,8 @@ public class IntroMovState extends GameState{
 
 	private EmbeddedMediaPlayerComponent ourMediaPlayer;
 	private VideoHandler video;
+	private boolean finished;
+	private Timer update;
 	
 	public IntroMovState(ControlManager cm) {
 		super(cm);
@@ -28,7 +33,21 @@ public class IntroMovState extends GameState{
 		String userProjectPath = System.getProperty("user.dir");
 		String userpath = userProjectPath.replaceAll("\\\\", "/");
 		video = new VideoHandler(userpath + "/res/video/Intro.mpg");
+		update = new Timer(1000/20, new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				isFinished(video.getFinished());
+			}
+		});
+		update.start();
 		video.run();
+	}
+	
+	public void isFinished(boolean finished){
+		if(finished){
+			cm.getGameStateManager().next();
+			update.stop();
+		}
 	}
 
 	@Override

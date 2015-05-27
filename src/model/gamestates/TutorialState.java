@@ -14,12 +14,12 @@ public class TutorialState extends GameState{
 	public TutorialState(ControlManager cm)
 	{
 		super(cm);
-		this.tutorial = ImageHandler.getImage(ImageHandler.ImageType.menubg);
+		this.tutorial = ImageHandler.getImage(ImageHandler.ImageType.tutorial);
 	}
 
 	@Override
 	public void draw(Graphics2D g2) {
-		g2.drawImage(tutorial, 10, 10, null);
+		g2.drawImage(tutorial, 0, 0, null);
 	}
 
 	@Override

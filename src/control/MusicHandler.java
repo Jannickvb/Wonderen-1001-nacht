@@ -46,7 +46,7 @@ public static ArrayList<AudioInputStream> audio = new ArrayList<AudioInputStream
 	}
 	
 	public enum AudioType{
-		intro, poor, rich, end
+		intro, poor, rich, end, tutorial
 	}
 	
 }
