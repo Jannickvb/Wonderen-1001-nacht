@@ -49,6 +49,9 @@ public class ArduinoHandler implements SerialPortEventListener {
 		}
 	}
 
+	/**
+	 * Reads if a command is send from the adruino to the pc
+	 */
 	@Override
 	public void serialEvent(SerialPortEvent e) {
 		if(e.getEventType() == e.DATA_AVAILABLE) {
@@ -66,6 +69,10 @@ public class ArduinoHandler implements SerialPortEventListener {
 		
 	}
 	
+	/**
+	 * Send a command in the form of a String to the arduino.
+	 * @param command - The command you want to send to the adruino.
+	 */
 	public void sendCommand(String command) {
 		try {
 			serialOutput.write(command.getBytes());
