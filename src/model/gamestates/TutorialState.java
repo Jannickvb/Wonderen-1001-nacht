@@ -3,6 +3,7 @@ package model.gamestates;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
+import java.awt.geom.AffineTransform;
 
 import control.ControlManager;
 import control.ImageHandler;
@@ -10,22 +11,36 @@ import control.ImageHandler;
 public class TutorialState extends GameState{
 	
 	private Image tutorial;
+	private int width,height,midX,midY,bgWidth,bgHeight,counter;
 	
-	public TutorialState(ControlManager cm)
+	public TutorialState(ControlManager cm, Image image)
 	{
 		super(cm);
-		this.tutorial = ImageHandler.getImage(ImageHandler.ImageType.tutorial);
+		this.counter = 0;
+		this.tutorial = image;
 	}
 
 	@Override
 	public void draw(Graphics2D g2) {
-		g2.drawImage(tutorial, 0, 0, null);
+		AffineTransform tx = new AffineTransform();
+		tx.translate(midX, midY);
+		g2.setTransform(tx);
+		g2.drawImage(tutorial, -bgWidth/2,-bgHeight/2,null);
 	}
 
 	@Override
 	public void update() {
-		// Updaten van eventuele animaties en timer bijhouden
-		
+		width = cm.getWidth();
+		height = cm.getHeight();
+		bgWidth = tutorial.getWidth(null);
+		bgHeight = tutorial.getHeight(null);
+		midX = width/2;
+		midY = height/2;
+		counter++;
+		if(counter > 300)
+		{
+			cm.getGameStateManager().next();
+		}
 	}
 
 	@Override
