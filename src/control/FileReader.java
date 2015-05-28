@@ -1,34 +1,41 @@
 package control;
 
+import java.net.URL;
 import java.util.Scanner;
 
 
 
 public class FileReader {
 
-	public static int[][] readLevelFile(String file)
+	public static int[][] readLevelFile(URL url)
 	{
 		int[][] toReturn;
-		String temp = "";
+		String temp[];
+		String temp2[];
 		try
 		{
-			Scanner scanner = new Scanner(file);
-			temp = scanner.nextLine();
-			toReturn = new int[Character.getNumericValue((temp.charAt(0)))][Character.getNumericValue(temp.charAt(2))];
-			for(int i = 0; i< Character.getNumericValue((temp.charAt(0)));i++ )
+			
+			Scanner scanner = new Scanner(url.toString());
+			temp = scanner.nextLine().split(",");
+			int x = Integer.parseInt((temp[0]));
+			int y = Integer.parseInt(temp[1]);
+			toReturn = new int[y][x];
+			for(int i = 0; i< y;i++ )
 			{
-				temp = scanner.nextLine();
-				for(int k = 0; k<Character.getNumericValue(temp.charAt(2));k++ )
+				temp2 = scanner.nextLine().split(",");
+				System.out.println(temp);
+				for(int k = 0; k<x;k++ )
 				{
-					toReturn[i][k] = Character.getNumericValue((temp.charAt(k*2)));
+					System.out.println(Integer.parseInt((temp2[k])));
+					toReturn[i][k] = Integer.parseInt((temp2[k]));
 				}
 			}
 			scanner.close();
 			return toReturn;
 		}
-		catch(Exception i)
+		catch(ArrayIndexOutOfBoundsException e)
 		{
-			
+			System.out.println("error");
 		}
 		return null;
 	}
