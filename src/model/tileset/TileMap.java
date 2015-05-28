@@ -25,7 +25,8 @@ public class TileMap {
 		{
 			for(int k=0 ; k<x; k++)
 			{
-				tiles[k][i] = new Tile(false,i*Tile.size,k*Tile.size,tilemap[k][i]);
+				System.out.println(tilemap);
+//				tiles[k][i] = new Tile(false,i*Tile.size,k*Tile.size,tilemap[k][i]);
 			}
 		}
 	}

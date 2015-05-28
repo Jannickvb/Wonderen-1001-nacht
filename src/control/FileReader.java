@@ -1,21 +1,23 @@
 package control;
 
-import java.net.URL;
+import java.io.File;
 import java.util.Scanner;
+
+
 
 
 
 public class FileReader {
 
-	public static int[][] readLevelFile(URL url)
+	public static int[][] readLevelFile(String file)
 	{
 		int[][] toReturn;
 		String temp[];
 		String temp2[];
 		try
 		{
-			
-			Scanner scanner = new Scanner(url.toString());
+			File file1 = new File(file);
+			Scanner scanner = new Scanner(file1);
 			temp = scanner.nextLine().split(",");
 			int x = Integer.parseInt((temp[0]));
 			int y = Integer.parseInt(temp[1]);
@@ -33,7 +35,7 @@ public class FileReader {
 			scanner.close();
 			return toReturn;
 		}
-		catch(ArrayIndexOutOfBoundsException e)
+		catch(Exception i)
 		{
 			System.out.println("error");
 		}

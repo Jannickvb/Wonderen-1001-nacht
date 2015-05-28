@@ -26,9 +26,9 @@ public class ImageHandler {
 			images.add(ImageIO.read(Main.class.getResource("/images/spell_tutorial.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/boat.png")));
 			
-			images.add(ImageIO.read(Main.class.getResource("/images/spell3.png")));
-			images.add(ImageIO.read(Main.class.getResource("/images/spell4.png")));
-			images.add(ImageIO.read(Main.class.getResource("/images/spell5.png")));
+//			images.add(ImageIO.read(Main.class.getResource("/images/spell3.png")));
+//			images.add(ImageIO.read(Main.class.getResource("/images/spell4.png")));
+//			images.add(ImageIO.read(Main.class.getResource("/images/spell5.png")));
 		}catch(IOException e){
 			e.printStackTrace();
 		}

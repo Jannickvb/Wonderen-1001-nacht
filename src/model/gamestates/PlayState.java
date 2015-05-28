@@ -19,9 +19,9 @@ public class PlayState extends GameState {
 
 	public PlayState(ControlManager cm) {
 		super(cm);
-		FileReader.readLevelFile(Main.class.getResource("/maps/testLVL.txt"));
-		//map = new TileMap(FileReader.readLevelFile("resources/maps/testLVL"),8,4);
-		map = new TileMap(mapArray,4,8);
+		//FileReader.readLevelFile(("/maps/testLVL.txt"));
+		map = new TileMap(FileReader.readLevelFile("/maps/testLVL.txt"),800,800);
+//		map = new TileMap(mapArray,4,8);
 	}
 
 	@Override
