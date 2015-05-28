@@ -12,7 +12,7 @@ public class testShizzle extends JFrame {
 
 	public testShizzle() {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		InputHandler input = new InputHandler();
+		InputHandler input = new InputHandler("COM3");
 		JPanel mainPanel = new JPanel();
 		JButton button = new JButton("Led1 on");
 		button.addActionListener(new ActionListener() {

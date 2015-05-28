@@ -2,9 +2,12 @@ package control;
 
 import java.util.ArrayList;
 
+import model.gamestates.BoatGameState;
 import model.gamestates.GameState;
+import model.gamestates.IntroMovState;
 import model.gamestates.MenuState;
 import model.gamestates.PlayState;
+import model.gamestates.TutorialState;
 
 public class GameStateManager {
 	private ArrayList<GameState> gameStates = new ArrayList<GameState>();
@@ -12,6 +15,8 @@ public class GameStateManager {
 	public GameState currentstate;
 	private int index = 0;
 	private ControlManager cm;
+	
+	
 	public GameStateManager(ControlManager cm){
 		this.cm = cm;
 		reloadGameStates();
@@ -22,6 +27,9 @@ public class GameStateManager {
 	public void reloadGameStates() { 
 		gameStates.clear();
 		gameStates.add(new MenuState(cm));
+		gameStates.add(new IntroMovState(cm));
+		gameStates.add(new TutorialState(cm));
+		gameStates.add(new BoatGameState(cm));
 		gameStates.add(new PlayState(cm));
 	}
 	
@@ -31,10 +39,16 @@ public class GameStateManager {
 	}
 	
 	public void initializeGameState(){
-		currentstate.init();
+		GameState state = gameStates.get(0);
+		if(index >= 0 && index < gameStates.size()){
+		state = gameStates.get(index+1);
+		} else {
+		state = gameStates.get(0);
+		}
+		state.init();
 	}
 	
-	
+	  
 	/**
 	 * Use this method to hardcode the game sequence
 	 * the methods to run the sequence aren't implemented yet
@@ -42,21 +56,29 @@ public class GameStateManager {
 	
 	public void initializeSequence(){
 		gameSequence.add(gameStates.get(0));
+		gameSequence.add(gameStates.get(1));
+		gameSequence.add(gameStates.get(2));
+		gameSequence.add(gameStates.get(3));
 	}
 	
 	public void next(){
+		initializeGameState();
 		index++;
 		if(index == gameSequence.size()) {
 			index = 0;
 		}
+		
 	}
 	
 	public void back(){
+		initializeGameState();
 		index--;
 		if(index == -1) {
 			index = gameSequence.size() - 1;
 		}
+		
 	}
+	
 	
 	public GameState getCurrentState(){
 		currentstate = gameSequence.get(index);

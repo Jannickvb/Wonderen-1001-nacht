@@ -21,13 +21,21 @@ public class ImageHandler {
 	static{
 		try{
 			images.add(ImageIO.read(Main.class.getResource("/images/bg_menu.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/snow64.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/Tutorial.jpg")));
+			images.add(ImageIO.read(Main.class.getResource("/images/boat.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/water.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/sideLeft.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/sideRight.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/grass.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/rock.png")));
 		}catch(IOException e){
 			e.printStackTrace();
 		}
 	}
 	
 	public enum ImageType{
-		menubg, player
+		menubg, tilemap, tutorial, boat, water, leftSideRiver, rightSideRiver, grass, rock
 	}
 	
 	public static BufferedImage getImage(ImageType img){
