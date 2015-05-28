@@ -59,7 +59,7 @@ public class ArduinoHandler implements SerialPortEventListener {
 			try {
 				if(serialReader.ready()) {
 					incommingMessage = serialReader.readLine();
-					System.out.println("read from serial: " + incommingMessage);
+					//System.out.println("read from serial: " + incommingMessage);
 					superClass.inCommingMessage(incommingMessage);
 				}
 			} catch (IOException e1) {
@@ -76,6 +76,7 @@ public class ArduinoHandler implements SerialPortEventListener {
 	public void sendCommand(String command) {
 		try {
 			serialOutput.write(command.getBytes());
+			System.out.println("send");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
