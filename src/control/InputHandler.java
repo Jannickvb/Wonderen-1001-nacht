@@ -6,14 +6,14 @@ public class InputHandler {
 	private WiiMoteHandler wiimote;
 	
 	//Arduino fields: 
-	private boolean pressurePlate1; //Right foot
-	private boolean pressurePlate2; //Left foot
-	private boolean pressurePlate3; //Right foot
-	private boolean pressurePlate4; //Left foot
+	private boolean pressurePlate1;
+	private boolean pressurePlate2;
+	private boolean pressurePlate3;
+	private boolean pressurePlate4;
 	
-	public InputHandler(String arduinoCommPort)
+	public InputHandler()
 	{
-		this.arduino = new ArduinoHandler(arduinoCommPort,this);
+		this.arduino = new ArduinoHandler("COM3",this);
 		this.wiimote = new WiiMoteHandler();
 		resetPressurePlates();
 	}
