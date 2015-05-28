@@ -32,7 +32,7 @@ public class IntroMovState extends GameState{
 		// TODO Auto-generated method stub
 		String userProjectPath = System.getProperty("user.dir");
 		String userpath = userProjectPath.replaceAll("\\\\", "/");
-		video = new VideoHandler(userpath + "/res/video/Intro.mpg");
+		video = new VideoHandler(userpath + "/resources/video/Intro.mpg");
 		update = new Timer(1000/20, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
