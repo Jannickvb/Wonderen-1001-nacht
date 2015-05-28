@@ -51,12 +51,9 @@ public class TutorialState extends GameState{
 		// TODO Auto-generated method stub
 		if(tutorial.equals(ImageHandler.getImage(ImageHandler.ImageType.tutorial_plate))){
 		try {
+			cm.stopIntroVoice();
 			cm.playBoatTutorialVoice();
-		} catch (LineUnavailableException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+		} catch (LineUnavailableException | IOException e) {
 			e.printStackTrace();
 		}
 		}

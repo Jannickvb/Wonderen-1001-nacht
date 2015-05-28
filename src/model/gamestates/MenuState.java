@@ -55,8 +55,7 @@ public class MenuState extends GameState{
 
 	@Override
 	public void init() {
-		// TODO Auto-generated method stub
-		
+		// TODO Auto-generated method stub	
 	}
 
 	@Override
@@ -71,6 +70,6 @@ public class MenuState extends GameState{
 		pl1Ready = p1;
 		pl2Ready = p2;
 		if(pl1Ready && pl2Ready)
-			cm.getGameStateManager().select(1);
+			cm.getGameStateManager().next();
 	}
 }

@@ -12,16 +12,18 @@ import javax.swing.Timer;
 
 import control.ControlManager;
 import control.GameStateManager;
-import control.MusicHandler.AudioType;
 
 public class GamePanel extends JPanel{
+
+	private static final long serialVersionUID = 1L;
+	
 	private ControlManager cm;
 	private GameStateManager gsm;
 	public GamePanel(ControlManager cm) {
 		setFocusable(true);
 		requestFocus(true);
 		this.cm = cm;
-		this.gsm = cm.getGameStateManager();
+		this.gsm = this.cm.getGameStateManager();
 		
 		Timer paint = new Timer(1000/60, new ActionListener() {
 			
