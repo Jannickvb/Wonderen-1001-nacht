@@ -7,7 +7,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
 
+import javax.sound.sampled.LineUnavailableException;
 import javax.swing.JFrame;
 import javax.swing.Timer;
 
@@ -33,6 +35,15 @@ public class IntroMovState extends GameState{
 		String userProjectPath = System.getProperty("user.dir");
 		String userpath = userProjectPath.replaceAll("\\\\", "/");
 		video = new VideoHandler(userpath + "/resources/video/Intro.mpg");
+		try {
+			cm.playIntroVoice();
+		} catch (LineUnavailableException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		update = new Timer(1000/20, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

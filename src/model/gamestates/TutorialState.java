@@ -4,6 +4,9 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.geom.AffineTransform;
+import java.io.IOException;
+
+import javax.sound.sampled.LineUnavailableException;
 
 import control.ControlManager;
 import control.ImageHandler;
@@ -46,7 +49,17 @@ public class TutorialState extends GameState{
 	@Override
 	public void init() {
 		// TODO Auto-generated method stub
-		
+		if(tutorial.equals(ImageHandler.getImage(ImageHandler.ImageType.tutorial_plate))){
+		try {
+			cm.playBoatTutorialVoice();
+		} catch (LineUnavailableException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		}
 	}
 
 	@Override
