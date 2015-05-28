@@ -17,7 +17,9 @@ public class TileMap {
 		loadTiles(x, y);
 	}
 	
-	public void loadTiles(int x, int y)
+	
+	
+	private void loadTiles(int x, int y)
 	{
 		for (int i =0; i< y; i++)
 		{
