@@ -30,6 +30,8 @@ public class GameStateManager {
 		gameStates.add(new TutorialState(cm, ImageHandler.getImage(ImageHandler.ImageType.tutorial_plate)));
 		gameStates.add(new PlayState(cm));
 		gameStates.add(new TutorialState(cm, ImageHandler.getImage(ImageHandler.ImageType.tutorial_spell)));
+		gameStates.add(new BossFightState(cm));
+		
 	}
 	
 	public void select(int i) {
@@ -59,6 +61,7 @@ public class GameStateManager {
 		gameSequence.add(gameStates.get(2));
 		gameSequence.add(gameStates.get(3));
 		gameSequence.add(gameStates.get(4));
+		gameSequence.add(gameStates.get(5));
 	}
 	
 	public void next(){
