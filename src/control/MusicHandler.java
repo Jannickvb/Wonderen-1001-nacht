@@ -21,6 +21,8 @@ public static ArrayList<AudioInputStream> audio = new ArrayList<AudioInputStream
 			audio.add(AudioSystem.getAudioInputStream(Main.class.getResource("/audio/Poor.aiff")));
 			audio.add(AudioSystem.getAudioInputStream(Main.class.getResource("/audio/Rich.aiff")));
 			audio.add(AudioSystem.getAudioInputStream(Main.class.getResource("/audio/End.aiff")));
+			audio.add(AudioSystem.getAudioInputStream(Main.class.getResource("/audio/Intro_speech.aiff")));
+			audio.add(AudioSystem.getAudioInputStream(Main.class.getResource("/audio/Boat_tutorial.aiff")));
 		} catch(Exception ex) {
 	        System.out.println("Error with playing sound.");
 	        ex.printStackTrace();
@@ -38,15 +40,20 @@ public static ArrayList<AudioInputStream> audio = new ArrayList<AudioInputStream
 	public void playSound(AudioType name) throws LineUnavailableException, IOException{
 		this.clip = AudioSystem.getClip();
 		this.clip.open(audio.get(name.ordinal()));
+		this.clip.setFramePosition(0);
 		this.clip.start();
 	}
+	
+	public void loop(){
+        clip.loop(Clip.LOOP_CONTINUOUSLY);
+    }
 	
 	public void stopSound(){
 		this.clip.stop();
 	}
 	
 	public enum AudioType{
-		intro, poor, rich, end, tutorial
+		intro, poor, rich, end, introvoice, boattutorial
 	}
 	
 }

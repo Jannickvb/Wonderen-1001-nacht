@@ -4,12 +4,16 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.geom.AffineTransform;
+import java.io.IOException;
+
+import javax.sound.sampled.LineUnavailableException;
 
 import wiiusej.wiiusejevents.physicalevents.ExpansionEvent;
 import wiiusej.wiiusejevents.physicalevents.IREvent;
 import wiiusej.wiiusejevents.physicalevents.WiimoteButtonsEvent;
 import control.ControlManager;
 import control.ImageHandler;
+import control.MusicHandler.AudioType;
 
 public class MenuState extends GameState{
 
@@ -17,9 +21,13 @@ public class MenuState extends GameState{
 	private int width,height,midX,midY,bgWidth,bgHeight;
 	private Image background;
 	private Image readyCheck;
-	public MenuState(ControlManager cm) {
+	private ControlManager cm;
+	
+	public MenuState(ControlManager cm){
 		super(cm);
+		this.cm = cm;
 		background = ImageHandler.getImage(ImageHandler.ImageType.menubg);
+		
 	}
 
 	@Override
