@@ -41,11 +41,13 @@ public class GameStateManager {
 	
 	public void initializeGameState(){
 		GameState state = gameStates.get(0);
-		if(index >= 0 && index < gameStates.size()){
-		state = gameStates.get(index+1);
+		if(index >= 0 && index < gameStates.size())
+		{
+			state = gameStates.get(index+1);
 		} else {
-		state = gameStates.get(0);
+			state = gameStates.get(0);
 		}
+		
 		state.init();
 	}
 	

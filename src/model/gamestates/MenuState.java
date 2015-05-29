@@ -4,16 +4,9 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.geom.AffineTransform;
-import java.io.IOException;
 
-import javax.sound.sampled.LineUnavailableException;
-
-import wiiusej.wiiusejevents.physicalevents.ExpansionEvent;
-import wiiusej.wiiusejevents.physicalevents.IREvent;
-import wiiusej.wiiusejevents.physicalevents.WiimoteButtonsEvent;
 import control.ControlManager;
 import control.ImageHandler;
-import control.MusicHandler.AudioType;
 
 public class MenuState extends GameState{
 
@@ -55,7 +48,7 @@ public class MenuState extends GameState{
 		mlHeight = menuleft.getHeight(null);
 		mrWidth = menuright.getWidth(null);
 		mrHeight = menuright.getHeight(null);
-//		System.out.println("mr height: " + mrHeight);
+		
 		midX = width/2;
 		midY = height/2;
 	}

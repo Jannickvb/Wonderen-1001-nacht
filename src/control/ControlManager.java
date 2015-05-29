@@ -22,7 +22,7 @@ public class ControlManager {
 		this.input = new InputHandler();
 		this.music = new MusicHandler();
 		this.voice = new MusicHandler();
-		this.video = new VideoHandler();
+		this.video = new VideoHandler(this);
 
 		music.playSound(AudioType.intro);
 	}

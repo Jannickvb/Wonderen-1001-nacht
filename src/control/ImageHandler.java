@@ -26,9 +26,9 @@ public class ImageHandler {
 			images.add(ImageIO.read(Main.class.getResource("/images/menu_fg_right.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/menu_fg_left.png")));
 			
-			images.add(ImageIO.read(Main.class.getResource("/images/spell3.png")));
-			images.add(ImageIO.read(Main.class.getResource("/images/spell4.png")));
-			images.add(ImageIO.read(Main.class.getResource("/images/spell5.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/spells/circle.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/spells/rectangle.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/spells/triangle.png")));
 		}catch(IOException e){
 			e.printStackTrace();
 		}

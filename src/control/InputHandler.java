@@ -48,6 +48,11 @@ public class InputHandler {
 		return wiimote.getAPressed();
 	}
 	
+	public boolean getAReleased()
+	{
+		return wiimote.getAReleased();
+	}
+	
 	//Adruino stuff:
 	
 	/**
