@@ -1,5 +1,6 @@
 package model.gamestates;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
@@ -16,12 +17,14 @@ public class PlayState extends GameState {
 								 {0 , 9, 10, 1, 0, 1, 2, 1 },
 								 { 0, 25, 0, 1, 0, 1, 2, 1 },
 								 { 0, 0, 0, 1, 0, 1, 2, 1 } };
-
+	private String[] toPrint;
+	private int counter = 0;
 	public PlayState(ControlManager cm) {
 		super(cm);
 		//FileReader.readLevelFile(("/maps/testLVL.txt"));
 		try {
 			map = new TileMap(MapReader.readLevelFile("resources/maps/testmap.txt"));
+			toPrint = MapReader.readTextLines("resources/texts/testtext.txt");
 		} catch (NumberFormatException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -29,6 +32,7 @@ public class PlayState extends GameState {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 //		map = new TileMap(mapArray,4,8);
 	}
 
@@ -41,6 +45,8 @@ public class PlayState extends GameState {
 				tileY.draw(g2);
 			}
 		}
+		g2.setPaint(Color.white);
+		g2.drawString(toPrint[counter],100, 100);
 	}
 
 	@Override
@@ -58,7 +64,13 @@ public class PlayState extends GameState {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
-
+		
+		if(e.getKeyCode() == KeyEvent.VK_K)
+		{
+			if(toPrint[counter+1] != null)
+			counter++;
+			
+		}
 	}
 
 	@Override
