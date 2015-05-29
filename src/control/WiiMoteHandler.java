@@ -23,7 +23,7 @@ public class WiiMoteHandler implements WiimoteListener{
 	private int p1aY;
 	private int p2aX;
 	private int p2aY;
-	private boolean aPressed,release = false;
+	private boolean aPressed = false;
 	
 	public WiiMoteHandler()
 	{
@@ -181,10 +181,5 @@ public class WiiMoteHandler implements WiimoteListener{
 	public boolean getAPressed()
 	{
 		return aPressed;
-	}
-	
-	public boolean getAReleased()
-	{
-		return release;
 	}
 }
