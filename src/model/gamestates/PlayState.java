@@ -3,9 +3,11 @@ package model.gamestates;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 
+import view.Main;
 import model.tileset.Tile;
 import model.tileset.TileMap;
 import control.ControlManager;
+import control.FileReader;
 
 public class PlayState extends GameState {
 
@@ -17,7 +19,9 @@ public class PlayState extends GameState {
 
 	public PlayState(ControlManager cm) {
 		super(cm);
-		map = new TileMap(mapArray,4,8);
+		//FileReader.readLevelFile(("/maps/testLVL.txt"));
+		map = new TileMap(FileReader.readLevelFile("/maps/testLVL.txt"),800,800);
+//		map = new TileMap(mapArray,4,8);
 	}
 
 	@Override

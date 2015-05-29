@@ -1,6 +1,7 @@
 package control;
 
-import java.awt.event.WindowEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.io.File;
 
 import javax.swing.JFrame;
@@ -18,12 +19,12 @@ public class VideoHandler {
 	private EmbeddedMediaPlayerComponent ourMediaPlayer;
 	private String mediaPath = "";
 	private boolean finished;
+	private ControlManager cm;
 	
-	
-	public VideoHandler(String filePath){
-		finished = false;
-		File file = new File(filePath);
-		mediaPath = file.getAbsolutePath();
+	public VideoHandler(ControlManager control){
+		this.finished = false;
+		this.cm = control;
+		
         NativeLibrary.addSearchPath(RuntimeUtil.getLibVlcLibraryName(), "C:/Program Files/VideoLAN/VLC");
         ourMediaPlayer = new EmbeddedMediaPlayerComponent(){
 		    public void finished(MediaPlayer mediaPlayer) {
@@ -33,6 +34,33 @@ public class VideoHandler {
 		        finished = true;
 		    }
 		};
+		
+		ourMediaPlayer.addKeyListener(new KeyAdapter()
+		{
+		    public void keyPressed(KeyEvent e) 
+		    {
+		    	if(e.getKeyCode() == KeyEvent.VK_SPACE)
+		    	{
+		    		cm.getGameStateManager().next();
+		    		
+		    		ourFrame.dispose();
+		    	}
+		    	else if(e.getKeyCode() == KeyEvent.VK_ESCAPE)
+		    	{
+		    		System.exit(0);
+		    	}
+		    }
+		});
+	}
+	
+	
+	public void handleVideo(String filePath)
+	{
+		File file = new File(filePath);
+		mediaPath = file.getAbsolutePath();
+		
+		ourMediaPlayer.setFocusable(true);
+		
 		ourFrame.setContentPane(ourMediaPlayer);
 		ourFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		ourFrame.setUndecorated(true);
@@ -40,12 +68,9 @@ public class VideoHandler {
 		ourFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
+	
 	public boolean getFinished(){
 		return finished;
-	}
-	
-	public EmbeddedMediaPlayerComponent getMediaPlayer(){
-		return ourMediaPlayer;
 	}
 	
 	public void run(){

@@ -4,24 +4,42 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.geom.AffineTransform;
+import java.io.IOException;
+
+import javax.sound.sampled.LineUnavailableException;
 
 import wiiusej.wiiusejevents.physicalevents.ExpansionEvent;
 import wiiusej.wiiusejevents.physicalevents.IREvent;
 import wiiusej.wiiusejevents.physicalevents.WiimoteButtonsEvent;
 import control.ControlManager;
 import control.ImageHandler;
+import control.MusicHandler.AudioType;
 
 public class MenuState extends GameState{
 
 	private boolean pl1Ready,pl2Ready;
+<<<<<<< HEAD
 	private int width,height,midX,midY,bgWidth,bgHeight, mlWidth, mlHeight, mrWidth, mrHeight;
 	private Image background, menuleft, menuright;
 
 	public MenuState(ControlManager cm) {
+=======
+	private int width,height,midX,midY,bgWidth,bgHeight;
+	private Image background;
+	private Image readyCheck;
+	private ControlManager cm;
+	
+	public MenuState(ControlManager cm){
+>>>>>>> 2a552815bb0830ae703168ecf91700948dea89d7
 		super(cm);
+		this.cm = cm;
 		background = ImageHandler.getImage(ImageHandler.ImageType.menubg);
+<<<<<<< HEAD
 		menuleft = ImageHandler.getImage(ImageHandler.ImageType.menu_left);
 		menuright = ImageHandler.getImage(ImageHandler.ImageType.menu_right);
+=======
+		
+>>>>>>> 2a552815bb0830ae703168ecf91700948dea89d7
 	}
 
 	public void draw(Graphics2D g2) {
@@ -55,8 +73,7 @@ public class MenuState extends GameState{
 
 	@Override
 	public void init() {
-		// TODO Auto-generated method stub
-		
+		// TODO Auto-generated method stub	
 	}
 
 	@Override
@@ -71,6 +88,6 @@ public class MenuState extends GameState{
 		pl1Ready = p1;
 		pl2Ready = p2;
 		if(pl1Ready && pl2Ready)
-			cm.getGameStateManager().select(1);
+			cm.getGameStateManager().next();
 	}
 }
