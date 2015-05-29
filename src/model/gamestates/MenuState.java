@@ -18,28 +18,17 @@ import control.MusicHandler.AudioType;
 public class MenuState extends GameState{
 
 	private boolean pl1Ready,pl2Ready;
-<<<<<<< HEAD
 	private int width,height,midX,midY,bgWidth,bgHeight, mlWidth, mlHeight, mrWidth, mrHeight;
 	private Image background, menuleft, menuright;
-
-	public MenuState(ControlManager cm) {
-=======
-	private int width,height,midX,midY,bgWidth,bgHeight;
-	private Image background;
-	private Image readyCheck;
 	private ControlManager cm;
 	
 	public MenuState(ControlManager cm){
->>>>>>> 2a552815bb0830ae703168ecf91700948dea89d7
 		super(cm);
 		this.cm = cm;
 		background = ImageHandler.getImage(ImageHandler.ImageType.menubg);
-<<<<<<< HEAD
 		menuleft = ImageHandler.getImage(ImageHandler.ImageType.menu_left);
 		menuright = ImageHandler.getImage(ImageHandler.ImageType.menu_right);
-=======
 		
->>>>>>> 2a552815bb0830ae703168ecf91700948dea89d7
 	}
 
 	public void draw(Graphics2D g2) {
