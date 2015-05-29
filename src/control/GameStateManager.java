@@ -27,7 +27,7 @@ public class GameStateManager {
 		gameStates.clear();
 		gameStates.add(new MenuState(cm));
 //		gameStates.add(new IntroMovState(cm));
-		gameStates.add(new TutorialState(cm, ImageHandler.getImage(ImageHandler.ImageType.tutorial_plate)));
+//		gameStates.add(new TutorialState(cm, ImageHandler.getImage(ImageHandler.ImageType.tutorial_plate)));
 		gameStates.add(new PlayState(cm));
 		gameStates.add(new TutorialState(cm, ImageHandler.getImage(ImageHandler.ImageType.tutorial_spell)));
 	}
@@ -57,7 +57,7 @@ public class GameStateManager {
 		gameSequence.add(gameStates.get(0));
 		gameSequence.add(gameStates.get(1));
 		gameSequence.add(gameStates.get(2));
-		gameSequence.add(gameStates.get(3));
+//		gameSequence.add(gameStates.get(3));
 	}
 	
 	public void next(){

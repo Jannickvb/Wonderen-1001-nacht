@@ -2,12 +2,12 @@ package model.gamestates;
 
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 
-import view.Main;
 import model.tileset.Tile;
 import model.tileset.TileMap;
 import control.ControlManager;
-import control.FileReader;
+import control.MapReader;
 
 public class PlayState extends GameState {
 
@@ -20,7 +20,15 @@ public class PlayState extends GameState {
 	public PlayState(ControlManager cm) {
 		super(cm);
 		//FileReader.readLevelFile(("/maps/testLVL.txt"));
-		map = new TileMap(FileReader.readLevelFile("/maps/testLVL.txt"),800,800);
+		try {
+			map = new TileMap(MapReader.readLevelFile("resources/maps/testmap.txt"));
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 //		map = new TileMap(mapArray,4,8);
 	}
 

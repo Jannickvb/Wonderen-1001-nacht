@@ -55,7 +55,7 @@ public class MenuState extends GameState{
 		mlHeight = menuleft.getHeight(null);
 		mrWidth = menuright.getWidth(null);
 		mrHeight = menuright.getHeight(null);
-		System.out.println("mr height: " + mrHeight);
+//		System.out.println("mr height: " + mrHeight);
 		midX = width/2;
 		midY = height/2;
 	}

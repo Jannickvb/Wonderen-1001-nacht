@@ -9,11 +9,12 @@ public class TileMap {
 		
 	}
 	
-	public TileMap(int[][] map,int x, int y) {
+	public TileMap(int[][] map) {
 		tilemap = map;
-		this.x = x;
-		this.y = y;
+		this.y = tilemap[0].length;
+		this.x = tilemap.length;
 		tiles = new Tile[x][y];
+		System.out.println("x: "+ x + " y: " + y);
 		loadTiles(x, y);
 	}
 	
@@ -25,8 +26,8 @@ public class TileMap {
 		{
 			for(int k=0 ; k<x; k++)
 			{
-				System.out.println(tilemap);
-//				tiles[k][i] = new Tile(false,i*Tile.size,k*Tile.size,tilemap[k][i]);
+//				System.out.println(tilemap);
+				tiles[k][i] = new Tile(false,i*Tile.size,k*Tile.size,tilemap[k][i]);
 			}
 		}
 	}
