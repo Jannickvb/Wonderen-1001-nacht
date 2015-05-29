@@ -97,7 +97,7 @@ public class BossFightState extends GameState{
 		{
 			userInput.add(new Point2D.Double(this.position.getX(),this.position.getY()));
 			apressed = true; 
-			calculateSpellScore();
+			//calculateSpellScore();
 			System.out.println(percentScore);
 		}
 		else
