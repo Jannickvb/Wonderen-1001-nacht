@@ -23,6 +23,7 @@ public class WiiMoteHandler implements WiimoteListener{
 	private int p1aY;
 	private int p2aX;
 	private int p2aY;
+	private boolean aPressed = false;
 	
 	public WiiMoteHandler()
 	{
@@ -58,10 +59,13 @@ public class WiiMoteHandler implements WiimoteListener{
 
 	@Override
 	public void onButtonsEvent(WiimoteButtonsEvent e) {
-		// TODO Auto-generated method stub
 		if(e.isButtonAJustPressed())
 		{
-			//start game
+			aPressed = true;
+		}
+		if(e.isButtonAJustReleased())
+		{
+			aPressed = false;
 		}
 	}
 
@@ -105,18 +109,13 @@ public class WiiMoteHandler implements WiimoteListener{
 
 	@Override
 	public void onIrEvent(IREvent e) {
-		// TODO Auto-generated method stub
 		if(e.getWiimoteId() == 1)
 		{
-			System.out.println("Ax:" + e.getAx() + "Ay:" + e.getAy());
-			System.out.println("X:" + e.getX() + "Y:" + e.getY());
 			setp1aX(e.getAx());
 			setp1aY(e.getAy());
 		}
 		else
 		{
-			System.out.println("Ax:" + e.getAx() + "Ay:" + e.getAy());
-			System.out.println("X:" + e.getX() + "Y:" + e.getY());
 			setP2aX(e.getAx());
 			setP2aY(e.getAy());
 		}
@@ -176,5 +175,10 @@ public class WiiMoteHandler implements WiimoteListener{
 	
 	public void setP2aX(int p2Ax) {
 		this.p2aX = p2Ax;
+	}
+	
+	public boolean getAPressed()
+	{
+		return aPressed;
 	}
 }

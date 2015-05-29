@@ -1,7 +1,10 @@
 package model.gamestates;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
@@ -11,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-
+import javax.swing.Timer;
 
 import control.ControlManager;
 import control.ImageHandler;
@@ -21,15 +24,19 @@ public class BossFightState extends GameState{
 
 	private List<BufferedImage> spells;
 	private BufferedImage currentImage;
-	private List<Point2D> pixelThread, drawLine, intersection;
+	private List<Point2D> pixelThread, userInput, intersection;
 	private int width,height,midX,midY,counter;
+	private Thread timer;
+	private Point2D position;
 	
 	public BossFightState(ControlManager cm) {
 		super(cm);		
 		pixelThread = new ArrayList<Point2D>();
-		drawLine = new ArrayList<Point2D>();
+		this.userInput = new ArrayList<Point2D>();
 		intersection = new ArrayList<Point2D>();
-		
+		this.position = new Point2D.Double(0,0);
+		this.timer = new Thread(new Drawer(this));
+		timer.start();
 		spells = new ArrayList<BufferedImage>();
 		spells.add(ImageHandler.getImage(ImageHandler.ImageType.spell1));
 		spells.add(ImageHandler.getImage(ImageHandler.ImageType.spell2));
@@ -37,7 +44,6 @@ public class BossFightState extends GameState{
 		
 		Random generator = new Random();
 		currentImage = spells.get(generator.nextInt(3));
-
 	}
 	
 	@Override
@@ -46,31 +52,38 @@ public class BossFightState extends GameState{
 		tx.translate(midX, midY);
 		g2.setTransform(tx);
 		g2.drawImage(currentImage, -currentImage.getWidth()/2, -currentImage.getHeight()/2,null);
-		
-		try {
-			scanBMPImage();
-		} catch (IOException e) {
-			e.printStackTrace();
+		g2.setColor(Color.red);
+		g2.setStroke(new BasicStroke(20f, BasicStroke.CAP_ROUND,BasicStroke.JOIN_ROUND));
+		g2.drawLine((int) position.getX(), (int) position.getY(), (int) position.getX(), (int) position.getY());
+		for(int i = 0; i < userInput.size(); i++)
+		{
+			g2.drawLine((int) userInput.get(i).getX(), (int) userInput.get(i).getY(), (int) userInput.get(i).getX(), (int) userInput.get(i).getY());
 		}
+		System.out.println(userInput.size());
+//		try {
+//			scanBMPImage();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 		
 		g2.setPaint(Color.RED);
 		
-		for(Point2D pixel : pixelThread)
-		{
-			g2.drawRect((int)(pixel.getX() - currentImage.getWidth()/2),(int)(pixel.getY() - currentImage.getHeight()/2), 1, 1);
-		}
+//		for(Point2D pixel : pixelThread)
+//		{
+//			g2.drawRect((int)(pixel.getX() - currentImage.getWidth()/2),(int)(pixel.getY() - currentImage.getHeight()/2), 1, 1);
+//		}
 	}
 
 	@Override
 	public void update() {
-		width = cm.getWidth();
-		height = cm.getHeight();
-		midX = width/2;
-		midY = height/2;
-		counter++;
-		if(counter > 300)
+	}
+	
+	public void refresh(){
+		this.position.setLocation(cm.getInput().getX1(), cm.getInput().getY1());
+		if(cm.getInput().getAPressed())
 		{
-			cm.getGameStateManager().next();
+			userInput.add(new Point2D.Double(this.position.getX(),this.position.getY()));
+			System.out.println(position);
 		}
 	}
 		
@@ -93,7 +106,7 @@ public class BossFightState extends GameState{
 	{
 		for(Point2D imagePixel : pixelThread)
 		{
-			for(Point2D linePoint : drawLine)
+			for(Point2D linePoint : userInput)
 			{
 				if(imagePixel == linePoint)
 				{
@@ -123,6 +136,28 @@ public class BossFightState extends GameState{
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	class Drawer implements Runnable, ActionListener
+	{
+		private BossFightState boss;
+		private Timer timer;
+
+		public Drawer(BossFightState boss)
+		{
+			this.boss = boss;
+			this.timer = new Timer(1000/60, this);
+		}
+
+		@Override
+		public void run() {
+			timer.start();
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			boss.refresh();
+		}
 	}
 
 }

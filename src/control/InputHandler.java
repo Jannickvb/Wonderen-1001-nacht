@@ -43,6 +43,11 @@ public class InputHandler {
 		return wiimote.getP2aX();
 	}
 	
+	public boolean getAPressed()
+	{
+		return wiimote.getAPressed();
+	}
+	
 	//Adruino stuff:
 	
 	/**

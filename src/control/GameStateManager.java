@@ -2,6 +2,7 @@ package control;
 
 import java.util.ArrayList;
 
+import model.gamestates.BossFightState;
 import model.gamestates.GameState;
 import model.gamestates.IntroMovState;
 import model.gamestates.MenuState;
@@ -26,10 +27,11 @@ public class GameStateManager {
 	public void reloadGameStates() { 
 		gameStates.clear();
 		gameStates.add(new MenuState(cm));
-//		gameStates.add(new IntroMovState(cm));
-//		gameStates.add(new TutorialState(cm, ImageHandler.getImage(ImageHandler.ImageType.tutorial_plate)));
+		gameStates.add(new IntroMovState(cm));
+		gameStates.add(new TutorialState(cm, ImageHandler.getImage(ImageHandler.ImageType.tutorial_plate)));
 		gameStates.add(new PlayState(cm));
 		gameStates.add(new TutorialState(cm, ImageHandler.getImage(ImageHandler.ImageType.tutorial_spell)));
+		gameStates.add(new BossFightState(cm));
 	}
 	
 	public void select(int i) {
@@ -57,7 +59,9 @@ public class GameStateManager {
 		gameSequence.add(gameStates.get(0));
 		gameSequence.add(gameStates.get(1));
 		gameSequence.add(gameStates.get(2));
-//		gameSequence.add(gameStates.get(3));
+		gameSequence.add(gameStates.get(3));
+		gameSequence.add(gameStates.get(4));
+		gameSequence.add(gameStates.get(5));
 	}
 	
 	public void next(){
