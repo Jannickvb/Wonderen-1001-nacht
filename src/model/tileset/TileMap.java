@@ -27,7 +27,14 @@ public class TileMap {
 			for(int k=0 ; k<x; k++)
 			{
 //				System.out.println(tilemap);
-				tiles[k][i] = new Tile(false,i*Tile.size,k*Tile.size,tilemap[k][i]);
+				if(tilemap[k][i] == 1)
+				{
+					tiles[k][i] = new Tile(false,i*Tile.size,k*Tile.size,tilemap[k][i]);
+				}
+				else
+				{
+					tiles[k][i] = new Tile(true,i*Tile.size,k*Tile.size,tilemap[k][i]);
+				}
 			}
 		}
 	}

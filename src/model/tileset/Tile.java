@@ -21,6 +21,8 @@ public class Tile {
 		this.y = y;
 		this.id = id;
 		tilemap = ImageHandler.getImage(ImageType.tilemap);
+		id--;
+		if(id>0)
 		tile = tilemap.getSubimage((id*size)%tilemap.getWidth(),((((id*size)/tilemap.getWidth())*size)), size, size);
 		tilemap = null;
 	}
@@ -58,6 +60,7 @@ public class Tile {
 	
 	public void draw(Graphics2D g2)
 	{
+		if(tile!=null)
 		g2.drawImage(tile,null, x, y);
 	}
 }

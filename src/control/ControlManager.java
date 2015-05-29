@@ -20,11 +20,11 @@ public class ControlManager {
 		this.frame = frame;
 		this.gsm = new GameStateManager(this);
 		this.wii = new WiiMoteHandler();
-		this.music = new MusicHandler();
-		this.voice = new MusicHandler();
-		this.video = new VideoHandler(this);
+//		this.music = new MusicHandler();
+//		this.voice = new MusicHandler();
+//		this.video = new VideoHandler(this);
 
-		music.playSound(AudioType.intro);
+//		music.playSound(AudioType.intro);
 	}
 	
 	public void playIntroVoice() throws LineUnavailableException, IOException{
