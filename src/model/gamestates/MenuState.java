@@ -14,20 +14,23 @@ import control.ImageHandler;
 public class MenuState extends GameState{
 
 	private boolean pl1Ready,pl2Ready;
-	private int width,height,midX,midY,bgWidth,bgHeight;
-	private Image background;
-	private Image readyCheck;
+	private int width,height,midX,midY,bgWidth,bgHeight, mlWidth, mlHeight, mrWidth, mrHeight;
+	private Image background, menuleft, menuright;
+
 	public MenuState(ControlManager cm) {
 		super(cm);
 		background = ImageHandler.getImage(ImageHandler.ImageType.menubg);
+		menuleft = ImageHandler.getImage(ImageHandler.ImageType.menu_left);
+		menuright = ImageHandler.getImage(ImageHandler.ImageType.menu_right);
 	}
 
-	@Override
 	public void draw(Graphics2D g2) {
 		AffineTransform tx = new AffineTransform();
 		tx.translate(midX, midY);
 		g2.setTransform(tx);
 		g2.drawImage(background, -bgWidth/2,-bgHeight/2,null);
+		g2.drawImage(menuleft, -mlWidth/2, -mlHeight/2, null);
+		g2.drawImage(menuright, -mrWidth/2, -mrHeight/2, null);
 		if(pl1Ready)
 			g2.drawImage(background, 20, 20,null);
 		if(pl2Ready)
@@ -41,6 +44,11 @@ public class MenuState extends GameState{
 		height = cm.getHeight();
 		bgWidth = background.getWidth(null);
 		bgHeight = background.getHeight(null);
+		mlWidth = menuleft.getWidth(null);
+		mlHeight = menuleft.getHeight(null);
+		mrWidth = menuright.getWidth(null);
+		mrHeight = menuright.getHeight(null);
+		System.out.println("mr height: " + mrHeight);
 		midX = width/2;
 		midY = height/2;
 	}

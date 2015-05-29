@@ -25,13 +25,15 @@ public class ImageHandler {
 			images.add(ImageIO.read(Main.class.getResource("/images/Tutorial.jpg")));
 			images.add(ImageIO.read(Main.class.getResource("/images/spell_tutorial.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/boat.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/menu_fg_right.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/menu_fg_left.png")));
 		}catch(IOException e){
 			e.printStackTrace();
 		}
 	}
 	
 	public enum ImageType{
-		menubg, tilemap, tutorial_plate, tutorial_spell, player_boat
+		menubg, tilemap, tutorial_plate, tutorial_spell, player_boat, menu_right, menu_left;
 	}
 	
 	public static BufferedImage getImage(ImageType img){
