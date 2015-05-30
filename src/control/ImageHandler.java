@@ -28,6 +28,8 @@ public class ImageHandler {
 			
 			images.add(ImageIO.read(Main.class.getResource("/images/spells/circle.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/spells/rectangle.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/spells/spell3.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/spells/spell4.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/spells/triangle.png")));
 		}catch(IOException e){
 			e.printStackTrace();
@@ -35,7 +37,7 @@ public class ImageHandler {
 	}
 	
 	public enum ImageType{
-		menubg, tilemap, tutorial_plate, tutorial_spell, player_boat, menu_right, menu_left, spell1, spell2, spell3; 
+		menubg, tilemap, tutorial_plate, tutorial_spell, player_boat, menu_right, menu_left, spell1, spell2, spell3, spell4, spell5; 
 	}
 	
 	public static BufferedImage getImage(ImageType img){
