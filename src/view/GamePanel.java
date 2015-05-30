@@ -57,7 +57,7 @@ public class GamePanel extends JPanel{
 			public void keyPressed(KeyEvent e) {
 				gsm.getCurrentState().keyPressed(e);
 				if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-					cm.getInputHandler().turnPressurePlates(false);
+					//cm.getInputHandler().turnPressurePlates(false);
 					System.exit(0);
 				}
 				if(e.getKeyCode() == KeyEvent.VK_SPACE)

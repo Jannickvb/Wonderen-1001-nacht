@@ -24,11 +24,11 @@ public class ImageHandler {
 			images.add(ImageIO.read(Main.class.getResource("/images/snow64.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/Tutorial.jpg")));
 			images.add(ImageIO.read(Main.class.getResource("/images/boat.png")));
-			images.add(ImageIO.read(Main.class.getResource("/images/water.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/water.jpg")));
 			images.add(ImageIO.read(Main.class.getResource("/images/sideLeft.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/sideRight.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/grass.png")));
-			images.add(ImageIO.read(Main.class.getResource("/images/rock.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/rock.jpg")));
 		}catch(IOException e){
 			e.printStackTrace();
 		}
