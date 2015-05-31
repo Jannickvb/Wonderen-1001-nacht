@@ -21,18 +21,20 @@ public class BossFightState extends GameState{
 
 	private List<BufferedImage> spells;
 	private BufferedImage currentImage;
-	private List<Point2D> pixelThread, userInput, intersection;
+	private List<Point2D> pixelThread, userInput1, userInput2, intersection;
 	private int midX,midY, percentScore;
 	private Thread timer;
-	private Point2D position;
+	private Point2D position1, position2;
 	private boolean apressed;
 	
 	public BossFightState(ControlManager cm) {
 		super(cm);		
 		pixelThread = new ArrayList<Point2D>();
-		this.userInput = new ArrayList<Point2D>();
+		this.userInput1 = new ArrayList<Point2D>();
+		this.userInput2 = new ArrayList<Point2D>();
 		intersection = new ArrayList<Point2D>();
-		this.position = new Point2D.Double(0,0);
+		this.position1 = new Point2D.Double(0,0);
+		this.position2 = new Point2D.Double(0,0);
 		apressed = false;
 		
 		this.timer = new Thread(new DrawThread(this));
@@ -67,17 +69,30 @@ public class BossFightState extends GameState{
 		g2.setTransform(oldAF);	
 		g2.setColor(Color.red);
 		g2.setStroke(new BasicStroke(7f, BasicStroke.CAP_ROUND,BasicStroke.JOIN_ROUND));
-		g2.drawLine((int) position.getX(), (int) position.getY(), (int) position.getX(), (int) position.getY());
+		g2.drawLine((int) position1.getX(), (int) position1.getY(), (int) position1.getX(), (int) position1.getY());
+		g2.drawLine((int) position2.getX(), (int) position2.getY(), (int) position2.getX(), (int) position2.getY());
 		
-		for(int i = 1; i < userInput.size(); i++)
+		for(int i = 1; i < userInput1.size(); i++)
 		{
-			if(userInput.get(i).getX() == 500000.0)
+			if(userInput1.get(i).getX() == 500000.0)
 			{
 				i++;
 			}
 			else
 			{
-				g2.drawLine((int) userInput.get(i-1).getX(), (int) userInput.get(i-1).getY(), (int) userInput.get(i).getX(), (int) userInput.get(i).getY());
+				g2.drawLine((int) userInput1.get(i-1).getX(), (int) userInput1.get(i-1).getY(), (int) userInput1.get(i).getX(), (int) userInput1.get(i).getY());
+			}
+		}
+		
+		for(int i = 1; i < userInput2.size(); i++)
+		{
+			if(userInput2.get(i).getX() == 500000.0)
+			{
+				i++;
+			}
+			else
+			{
+				g2.drawLine((int) userInput2.get(i-1).getX(), (int) userInput2.get(i-1).getY(), (int) userInput2.get(i).getX(), (int) userInput2.get(i).getY());
 			}
 		}
 
@@ -91,11 +106,12 @@ public class BossFightState extends GameState{
 	}
 	
 	public void refresh(){
-		this.position.setLocation(cm.getInput().getX1(), cm.getInput().getY1());
+		this.position1.setLocation(cm.getInput().getX1(), cm.getInput().getY1());
+		this.position2.setLocation(cm.getInput().getX2(), cm.getInput().getY2());
 		
-		if(cm.getInput().getAPressed())
+		if(cm.getInput().getA1Pressed())
 		{
-			userInput.add(new Point2D.Double(this.position.getX(),this.position.getY()));
+			userInput1.add(new Point2D.Double(this.position1.getX(),this.position1.getY()));
 			apressed = true; 
 			//calculateSpellScore();
 			System.out.println(percentScore);
@@ -104,15 +120,36 @@ public class BossFightState extends GameState{
 		{
 			if(apressed == true)
 			{
-				System.out.println(position + "RELEASE");
-				userInput.add(new Point2D.Double(500000.0,0.0));
+				System.out.println(position1 + "RELEASE");
+				userInput1.add(new Point2D.Double(500000.0,0.0));
 				apressed = false;
 			}
 			else
 			{				
 				apressed = false;
 			}
-		}		
+		}
+		
+		if(cm.getInput().getA2Pressed())
+		{
+			userInput2.add(new Point2D.Double(this.position2.getX(),this.position2.getY()));
+			apressed = true; 
+			//calculateSpellScore();
+			System.out.println(percentScore);
+		}
+		else
+		{
+			if(apressed == true)
+			{
+				System.out.println(position2 + "RELEASE");
+				userInput2.add(new Point2D.Double(500000.0,0.0));
+				apressed = false;
+			}
+			else
+			{				
+				apressed = false;
+			}
+		}
 	}
 		
 	private void scanBMPImage() throws IOException {
@@ -134,7 +171,7 @@ public class BossFightState extends GameState{
 	{
 		for(Point2D imagePixel : pixelThread)
 		{
-			for(Point2D linePoint : userInput)
+			for(Point2D linePoint : userInput1)
 			{
 				if(imagePixel == linePoint)
 				{

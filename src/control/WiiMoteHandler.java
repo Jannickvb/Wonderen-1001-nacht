@@ -23,7 +23,7 @@ public class WiiMoteHandler implements WiimoteListener{
 	private int p1aY;
 	private int p2aX;
 	private int p2aY;
-	private boolean aPressed = false;
+	private boolean aPressed1, aPressed2 = false;
 	
 	public WiiMoteHandler()
 	{
@@ -59,15 +59,28 @@ public class WiiMoteHandler implements WiimoteListener{
 
 	@Override
 	public void onButtonsEvent(WiimoteButtonsEvent e) {
-		if(e.isButtonAJustPressed())
+		if(e.getWiimoteId() == 1)
 		{
-			aPressed = true;
+			if(e.isButtonAJustPressed())
+			{
+				aPressed1 = true;
+			}
+			if(e.isButtonAJustReleased())
+			{
+				aPressed1 = false;
+			}
 		}
-		if(e.isButtonAJustReleased())
+		if(e.getWiimoteId() == 2)
 		{
-			aPressed = false;
+			if(e.isButtonAJustPressed())
+			{
+				aPressed2 = true;
+			}
+			if(e.isButtonAJustReleased())
+			{
+				aPressed2 = false;
+			}
 		}
-		
 	}
 
 	@Override
@@ -178,8 +191,13 @@ public class WiiMoteHandler implements WiimoteListener{
 		this.p2aX = p2Ax;
 	}
 	
-	public boolean getAPressed()
+	public boolean getA1Pressed()
 	{
-		return aPressed;
+		return aPressed1;
+	}
+	
+	public boolean getA2Pressed()
+	{
+		return aPressed2;
 	}
 }

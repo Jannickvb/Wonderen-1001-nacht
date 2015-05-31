@@ -43,9 +43,14 @@ public class InputHandler {
 		return wiimote.getP2aX();
 	}
 	
-	public boolean getAPressed()
+	public boolean getA1Pressed()
 	{
-		return wiimote.getAPressed();
+		return wiimote.getA1Pressed();
+	}
+	
+	public boolean getA2Pressed()
+	{
+		return wiimote.getA2Pressed();
 	}
 	
 	//Adruino stuff:
