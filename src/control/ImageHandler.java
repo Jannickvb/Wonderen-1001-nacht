@@ -6,12 +6,14 @@ import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
+import org.imgscalr.Scalr;
+
 import view.Main;
 
 public class ImageHandler {
 	
 	public static ArrayList<BufferedImage> images = new ArrayList<BufferedImage>();
-	
+	private static Scalr.Mode mode;
 	public ImageHandler() {
 		
 	}
@@ -44,7 +46,16 @@ public class ImageHandler {
 		return images.get(img.ordinal());
 	}
 	
-	
+	public static Scalr.Mode getScale(BufferedImage image){
+		if (image.getHeight() < image.getWidth()) {
+			mode = Scalr.Mode.FIT_TO_WIDTH;
+			System.out.println("width");
+		} else {
+			mode = Scalr.Mode.FIT_TO_HEIGHT;
+			System.out.println("height");
+		}
+		return mode;
+	}
 	
 	
 }
