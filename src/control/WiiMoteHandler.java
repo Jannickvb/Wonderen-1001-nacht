@@ -64,14 +64,11 @@ public class WiiMoteHandler implements WiimoteListener{
 			if(e.isButtonAJustPressed())
 			{
 				aPressed1 = true;
+				p1Ready = true;
 			}
 			if(e.isButtonAJustReleased())
 			{
 				aPressed1 = false;
-			}
-			if(e.isButtonAJustPressed() && e.isButtonBJustPressed())
-			{
-				p1Ready = true;
 			}
 		}
 		if(e.getWiimoteId() == 2)
@@ -79,14 +76,11 @@ public class WiiMoteHandler implements WiimoteListener{
 			if(e.isButtonAJustPressed())
 			{
 				aPressed2 = true;
+				p2Ready = true;
 			}
 			if(e.isButtonAJustReleased())
 			{
 				aPressed2 = false;
-			}
-			if(e.isButtonAJustPressed() && e.isButtonBJustPressed())
-			{
-				p2Ready = true;
 			}
 		}
 	}
