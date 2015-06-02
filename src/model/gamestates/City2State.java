@@ -12,13 +12,14 @@ import control.ControlManager;
 import control.ImageHandler;
 
 public class City2State extends GameState{
-	private Image tutorial;
+	private Image image;
 	private int width,height,midX,midY,bgWidth,bgHeight,counter;
 	
 	public City2State(ControlManager cm)
 	{
 		super(cm);
 		this.counter = 0;
+		image = ImageHandler.getImage(ImageHandler.ImageType.troll);
 	}
 
 	@Override
@@ -26,30 +27,26 @@ public class City2State extends GameState{
 		AffineTransform tx = new AffineTransform();
 		tx.translate(midX, midY);
 		g2.setTransform(tx);
-		g2.drawImage(tutorial, -bgWidth/2,-bgHeight/2,null);
+		g2.drawImage(image, -bgWidth/2,-bgHeight/2,null);
 	}
 
 	@Override
 	public void update() {
 		width = cm.getWidth();
 		height = cm.getHeight();
-		bgWidth = tutorial.getWidth(null);
-		bgHeight = tutorial.getHeight(null);
+		bgWidth = image.getWidth(null);
+		bgHeight = image.getHeight(null);
+		
 		midX = width/2;
 		midY = height/2;
-		counter++;
-		if(counter > 300)
-		{
-			cm.getGameStateManager().next();
-		}
 	}
 
 	@Override
 	public void init() {
 		// TODO Auto-generated method stub
-		if(tutorial.equals(ImageHandler.getImage(ImageHandler.ImageType.mage1))){
+		if(image.equals(ImageHandler.getImage(ImageHandler.ImageType.troll))){
 		try {
-			cm.playWizardVoice();
+			cm.playMusic1();
 		} catch (LineUnavailableException | IOException e) {
 			e.printStackTrace();
 		}
