@@ -25,7 +25,7 @@ public class IntroMovState extends GameState{
 		
 		String userpath = System.getProperty("user.dir").replaceAll("\\\\", "/");
 		video = cm.getVideoHandler();
-		video.handleVideo(userpath + "/resources/video/intro.mp4");
+		video.handleVideo(userpath + "/resources/video/Intro.mpg");
 		
 		try {
 			cm.playIntroVoice();

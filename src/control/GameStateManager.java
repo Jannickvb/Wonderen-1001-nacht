@@ -70,6 +70,9 @@ public class GameStateManager {
 		gameSequence.add(gameStates.get(3));
 		gameSequence.add(gameStates.get(4));
 		gameSequence.add(gameStates.get(5));
+		gameSequence.add(gameStates.get(6));
+		gameSequence.add(gameStates.get(7));
+		gameSequence.add(gameStates.get(8));
 	}
 	
 	public void next(){

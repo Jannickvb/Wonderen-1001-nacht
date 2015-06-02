@@ -31,6 +31,11 @@ public class ControlManager {
 		voice.playSound(AudioType.introvoice);
 	}
 	
+	public void playMusic1() throws LineUnavailableException, IOException{
+		music.stopSound();
+		music.playSound(AudioType.poor);
+	}
+	
 	public void playBoatTutorialVoice() throws LineUnavailableException, IOException{
 		voice.playSound(AudioType.boattutorial);
 	}

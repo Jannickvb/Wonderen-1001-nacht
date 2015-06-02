@@ -53,16 +53,6 @@ public class InputHandler {
 		return wiimote.getA2Pressed();
 	}
 	
-	public boolean isP1Ready()
-	{
-		return wiimote.isP1Ready();
-	}
-	
-	public boolean isP2Ready()
-	{
-		return wiimote.isP2Ready();
-	}
-	
 	//Adruino stuff:
 	
 	/**

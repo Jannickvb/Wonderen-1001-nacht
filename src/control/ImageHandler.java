@@ -6,14 +6,12 @@ import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
-import org.imgscalr.Scalr;
-
 import view.Main;
 
 public class ImageHandler {
 	
 	public static ArrayList<BufferedImage> images = new ArrayList<BufferedImage>();
-	private static Scalr.Mode mode;
+	
 	public ImageHandler() {
 		
 	}
@@ -36,29 +34,27 @@ public class ImageHandler {
 			images.add(ImageIO.read(Main.class.getResource("/images/Tovenaar.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/Tovenaar2.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/Trol.png")));
+			
+			images.add(ImageIO.read(Main.class.getResource("/images/boat.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/water.jpg")));
+			images.add(ImageIO.read(Main.class.getResource("/images/sideLeft.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/sideRight.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/grass.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/rock.jpg")));
 		}catch(IOException e){
 			e.printStackTrace();
 		}
 	}
 	
 	public enum ImageType{
-		menubg, tilemap, tutorial_plate, tutorial_spell, player_boat, menu_right, menu_left, spell1, spell2, spell3, spell4, spell5, mage1, mage2, troll; 
+		menubg, tilemap, tutorial_plate, tutorial_spell, player_boat, menu_right, menu_left, spell1, spell2, spell3, spell4, spell5, mage1, mage2, troll, boat, water, leftSideRiver, rightSideRiver, grass, rock; 
 	}
 	
 	public static BufferedImage getImage(ImageType img){
 		return images.get(img.ordinal());
 	}
 	
-	public static Scalr.Mode getScale(BufferedImage image){
-		if (image.getHeight() < image.getWidth()) {
-			mode = Scalr.Mode.FIT_TO_WIDTH;
-			System.out.println("width");
-		} else {
-			mode = Scalr.Mode.FIT_TO_HEIGHT;
-			System.out.println("height");
-		}
-		return mode;
-	}
+	
 	
 	
 }
