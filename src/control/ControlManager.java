@@ -29,17 +29,18 @@ public class ControlManager {
 	
 	public void playIntroVoice() throws LineUnavailableException, IOException{
 		voice.playSound(AudioType.introvoice);
-		music.volumeUp(false, 6.0f);
-	}
-
-	public void stopIntroVoice() throws LineUnavailableException, IOException{
-		voice.stopSound();
-		music.volumeUp(true, 6.0f);
 	}
 	
 	public void playBoatTutorialVoice() throws LineUnavailableException, IOException{
 		voice.playSound(AudioType.boattutorial);
-		music.volumeUp(false, 6.0f);
+	}
+	
+	public void playWizardVoice() throws LineUnavailableException, IOException{
+		voice.playSound(AudioType.boattutorial);
+	}
+	
+	public void playTrollVoice() throws LineUnavailableException, IOException{
+		voice.playSound(AudioType.boattutorial);
 	}
 
 	public VideoHandler getVideoHandler()

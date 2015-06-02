@@ -29,13 +29,14 @@ public class MenuState extends GameState{
 		tx.translate(midX, midY);
 		g2.setTransform(tx);
 		g2.drawImage(background, -bgWidth/2,-bgHeight/2,null);
-		g2.drawImage(menuleft, -mlWidth/2, -mlHeight/2, null);
-		g2.drawImage(menuright, -mrWidth/2, -mrHeight/2, null);
-		if(pl1Ready)
-			g2.drawImage(background, 20, 20,null);
-		if(pl2Ready)
-			g2.drawImage(background, 40,40, null);
-		
+		if(!pl1Ready)
+		{
+			g2.drawImage(menuleft, -mlWidth/2, -mlHeight/2, null);
+		}
+		if(!pl2Ready)
+		{
+			g2.drawImage(menuright, -mrWidth/2, -mrHeight/2, null);
+		}
 	}
 
 	@Override
@@ -48,7 +49,7 @@ public class MenuState extends GameState{
 		mlHeight = menuleft.getHeight(null);
 		mrWidth = menuright.getWidth(null);
 		mrHeight = menuright.getHeight(null);
-		
+		setPlayerStatus(cm.getInput().isP1Ready(), cm.getInput().isP2Ready());
 		midX = width/2;
 		midY = height/2;
 	}
