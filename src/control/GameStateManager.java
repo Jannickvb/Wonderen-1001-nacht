@@ -3,10 +3,13 @@ package control;
 import java.util.ArrayList;
 
 import model.gamestates.BossFightState;
+import model.gamestates.City1State;
+import model.gamestates.City2State;
 import model.gamestates.GameState;
 import model.gamestates.IntroMovState;
+import model.gamestates.MageTalkState;
+import model.gamestates.MageTalkState2;
 import model.gamestates.MenuState;
-import model.gamestates.PlayState;
 import model.gamestates.TutorialState;
 
 public class GameStateManager {
@@ -29,7 +32,10 @@ public class GameStateManager {
 		gameStates.add(new MenuState(cm));
 		gameStates.add(new IntroMovState(cm));
 		gameStates.add(new TutorialState(cm, ImageHandler.getImage(ImageHandler.ImageType.tutorial_plate)));
-		gameStates.add(new PlayState(cm));
+		gameStates.add(new MageTalkState(cm));
+		gameStates.add(new City1State(cm));
+		gameStates.add(new City2State(cm));
+		gameStates.add(new MageTalkState2(cm));
 		gameStates.add(new TutorialState(cm, ImageHandler.getImage(ImageHandler.ImageType.tutorial_spell)));
 		gameStates.add(new BossFightState(cm));
 	}

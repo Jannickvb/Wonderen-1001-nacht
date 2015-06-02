@@ -11,16 +11,14 @@ import javax.sound.sampled.LineUnavailableException;
 import control.ControlManager;
 import control.ImageHandler;
 
-public class TutorialState extends GameState{
-	
+public class City2State extends GameState{
 	private Image tutorial;
 	private int width,height,midX,midY,bgWidth,bgHeight,counter;
 	
-	public TutorialState(ControlManager cm, Image image)
+	public City2State(ControlManager cm)
 	{
 		super(cm);
 		this.counter = 0;
-		this.tutorial = image;
 	}
 
 	@Override
@@ -49,9 +47,9 @@ public class TutorialState extends GameState{
 	@Override
 	public void init() {
 		// TODO Auto-generated method stub
-		if(tutorial.equals(ImageHandler.getImage(ImageHandler.ImageType.tutorial_plate))){
+		if(tutorial.equals(ImageHandler.getImage(ImageHandler.ImageType.mage1))){
 		try {
-			cm.playBoatTutorialVoice();
+			cm.playWizardVoice();
 		} catch (LineUnavailableException | IOException e) {
 			e.printStackTrace();
 		}
@@ -69,5 +67,4 @@ public class TutorialState extends GameState{
 		// TODO Auto-generated method stub
 		
 	}
-
 }
