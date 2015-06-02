@@ -28,28 +28,15 @@ public class MenuState extends GameState{
 		AffineTransform tx = new AffineTransform();
 		tx.translate(midX, midY);
 		g2.setTransform(tx);
-<<<<<<< HEAD
 		g2.drawImage(scaledBg, -bgWidth/2,-bgHeight/2,null);
 		g2.drawImage(scaledRt, -mlWidth/2, -mlHeight/2, null);
 		g2.drawImage(scaledLt, -mrWidth/2, -mrHeight/2, null);
-=======
-		g2.drawImage(background, -bgWidth/2,-bgHeight/2,null);
-		if(!pl1Ready)
-		{
-			g2.drawImage(menuleft, -mlWidth/2, -mlHeight/2, null);
-		}
-		if(!pl2Ready)
-		{
-			g2.drawImage(menuright, -mrWidth/2, -mrHeight/2, null);
-		}
->>>>>>> 745c34f2dbd2ac8787d72c5e1e34c6fe474ccbb7
 	}
 
 	@Override
 	public void update() {
 		width = cm.getWidth();
 		height = cm.getHeight();
-<<<<<<< HEAD
 		if(width != 0 && !hasScaled)
 		{
 			background = ImageHandler.getImage(ImageHandler.ImageType.menubg);
@@ -69,16 +56,7 @@ public class MenuState extends GameState{
 		mlHeight = scaledLt.getHeight(null);
 		mrWidth = scaledRt.getWidth(null);
 		mrHeight = scaledRt.getHeight(null);
-		
-=======
-		bgWidth = background.getWidth(null);
-		bgHeight = background.getHeight(null);
-		mlWidth = menuleft.getWidth(null);
-		mlHeight = menuleft.getHeight(null);
-		mrWidth = menuright.getWidth(null);
-		mrHeight = menuright.getHeight(null);
 		setPlayerStatus(cm.getInput().isP1Ready(), cm.getInput().isP2Ready());
->>>>>>> 745c34f2dbd2ac8787d72c5e1e34c6fe474ccbb7
 		midX = width/2;
 		midY = height/2;
 		
