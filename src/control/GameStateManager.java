@@ -27,8 +27,8 @@ public class GameStateManager {
 	public void reloadGameStates() { 
 		gameStates.clear();
 		gameStates.add(new MenuState(cm));
-		gameStates.add(new IntroMovState(cm));
-		gameStates.add(new TutorialState(cm));
+		//gameStates.add(new IntroMovState(cm));
+		//gameStates.add(new TutorialState(cm));
 		gameStates.add(new BoatGameState(cm));
 		gameStates.add(new PlayState(cm));
 	}
@@ -58,7 +58,6 @@ public class GameStateManager {
 		gameSequence.add(gameStates.get(0));
 		gameSequence.add(gameStates.get(1));
 		gameSequence.add(gameStates.get(2));
-		gameSequence.add(gameStates.get(3));
 	}
 	
 	public void next(){

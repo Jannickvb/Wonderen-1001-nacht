@@ -1,5 +1,8 @@
 package control;
 
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
 public class InputHandler {
 	
 	private ArduinoHandler arduino;
@@ -13,7 +16,7 @@ public class InputHandler {
 	
 	public InputHandler(String arduinoCommPort)
 	{
-		this.arduino = new ArduinoHandler(arduinoCommPort,this);
+		//this.arduino = new ArduinoHandler(arduinoCommPort,this);
 		this.wiimote = new WiiMoteHandler();
 		resetPressurePlates();
 	}
@@ -90,10 +93,10 @@ public class InputHandler {
 		 * @param state - If you want to read the pressure plates or not.
 		 */
 		public void turnPressurePlates(boolean state) {
-			if(state) 
-				arduino.sendCommand("EPP");
-			else
-				arduino.sendCommand("DPP");
+//			if(state) 
+//				arduino.sendCommand("EPP");
+//			else
+//				arduino.sendCommand("DPP");
 		}
 		
 		/**
@@ -101,10 +104,10 @@ public class InputHandler {
 		 * @param state - Turn the led on or off.
 		 */
 		public void setLed1(boolean state) {
-			if(state) 
-				arduino.sendCommand("L1E");
-			else
-				arduino.sendCommand("L1D");
+//			if(state) 
+//				arduino.sendCommand("L1E");
+//			else
+//				arduino.sendCommand("L1D");
 		}
 		
 		public boolean getPressurePlate1() {
@@ -122,4 +125,6 @@ public class InputHandler {
 		public boolean getPressurePlate4() {
 			return pressurePlate4;
 		}
+
+		
 }
