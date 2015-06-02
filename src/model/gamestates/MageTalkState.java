@@ -4,28 +4,22 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.geom.AffineTransform;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.sound.sampled.LineUnavailableException;
 
-import org.imgscalr.Scalr;
-
 import control.ControlManager;
 import control.ImageHandler;
 
-public class TutorialState extends GameState{
+public class MageTalkState extends GameState{
 	
-	private BufferedImage tutorial,scaledTut;
+	private Image tutorial;
 	private int width,height,midX,midY,bgWidth,bgHeight,counter;
-	private boolean hasScaled;
-	private Scalr.Mode mode;
-	public TutorialState(ControlManager cm, Image image)
+	
+	public MageTalkState(ControlManager cm)
 	{
 		super(cm);
 		this.counter = 0;
-		this.tutorial = (BufferedImage)image;
-		this.hasScaled = false;
 	}
 
 	@Override
@@ -33,32 +27,30 @@ public class TutorialState extends GameState{
 		AffineTransform tx = new AffineTransform();
 		tx.translate(midX, midY);
 		g2.setTransform(tx);
-		g2.drawImage(scaledTut, -bgWidth/2,-bgHeight/2,null);
+		g2.drawImage(tutorial, -bgWidth/2,-bgHeight/2,null);
 	}
 
 	@Override
 	public void update() {
 		width = cm.getWidth();
 		height = cm.getHeight();
-		if(width != 0 && !hasScaled)
-		{
-			tutorial = ImageHandler.getImage(ImageHandler.ImageType.tutorial_plate);
-			mode = ImageHandler.getScale((BufferedImage)tutorial);
-			scaledTut = Scalr.resize(tutorial, mode, width, Scalr.OP_ANTIALIAS);
-			hasScaled = true;
-		}
-		bgWidth = scaledTut.getWidth(null);
-		bgHeight = scaledTut.getHeight(null);
+		bgWidth = tutorial.getWidth(null);
+		bgHeight = tutorial.getHeight(null);
 		midX = width/2;
 		midY = height/2;
+		counter++;
+		if(counter > 300)
+		{
+			cm.getGameStateManager().next();
+		}
 	}
 
 	@Override
 	public void init() {
 		// TODO Auto-generated method stub
-		if(tutorial.equals(ImageHandler.getImage(ImageHandler.ImageType.tutorial_plate))){
+		if(tutorial.equals(ImageHandler.getImage(ImageHandler.ImageType.mage1))){
 		try {
-			cm.playBoatTutorialVoice();
+			cm.playWizardVoice();
 		} catch (LineUnavailableException | IOException e) {
 			e.printStackTrace();
 		}
@@ -78,3 +70,4 @@ public class TutorialState extends GameState{
 	}
 
 }
+
