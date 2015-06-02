@@ -10,7 +10,7 @@ public class Tile {
 	
 	public boolean isSolid;
 	private int x,y;
-	public static int size = 64;
+	public static int size = 32;
 	private BufferedImage tile;
 	private BufferedImage tilemap;
 	private int id;
@@ -21,7 +21,9 @@ public class Tile {
 		this.y = y;
 		this.id = id;
 		tilemap = ImageHandler.getImage(ImageType.tilemap);
-		tile = tilemap.getSubimage((id*size)%tilemap.getWidth(),(((id*size)/tilemap.getWidth())*size), size, size);
+		id--;
+		if(id>0)
+		tile = tilemap.getSubimage((id*size)%tilemap.getWidth(),((((id*size)/tilemap.getWidth())*size)), size, size);
 		tilemap = null;
 	}
 	
@@ -58,6 +60,7 @@ public class Tile {
 	
 	public void draw(Graphics2D g2)
 	{
+		if(tile!=null)
 		g2.drawImage(tile,null, x, y);
 	}
 }

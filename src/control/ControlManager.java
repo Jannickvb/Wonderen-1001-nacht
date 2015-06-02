@@ -16,7 +16,7 @@ public class ControlManager {
 	private InputHandler inputHandler;
 	
 	public ControlManager(GameFrame frame) throws LineUnavailableException, IOException{
-		//this.inputHandler = new InputHandler("COM6");
+		this.inputHandler = new InputHandler("COM6");
 		this.frame = frame;
 		this.gsm = new GameStateManager(this);
 		this.wii = new WiiMoteHandler();

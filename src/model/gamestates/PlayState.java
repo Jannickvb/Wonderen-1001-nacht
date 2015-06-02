@@ -17,7 +17,7 @@ public class PlayState extends GameState {
 
 	public PlayState(ControlManager cm) {
 		super(cm);
-		map = new TileMap(mapArray,4,8);
+		//map = new TileMap(mapArray,4,8);
 	}
 
 	@Override
