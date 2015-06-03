@@ -1,3 +1,4 @@
+
 package model.gamestates;
 
 import java.awt.BasicStroke;
@@ -12,181 +13,178 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-
 import model.DrawThread;
 import control.ControlManager;
 import control.ImageHandler;
 
 public class BossFightState extends GameState{
 
-	private List<BufferedImage> spells;
-	private BufferedImage currentImage;
-	private List<Point2D> pixelThread, userInput1, userInput2, intersection;
-	private int midX,midY, percentScore;
 	private Thread timer;
+	private BufferedImage currentImage;
+	private List<BufferedImage> spells;
+	private AffineTransform tx;
+	private int midX,midY, time;
 	private Point2D position1, position2;
-	private boolean apressed;
+	
+	private int outCounter,inCounter;
+	private int outColor,inColor;
+	private double spelScore;
+	private boolean drawing, started;
 	
 	public BossFightState(ControlManager cm) {
-		super(cm);		
-		pixelThread = new ArrayList<Point2D>();
-		this.userInput1 = new ArrayList<Point2D>();
-		this.userInput2 = new ArrayList<Point2D>();
-		intersection = new ArrayList<Point2D>();
-		this.position1 = new Point2D.Double(0,0);
-		this.position2 = new Point2D.Double(0,0);
-		apressed = false;
-		
-		this.timer = new Thread(new DrawThread(this));
-		timer.start();
+		super(cm);				
 		spells = new ArrayList<BufferedImage>();
 		spells.add(ImageHandler.getImage(ImageHandler.ImageType.spell1));
 		spells.add(ImageHandler.getImage(ImageHandler.ImageType.spell2));
-		spells.add(ImageHandler.getImage(ImageHandler.ImageType.spell3));
+		spells.add(ImageHandler.getImage(ImageHandler.ImageType.spell5));
 		
 		Random generator = new Random();
 		currentImage = spells.get(generator.nextInt(3));
-		
 		try {
-			scanBMPImage();
+			outColor = currentImage.getRGB(0, 0);
+			inColor = Color.black.getRGB();
+			outCounter = 0;
+			inCounter = 0;
+			initScanBMPImage(currentImage);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		position1 = new Point2D.Double(0,0);
+		position2 = new Point2D.Double(0,0);
+		this.timer = new Thread(new DrawThread(this));
 		
+		started = false;
+		drawing = true;
+		time = 1800;
 	}
 	
-	@Override
-	public void draw(Graphics2D g2) {
-		AffineTransform oldAF = new AffineTransform();
-		oldAF.setTransform(g2.getTransform());
-		oldAF.scale(1.6,1.6);
-		AffineTransform tx = new AffineTransform();
-		tx.translate(midX, midY);
-		
-		g2.setTransform(tx);
-		g2.drawImage(currentImage, -currentImage.getWidth()/2, -currentImage.getHeight()/2,null);
-				
-		g2.setTransform(oldAF);	
-		g2.setColor(Color.red);
-		g2.setStroke(new BasicStroke(7f, BasicStroke.CAP_ROUND,BasicStroke.JOIN_ROUND));
-		g2.drawLine((int) position1.getX(), (int) position1.getY(), (int) position1.getX(), (int) position1.getY());
-		g2.drawLine((int) position2.getX(), (int) position2.getY(), (int) position2.getX(), (int) position2.getY());
-		
-		for(int i = 1; i < userInput1.size(); i++)
-		{
-			if(userInput1.get(i).getX() == 500000.0)
-			{
-				i++;
-			}
-			else
-			{
-				g2.drawLine((int) userInput1.get(i-1).getX(), (int) userInput1.get(i-1).getY(), (int) userInput1.get(i).getX(), (int) userInput1.get(i).getY());
-			}
-		}
-		
-		for(int i = 1; i < userInput2.size(); i++)
-		{
-			if(userInput2.get(i).getX() == 500000.0)
-			{
-				i++;
-			}
-			else
-			{
-				g2.drawLine((int) userInput2.get(i-1).getX(), (int) userInput2.get(i-1).getY(), (int) userInput2.get(i).getX(), (int) userInput2.get(i).getY());
-			}
-		}
-
-	}
-
-	@Override
-	public void update() {
-		midX = cm.getWidth()/2;
-		midY = cm.getHeight()/2;
-		
-	}
-	
-	public void refresh(){
-		this.position1.setLocation(cm.getInput().getX1(), cm.getInput().getY1());
-		this.position2.setLocation(cm.getInput().getX2(), cm.getInput().getY2());
-		
-		if(cm.getInput().getA1Pressed())
-		{
-			userInput1.add(new Point2D.Double(this.position1.getX(),this.position1.getY()));
-			apressed = true; 
-			//calculateSpellScore();
-			System.out.println(percentScore);
-		}
-		else
-		{
-			if(apressed == true)
-			{
-				System.out.println(position1 + "RELEASE");
-				userInput1.add(new Point2D.Double(500000.0,0.0));
-				apressed = false;
-			}
-			else
-			{				
-				apressed = false;
-			}
-		}
-		
-		if(cm.getInput().getA2Pressed())
-		{
-			userInput2.add(new Point2D.Double(this.position2.getX(),this.position2.getY()));
-			apressed = true; 
-			//calculateSpellScore();
-			System.out.println(percentScore);
-		}
-		else
-		{
-			if(apressed == true)
-			{
-				System.out.println(position2 + "RELEASE");
-				userInput2.add(new Point2D.Double(500000.0,0.0));
-				apressed = false;
-			}
-			else
-			{				
-				apressed = false;
-			}
-		}
-	}
-		
-	private void scanBMPImage() throws IOException {
-
-	    for (int xPixel = 0; xPixel < currentImage.getWidth(); xPixel++)
+	private void initScanBMPImage(BufferedImage image) throws IOException {
+		int temp = 0;
+	    for (int xPixel = 0; xPixel < image.getWidth(); xPixel++)
 	    {
-	            for (int yPixel = 0; yPixel < currentImage.getHeight(); yPixel++)
-	            {
-	                int color = currentImage.getRGB(xPixel, yPixel);
-	                if (color == Color.BLACK.getRGB())
+	    	for (int yPixel = 0; yPixel < image.getHeight(); yPixel++)
+	        {
+	                temp = image.getRGB(xPixel, yPixel);
+	                if(temp == outColor)
 	                {
-	                	pixelThread.add(new Point2D.Float(xPixel, yPixel));
+	                	outCounter++;
 	                }
-	            }
+	                else if(temp == inColor)
+	                {
+	                	inCounter++;
+	                }  
+	        }
 	     }
 	  }
 	
-	private void calculateSpellScore()
+	private double scanBMPImage(BufferedImage image) throws IOException {
+		int temp = 0;
+		int inTemp = 0;
+		int outTemp = 0;
+		double toReturn = 0;
+	    for (int xPixel = 0; xPixel < image.getWidth(); xPixel++)
+	    {
+	    	for (int yPixel = 0; yPixel < image.getHeight(); yPixel++)
+	        {
+	                temp = image.getRGB(xPixel, yPixel);
+	                if(temp == inColor)
+	                {
+	                	inTemp++;
+	                }
+	                if(temp == outColor)
+	                {
+	                	outTemp++;
+	                }
+	        }
+	    }
+	    toReturn  = (inCounter - inTemp)/(inCounter/100)-((outCounter-outTemp)/(outCounter/100));
+	    return toReturn;
+	}
+	
+	@Override
+	public void draw(Graphics2D g2) 
 	{
-		for(Point2D imagePixel : pixelThread)
+		System.out.println("draw");
+		AffineTransform oldAF = new AffineTransform();
+		oldAF.setTransform(g2.getTransform());
+		oldAF.scale(1.6,1.6);
+		this.tx = new AffineTransform();
+		tx.translate(midX, midY);
+		
+		g2.setTransform(tx);
+		g2.drawImage(currentImage,-currentImage.getWidth()/2, -currentImage.getHeight()/2, null);//(currentImage, -currentImage.getWidth()/2, -currentImage.getHeight()/2, null);
+				
+		g2.setTransform(oldAF);	
+		g2.setColor(Color.red);
+		g2.setStroke(new BasicStroke(60f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+		g2.drawRect((int)position1.getX(),(int)position1.getY(), 1, 1);
+		g2.drawRect((int)position2.getX(),(int)position2.getY(), 1, 1);
+		if(cm.getInput().getA1Pressed() && drawing)
 		{
-			for(Point2D linePoint : userInput1)
-			{
-				if(imagePixel == linePoint)
-				{
-					intersection.add(linePoint);
-				}
-			}
-			
-			percentScore = intersection.size() / (pixelThread.size() / 100);
+			drawPoints(cm.getInput().getX1(),cm.getInput().getY1());
 		}
+		
+		if(cm.getInput().getA2Pressed() && drawing)
+		{
+			drawPoints(cm.getInput().getX2(),cm.getInput().getY2());
+		}
+		g2.setColor(Color.black);
+		g2.drawString(time + "", 20, 10);
+		g2.drawString(spelScore + "%" , 20, 20);
+	}
+	
+	private void drawPoints(int x, int y)
+	{
+		 Graphics2D g2 =  currentImage.createGraphics();
+		 g2.setColor(Color.red);
+		 g2.setStroke(new BasicStroke(96f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+		 g2.drawLine((int) (x*1.6), (int) (1.6*y), (int) (1.6*x), (int) (1.6*y));
+	}
+	
+	@Override
+	public void update() 
+	{
+		if(!started)
+		{
+			timer.start();
+			started = true;
+		}
+		midX = cm.getWidth()/2;
+		midY = cm.getHeight()/2;
+	}
+	
+	public void refresh()
+	{
+		if(drawing)
+		{
+			position1.setLocation(cm.getInput().getX1(), cm.getInput().getY1());
+			position2.setLocation(cm.getInput().getX2(), cm.getInput().getY2());
+			
+			if(time != 0)
+			{
+				time--;
+			}
+			else
+			{
+				drawing = false;
+				spelScore = calculateSpellScore();
+			}
+		}
+	}
+	
+	private double calculateSpellScore()
+	{
+		try {
+			return scanBMPImage(currentImage);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return 0;
+		}		
 	}
 	
 	
 	@Override
 	public void init() {
-		// TODO Auto-generated method stub	
 	}
 
 	@Override
