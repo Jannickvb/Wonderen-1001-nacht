@@ -60,7 +60,6 @@ public class VideoHandler {
 		mediaPath = file.getAbsolutePath();
 		
 		ourMediaPlayer.setFocusable(true);
-		
 		ourFrame.setContentPane(ourMediaPlayer);
 		ourFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		ourFrame.setUndecorated(true);
@@ -68,9 +67,12 @@ public class VideoHandler {
 		ourFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
-	
 	public boolean getFinished(){
 		return finished;
+	}
+	
+	public EmbeddedMediaPlayerComponent getMediaPlayer(){
+		return ourMediaPlayer;
 	}
 	
 	public void run(){

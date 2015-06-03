@@ -2,6 +2,7 @@ package model.gamestates;
 
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import wiiusej.wiiusejevents.physicalevents.ExpansionEvent;
 import wiiusej.wiiusejevents.physicalevents.IREvent;

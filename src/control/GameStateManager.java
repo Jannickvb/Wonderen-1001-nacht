@@ -2,6 +2,7 @@ package control;
 
 import java.util.ArrayList;
 
+import model.gamestates.BoatGameState;
 import model.gamestates.BossFightState;
 import model.gamestates.City1State;
 import model.gamestates.City2State;
@@ -32,6 +33,7 @@ public class GameStateManager {
 		gameStates.add(new MenuState(cm));
 		gameStates.add(new IntroMovState(cm));
 		gameStates.add(new TutorialState(cm, ImageHandler.getImage(ImageHandler.ImageType.tutorial_plate)));
+		gameStates.add(new BoatGameState(cm));
 		gameStates.add(new MageTalkState(cm));
 		gameStates.add(new City1State(cm));
 		gameStates.add(new City2State(cm));
@@ -47,16 +49,13 @@ public class GameStateManager {
 	
 	public void initializeGameState(){
 		GameState state = gameStates.get(0);
-		if(index >= 0 && index < gameStates.size())
-		{
-			state = gameStates.get(index+1);
+		if(index >= 0 && index < gameStates.size()){
+		state = gameStates.get(index+1);
 		} else {
-			state = gameStates.get(0);
+		state = gameStates.get(0);
 		}
-		
 		state.init();
 	}
-	
 	  
 	/**
 	 * Use this method to hardcode the game sequence
@@ -92,7 +91,6 @@ public class GameStateManager {
 		}
 		
 	}
-	
 	
 	public GameState getCurrentState(){
 		currentstate = gameSequence.get(index);

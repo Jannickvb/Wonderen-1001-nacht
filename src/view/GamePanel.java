@@ -12,6 +12,7 @@ import javax.swing.Timer;
 
 import control.ControlManager;
 import control.GameStateManager;
+import control.MusicHandler.AudioType;
 
 public class GamePanel extends JPanel{
 
@@ -23,7 +24,7 @@ public class GamePanel extends JPanel{
 		setFocusable(true);
 		requestFocus(true);
 		this.cm = cm;
-		this.gsm = this.cm.getGameStateManager();
+		this.gsm = cm.getGameStateManager();
 		
 		Timer paint = new Timer(1000/60, new ActionListener() {
 			
@@ -58,8 +59,10 @@ public class GamePanel extends JPanel{
 			@Override
 			public void keyPressed(KeyEvent e) {
 				gsm.getCurrentState().keyPressed(e);
-				if(e.getKeyCode() == KeyEvent.VK_ESCAPE)
+				if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+					cm.getInput().turnPressurePlates(false);
 					System.exit(0);
+				}
 				if(e.getKeyCode() == KeyEvent.VK_SPACE)
 					gsm.next();
 			}
