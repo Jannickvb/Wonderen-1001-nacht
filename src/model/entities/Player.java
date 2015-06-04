@@ -1,13 +1,15 @@
 package model.entities;
 
+import java.awt.AlphaComposite;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
+import javax.sound.sampled.Clip;
 import javax.swing.Timer;
 
 import control.ControlManager;
@@ -21,6 +23,8 @@ public class Player extends Entity implements ActionListener {
 	private int animationCounter;
 	private BufferedImage liveHeart;
 	private int lives;
+	private float alpha;
+	private Timer deadMessageTimer;
 	
 	private boolean pressurePlate1; //Right foot
 	private boolean pressurePlate2; //Left foot
@@ -33,6 +37,8 @@ public class Player extends Entity implements ActionListener {
 		liveHeart = ImageHandler.getImage(ImageHandler.ImageType.heart);
 		animationCounter = 0;
 		lives = 3;
+		alpha = 1.0f;
+		deadMessageTimer = new Timer(100,null);
 		Timer animationTimer = new Timer(350,this);
 		animationTimer.start();
 	}
@@ -44,6 +50,17 @@ public class Player extends Entity implements ActionListener {
 		//Drawing lives:
 		for(int x = 0; x < lives; x++) 
 			g2.drawImage(liveHeart,50+150*x,5,null);
+		if(deadMessageTimer.isRunning()) {
+			g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
+			g2.setColor(Color.WHITE);
+			g2.setFont(new Font("Verdana",Font.BOLD,60));
+			drawCenteredText("Try Again", g2, cm.getHeight()/2);
+		}
+	}
+	
+	public void drawCenteredText(String text, Graphics2D g2, int y) {
+		int x = (screenWidth-g2.getFontMetrics().stringWidth(text))/2;
+		g2.drawString(text, x, y);
 	}
 	
 	public void update() {
@@ -82,12 +99,31 @@ public class Player extends Entity implements ActionListener {
 	public void collision() {
 		if(lives > 1) {
 			lives--;
-			positionY = cm.getHeight()-250;
+			setDead(true);
+			deadMessageTimer = new Timer(100,new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					if(alpha > 0.025)
+						alpha -= 0.025f;
+					else {
+						deadMessageTimer.stop();
+						alpha = 1.0f;
+					}
+				}
+			});
+			deadMessageTimer.start();
+			
 		}
 		else {
 			lives--; 
 			dead();
 		}
+	}
+	
+	public void reset() {
+		positionY = cm.getHeight()-250;
+		setDead(false);
 	}
 	
 	public void setPressurePlates(int i){

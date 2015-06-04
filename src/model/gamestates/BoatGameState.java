@@ -13,6 +13,7 @@ import java.util.Iterator;
 
 import javax.swing.Timer;
 
+import model.entities.BoatCrash;
 import model.entities.Foilage;
 import model.entities.Pier;
 import model.entities.Player;
@@ -24,16 +25,17 @@ public class BoatGameState extends GameState implements ActionListener {
 
 	private Player boat;
 	private Pier pier;
+	private BoatCrash boatCrash;
 	private BufferedImage grass;
 	private int screenWidth, screenHeight, backgroundPositionY;
 	private int width,height,midX,midY,bgWidth,bgHeight;
 	private ArrayList<Rock> rocks;
 	private ArrayList<Foilage> plants;
 	private boolean scaledOnce = false;
-	private boolean pressurePlate1= false; //Right foot
-	private boolean pressurePlate2= false; //Left foot
-	private boolean pressurePlate3= false; //Right foot
-	private boolean pressurePlate4= false; //Left foot
+	private boolean pressurePlate1; //Right foot
+	private boolean pressurePlate2; //Left foot
+	private boolean pressurePlate3; //Right foot
+	private boolean pressurePlate4; //Left foot
 	
 	public BoatGameState(ControlManager cm) {
 		super(cm);
@@ -60,7 +62,10 @@ public class BoatGameState extends GameState implements ActionListener {
 	    for(Foilage plant : plants) 
 			plant.draw(g2);
 	    pier.draw(g2);
-		boat.draw(g2);	
+	    if(!boat.isDead())
+	    	boat.draw(g2);	
+	    else 
+	    	boatCrash.draw(g2);
 	}
 
 	@Override
@@ -136,6 +141,13 @@ public class BoatGameState extends GameState implements ActionListener {
 			if(rock.isDead())
 				it.remove();
 		}
+		
+		if(boatCrash != null) {
+			if(boatCrash.isDead()) {
+				boatCrash = null;
+				reset();
+			}
+		}
 	}
 
 	@Override
@@ -153,9 +165,16 @@ public class BoatGameState extends GameState implements ActionListener {
 	}
 	
 	public void collision() {
-		boat.collision();
+		if(!boat.isDead()) {
+			boatCrash = new BoatCrash(cm,boat.getPositionX(),boat.getPositionY());
+			boat.collision();
+		}
+	}
+	
+	public void reset() {
 		backgroundPositionY = 0;
 		rocks = new ArrayList<>();
+		boat.reset();
 	}
 	
 	@Override
