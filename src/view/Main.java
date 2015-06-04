@@ -2,8 +2,6 @@ package view;
 
 import java.awt.EventQueue;
 
-import control.testShizzle;
-
 public class Main {
 	public static void main(String[] args){
 		EventQueue.invokeLater(new Runnable() {

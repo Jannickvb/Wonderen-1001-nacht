@@ -1,3 +1,4 @@
+
 package model.gamestates;
 
 import java.awt.BasicStroke;
@@ -196,4 +197,3 @@ public class BossFightState extends GameState{
 		// TODO Auto-generated method stub
 	}
 }
-

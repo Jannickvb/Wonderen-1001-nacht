@@ -22,6 +22,7 @@ public class ImageHandler {
 			images.add(ImageIO.read(Main.class.getResource("/images/tileset/tileset.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/Tutorial.jpg")));
 			images.add(ImageIO.read(Main.class.getResource("/images/spell_tutorial.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/boat.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/menu_fg_right.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/menu_fg_left.png")));
 			
@@ -34,27 +35,19 @@ public class ImageHandler {
 			images.add(ImageIO.read(Main.class.getResource("/images/Tovenaar2.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/Trol.png")));
 			
-			images.add(ImageIO.read(Main.class.getResource("/images/water.jpg")));
 			images.add(ImageIO.read(Main.class.getResource("/images/boat.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/water.jpg")));
 			images.add(ImageIO.read(Main.class.getResource("/images/sideLeft.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/sideRight.png")));
-			images.add(ImageIO.read(Main.class.getResource("/images/background.png")));
-			images.add(ImageIO.read(Main.class.getResource("/images/rock1.png")));
-			images.add(ImageIO.read(Main.class.getResource("/images/rock2.png")));
-			images.add(ImageIO.read(Main.class.getResource("/images/rock3.png")));
-			images.add(ImageIO.read(Main.class.getResource("/images/rock4.png")));
-			images.add(ImageIO.read(Main.class.getResource("/images/heart.png")));
-			images.add(ImageIO.read(Main.class.getResource("/images/tree1.png")));
-			images.add(ImageIO.read(Main.class.getResource("/images/tree2.png")));
-			images.add(ImageIO.read(Main.class.getResource("/images/tree3.png")));
-			images.add(ImageIO.read(Main.class.getResource("/images/tree4.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/grass.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/rock.jpg")));
 		}catch(IOException e){
 			e.printStackTrace();
 		}
 	}
 	
 	public enum ImageType{
-		menubg, tilemap, tutorial_plate, tutorial_spell, menu_right, menu_left, spell1, spell2, spell3, spell4, spell5, mage1, mage2, troll, water, leftSideRiver, rightSideRiver, grass, rock, boat, rock1, rock2, rock3, rock4, heart, tree1, tree2, tree3, tree4;
+		menubg, tilemap, tutorial_plate, tutorial_spell, player_boat, menu_right, menu_left, spell1, spell2, spell3, spell4, spell5, mage1, mage2, troll, boat, water, leftSideRiver, rightSideRiver, grass, rock; 
 	}
 	
 	public static BufferedImage getImage(ImageType img){

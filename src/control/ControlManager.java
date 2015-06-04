@@ -19,7 +19,7 @@ public class ControlManager {
 	public ControlManager(GameFrame frame) throws LineUnavailableException, IOException{
 		this.frame = frame;
 		this.gsm = new GameStateManager(this);
-		this.input = new InputHandler("COM6");
+		this.input = new InputHandler();
 		this.music = new MusicHandler();
 		this.voice = new MusicHandler();
 		this.video = new VideoHandler(this);

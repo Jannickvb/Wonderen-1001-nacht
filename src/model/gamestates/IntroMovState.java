@@ -32,6 +32,7 @@ public class IntroMovState extends GameState{
 		} catch (LineUnavailableException | IOException e1) {
 			e1.printStackTrace();
 		}
+		
 		video.run();
 	}
 	
@@ -52,6 +53,7 @@ public class IntroMovState extends GameState{
 
 	@Override
 	public void draw(Graphics2D g2) {
+
 		g2.setPaint(Color.BLACK);
 		g2.setColor(Color.BLACK);
 		g2.fillRect(0, 0, cm.getWidth(), cm.getHeight());

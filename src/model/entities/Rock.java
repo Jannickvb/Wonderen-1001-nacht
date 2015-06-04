@@ -1,20 +1,20 @@
 package model.entities;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Shape;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 
 import javax.swing.Timer;
 
 import control.ControlManager;
+import control.ImageHandler;
 
 public class Rock extends Entity implements ActionListener {
 
-	public Rock(ControlManager cm, BufferedImage rockImage) {
-		super(cm,rockImage);
+	public Rock(ControlManager cm) {
+		super(cm,ImageHandler.getImage(ImageHandler.ImageType.rock));
 		Timer moveTimer = new Timer(1000/60,this);
 		moveTimer.start();
 	}
@@ -31,26 +31,12 @@ public class Rock extends Entity implements ActionListener {
 	@Override
 	public void init() {
 		positionY = 0;
-		positionX = ((cm.getWidth()/4)+ 135) +(int)  Math.floor(Math.random()*(cm.getWidth()/2-270-getSprite().getWidth()));
+		positionX = (cm.getWidth()/4)+((int) Math.floor(Math.random()*cm.getWidth()/2));
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		positionY+=6;
-	}
-	
-	/**
-	 * Checks if one of the pixels is inside the boats body.
-	 * @param boat - the boat you want to check with.
-	 * @return if there is an intersection between the two objects.
-	 */
-	public boolean containsPoint(Player boat) {
-		Shape ownShape = new Rectangle2D.Double(positionX,positionY,getSprite().getWidth(),getSprite().getHeight());
-		Rectangle2D boatShape = boat.getRectangleBounds();
-		if(ownShape.intersects(boatShape)) 
-			return true;
-		else
-			return false;
 	}
 
 }

@@ -15,6 +15,7 @@ public class MusicHandler {
 
 public static ArrayList<AudioInputStream> audio = new ArrayList<AudioInputStream>();
  Clip clip;
+
  	static{
 		try{
 			audio.add(AudioSystem.getAudioInputStream(Main.class.getResource("/audio/Intro.aiff")));
@@ -61,6 +62,7 @@ public static ArrayList<AudioInputStream> audio = new ArrayList<AudioInputStream
 	public void loop(){
         clip.loop(Clip.LOOP_CONTINUOUSLY);
     }
+	
 	public void stopSound(){
 		this.clip.stop();
 	}

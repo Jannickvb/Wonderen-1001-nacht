@@ -43,6 +43,7 @@ public class TutorialState extends GameState{
 
 	@Override
 	public void init() {
+		// TODO Auto-generated method stub
 		if(tutorial.equals(ImageHandler.getImage(ImageHandler.ImageType.tutorial_plate))){
 		try {
 			cm.playBoatTutorialVoice();

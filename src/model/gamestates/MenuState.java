@@ -5,9 +5,6 @@ import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.geom.AffineTransform;
 
-import wiiusej.wiiusejevents.physicalevents.ExpansionEvent;
-import wiiusej.wiiusejevents.physicalevents.IREvent;
-import wiiusej.wiiusejevents.physicalevents.WiimoteButtonsEvent;
 import control.ControlManager;
 import control.ImageHandler;
 

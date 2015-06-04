@@ -1,6 +1,5 @@
 package view;
 
-import java.awt.Dimension;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.io.IOException;
@@ -9,13 +8,11 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.swing.JFrame;
 
 import control.ControlManager;
-import control.ImageHandler;
-import control.ImageHandler.ImageType;
-import control.MusicHandler.AudioType;
 
 public class GameFrame extends JFrame{
 	
 	private static final long serialVersionUID = 1L;
+	
 	boolean fullscreenEnabled = false;
 	int windowMode = 0;
 	GraphicsDevice device = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[0];

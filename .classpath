@@ -3,13 +3,13 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="resources"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="libs/imgscalr-lib-4.2-javadoc.jar"/>
-	<classpathentry kind="lib" path="libs/imgscalr-lib-4.2-sources.jar"/>
-	<classpathentry kind="lib" path="libs/imgscalr-lib-4.2.jar"/>
 	<classpathentry kind="lib" path="libs/jna-3.1.0.jar"/>
 	<classpathentry kind="lib" path="libs/platform-3.5.2.jar"/>
 	<classpathentry kind="lib" path="libs/RXTXcomm.jar"/>
 	<classpathentry kind="lib" path="libs/vlcj-3.0.1.jar"/>
 	<classpathentry kind="lib" path="libs/wiiusej.jar"/>
+	<classpathentry kind="lib" path="libs/imgscalr-lib-4.2-javadoc.jar"/>
+	<classpathentry kind="lib" path="libs/imgscalr-lib-4.2-sources.jar"/>
+	<classpathentry kind="lib" path="libs/imgscalr-lib-4.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
