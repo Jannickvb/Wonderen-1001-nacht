@@ -20,7 +20,7 @@ public class Tile {
 		this.x = x;
 		this.y = y;
 		this.id = id;
-		tilemap = ImageHandler.getImage(ImageType.tilemap);
+		//tilemap = ImageHandler.getImage(ImageType.tilemap);
 		id--;
 		if(id>0)
 		tile = tilemap.getSubimage((id*size)%tilemap.getWidth(),((((id*size)/tilemap.getWidth())*size)), size, size);

@@ -1,19 +1,22 @@
 package control;
 
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
 public class InputHandler {
 	
 	private ArduinoHandler arduino;
 	private WiiMoteHandler wiimote;
 	
 	//Arduino fields: 
-	private boolean pressurePlate1;
-	private boolean pressurePlate2;
-	private boolean pressurePlate3;
-	private boolean pressurePlate4;
+	private boolean pressurePlate1; //Right foot
+	private boolean pressurePlate2; //Left foot
+	private boolean pressurePlate3; //Right foot
+	private boolean pressurePlate4; //Left foot
 	
-	public InputHandler()
+	public InputHandler(String arduinoCommPort)
 	{
-		this.arduino = new ArduinoHandler("COM3",this);
+		//this.arduino = new ArduinoHandler(arduinoCommPort,this);
 		this.wiimote = new WiiMoteHandler();
 		resetPressurePlates();
 	}
@@ -41,16 +44,6 @@ public class InputHandler {
 	public int getX2()
 	{
 		return wiimote.getP2aX();
-	}
-	
-	public boolean getA1Pressed()
-	{
-		return wiimote.getA1Pressed();
-	}
-	
-	public boolean getA2Pressed()
-	{
-		return wiimote.getA2Pressed();
 	}
 	
 	//Adruino stuff:
@@ -100,10 +93,10 @@ public class InputHandler {
 		 * @param state - If you want to read the pressure plates or not.
 		 */
 		public void turnPressurePlates(boolean state) {
-			if(state) 
-				arduino.sendCommand("EPP");
-			else
-				arduino.sendCommand("DPP");
+//			if(state) 
+//				arduino.sendCommand("EPP");
+//			else
+//				arduino.sendCommand("DPP");
 		}
 		
 		/**
@@ -111,10 +104,10 @@ public class InputHandler {
 		 * @param state - Turn the led on or off.
 		 */
 		public void setLed1(boolean state) {
-			if(state) 
-				arduino.sendCommand("L1E");
-			else
-				arduino.sendCommand("L1D");
+//			if(state) 
+//				arduino.sendCommand("L1E");
+//			else
+//				arduino.sendCommand("L1D");
 		}
 		
 		public boolean getPressurePlate1() {
@@ -132,4 +125,6 @@ public class InputHandler {
 		public boolean getPressurePlate4() {
 			return pressurePlate4;
 		}
+
+		
 }

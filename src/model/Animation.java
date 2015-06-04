@@ -39,3 +39,4 @@ public class Animation{
 		spriteIndex = 0;
 	}
 }
+

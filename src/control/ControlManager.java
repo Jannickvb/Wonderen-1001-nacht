@@ -17,9 +17,10 @@ public class ControlManager {
 	private VideoHandler video;
 	
 	public ControlManager(GameFrame frame) throws LineUnavailableException, IOException{
+		this.input = new InputHandler("COM3");
 		this.frame = frame;
 		this.gsm = new GameStateManager(this);
-		this.input = new InputHandler();
+		
 		this.music = new MusicHandler();
 		this.voice = new MusicHandler();
 		this.video = new VideoHandler(this);
@@ -70,7 +71,7 @@ public class ControlManager {
 		return frame.getContentPane().getHeight();
 	}
 	
-	public InputHandler getInput(){
+	public InputHandler getInputHandler(){
 		return input;
 	}
 }

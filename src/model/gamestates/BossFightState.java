@@ -119,15 +119,15 @@ public class BossFightState extends GameState{
 		g2.setStroke(new BasicStroke(60f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
 		g2.drawRect((int)position1.getX(),(int)position1.getY(), 1, 1);
 		g2.drawRect((int)position2.getX(),(int)position2.getY(), 1, 1);
-		if(cm.getInput().getA1Pressed() && drawing)
-		{
-			drawPoints(cm.getInput().getX1(),cm.getInput().getY1());
-		}
+//		if(cm.getInputHandler().getA1Pressed() && drawing)
+//		{
+//			drawPoints(cm.getInputHandler().getX1(),cm.getInputHandler().getY1());
+//		}
 		
-		if(cm.getInput().getA2Pressed() && drawing)
-		{
-			drawPoints(cm.getInput().getX2(),cm.getInput().getY2());
-		}
+//		if(cm.getInputHandler().getA2Pressed() && drawing)
+//		{
+//			drawPoints(cm.getInputHandler().getX2(),cm.getInputHandler().getY2());
+//		}
 		g2.setColor(Color.black);
 		g2.drawString(time + "", 20, 10);
 		g2.drawString(spelScore + "%" , 20, 20);
@@ -157,8 +157,8 @@ public class BossFightState extends GameState{
 	{
 		if(drawing)
 		{
-			position1.setLocation(cm.getInput().getX1(), cm.getInput().getY1());
-			position2.setLocation(cm.getInput().getX2(), cm.getInput().getY2());
+			position1.setLocation(cm.getInputHandler().getX1(), cm.getInputHandler().getY1());
+			position2.setLocation(cm.getInputHandler().getX2(), cm.getInputHandler().getY2());
 			
 			if(time != 0)
 			{
