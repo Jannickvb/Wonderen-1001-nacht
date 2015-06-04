@@ -26,6 +26,8 @@ public class Rock extends Entity implements ActionListener {
 
 	@Override
 	public void update() {
+		if(positionY > cm.getHeight()) 
+			setDead(true);
 	}
 
 	@Override

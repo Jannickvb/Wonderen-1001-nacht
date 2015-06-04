@@ -52,7 +52,7 @@ public class Player extends Entity implements ActionListener {
 //		boolean pressurePlate3 = input.getPressurePlate3(); //Right foot
 //		boolean pressurePlate4 = input.getPressurePlate4(); //Left foot
 		if(pressurePlate1 && pressurePlate3 && !pressurePlate2 && !pressurePlate4) { // Go to the right
-			if(positionX <= screenWidth/4*3-250) {
+			if(positionX <= screenWidth/4*3-240) {
 				positionX += 13;
 			}	
 		}
@@ -75,7 +75,7 @@ public class Player extends Entity implements ActionListener {
 	}
 	
 	public Rectangle2D getRectangleBounds() {
-		return new Rectangle2D.Double(positionX,positionY,128,193);
+		return new Rectangle2D.Double(positionX+40,positionY+30,57,173-40); //193
 	}
 	
 	

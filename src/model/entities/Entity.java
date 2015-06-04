@@ -9,8 +9,8 @@ public abstract class Entity {
 
 	protected int positionX, positionY;
 	protected ControlManager cm;
+	protected boolean isDead;
 	private BufferedImage sprite;
-	
 	
 	public Entity(ControlManager cm, BufferedImage sprite) {
 		this.setCm(cm);
@@ -43,6 +43,14 @@ public abstract class Entity {
 
 	public BufferedImage getSprite() {
 		return sprite;
+	}
+	
+	public boolean isDead() {
+		return isDead;
+	}
+
+	public void setDead(boolean isDead) {
+		this.isDead = isDead;
 	}
 	
 	public abstract void draw(Graphics2D g2);
