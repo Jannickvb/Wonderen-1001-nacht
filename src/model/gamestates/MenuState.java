@@ -10,7 +10,7 @@ import control.ImageHandler;
 
 public class MenuState extends GameState{
 
-	private boolean pl1Ready,pl2Ready;
+	private boolean pl1Ready,pl2Ready,scaledOnce = false;
 	private int width,height,midX,midY,bgWidth,bgHeight, mlWidth, mlHeight, mrWidth, mrHeight;
 	private Image background, menuleft, menuright;
 	private ControlManager cm;
@@ -42,6 +42,12 @@ public class MenuState extends GameState{
 	public void update() {
 		width = cm.getWidth();
 		height = cm.getHeight();
+		if(width != 0 && !scaledOnce){
+			background = ImageHandler.getScaledImage(ImageHandler.getImage(ImageHandler.ImageType.menubg),width);
+			menuleft = ImageHandler.getScaledImage(ImageHandler.getImage(ImageHandler.ImageType.menu_left),width);
+			menuright = ImageHandler.getScaledImage(ImageHandler.getImage(ImageHandler.ImageType.menu_right),width);
+			scaledOnce = true;
+		}
 		bgWidth = background.getWidth(null);
 		bgHeight = background.getHeight(null);
 		mlWidth = menuleft.getWidth(null);

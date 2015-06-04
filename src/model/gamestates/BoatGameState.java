@@ -26,7 +26,7 @@ public class BoatGameState extends GameState implements ActionListener {
 	private ArrayList<Rock> rocks;
 	private ArrayList<Foilage> plants;
 	private TileMap map;
-	
+	private boolean scaledOnce = false;
 	private boolean pressurePlate1= false; //Right foot
 	private boolean pressurePlate2= false; //Left foot
 	private boolean pressurePlate3= false; //Right foot
@@ -76,6 +76,10 @@ public class BoatGameState extends GameState implements ActionListener {
 	public void update() {
 		width = cm.getWidth();
 		height = cm.getHeight();
+		if(width != 0 && !scaledOnce){
+			grass = ImageHandler.getScaledImage(ImageHandler.getImage(ImageHandler.ImageType.grass),width);
+			scaledOnce = true;
+		}
 		bgWidth = grass.getWidth(null);
 		bgHeight = grass.getHeight(null);
 		midX = width/2;

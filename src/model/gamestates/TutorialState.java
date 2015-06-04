@@ -14,6 +14,7 @@ import control.ImageHandler;
 public class TutorialState extends GameState{
 	
 	private Image tutorial;
+	private boolean scaledOnce;
 	private int width,height,midX,midY,bgWidth,bgHeight,counter;
 	
 	public TutorialState(ControlManager cm, Image image)
@@ -35,6 +36,10 @@ public class TutorialState extends GameState{
 	public void update() {
 		width = cm.getWidth();
 		height = cm.getHeight();
+		if(width != 0 && !scaledOnce){
+			tutorial = ImageHandler.getScaledImage(ImageHandler.getImage(ImageHandler.ImageType.tutorial_plate),width);
+			scaledOnce = true;
+		}
 		bgWidth = tutorial.getWidth(null);
 		bgHeight = tutorial.getHeight(null);
 		midX = width/2;

@@ -31,7 +31,7 @@ public class GameStateManager {
 		gameStates.clear();
 		gameStates.add(new MenuState(cm));
 		//gameStates.add(new IntroMovState(cm));
-		//gameStates.add(new TutorialState(cm, ImageHandler.getImage(ImageHandler.ImageType.tutorial_plate)));
+		gameStates.add(new TutorialState(cm, ImageHandler.getImage(ImageHandler.ImageType.tutorial_plate)));
 		gameStates.add(new BoatGameState(cm));
 		gameStates.add(new MageTalkState(cm));
 		gameStates.add(new City1State(cm));
