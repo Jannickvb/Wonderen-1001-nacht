@@ -33,7 +33,7 @@ public class Foilage extends Entity implements ActionListener {
 
 	@Override
 	public void init() {
-		positionY = 0;
+		positionY = -50;
 		switch((int) Math.floor(Math.random()*4)) {
 		case 0:
 			positionX = ((int)Math.floor(Math.random()*((ControlManager.screenWidth/4+80)-getSprite().getWidth())));

@@ -12,6 +12,8 @@ import java.awt.image.BufferedImage;
 import javax.sound.sampled.Clip;
 import javax.swing.Timer;
 
+import com.sun.javafx.stage.ScreenHelper;
+
 import control.ControlManager;
 import control.ImageHandler;
 import control.InputHandler;
@@ -54,7 +56,7 @@ public class Player extends Entity implements ActionListener {
 			g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
 			g2.setColor(Color.WHITE);
 			g2.setFont(new Font("Verdana",Font.BOLD,60));
-			drawCenteredText("Try Again", g2, ControlManager.screenWidth/2);
+			drawCenteredText("Try Again", g2, ControlManager.screenHeight/2);
 		}
 	}
 	
@@ -82,6 +84,7 @@ public class Player extends Entity implements ActionListener {
 	public void init() {
 		positionX = ControlManager.screenWidth/2;
 		positionY = ControlManager.screenHeight - 250;
+		screenWidth = ControlManager.screenWidth;
 		input.turnPressurePlates(true);
 	}
 

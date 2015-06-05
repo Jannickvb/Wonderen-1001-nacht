@@ -32,7 +32,7 @@ public class Rock extends Entity implements ActionListener {
 
 	@Override
 	public void init() {
-		positionY = 0;
+		positionY = -50;
 		positionX = ((ControlManager.screenWidth/4)+ 135) +(int)  Math.floor(Math.random()*(ControlManager.screenWidth/2-270-getSprite().getWidth()));
 	}
 
