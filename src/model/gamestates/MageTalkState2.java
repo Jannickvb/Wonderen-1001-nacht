@@ -10,6 +10,7 @@ import javax.sound.sampled.LineUnavailableException;
 
 import control.ControlManager;
 import control.ImageHandler;
+import control.ImageHandler.ImageType;
 
 public class MageTalkState2 extends GameState{
 	
@@ -20,6 +21,7 @@ public class MageTalkState2 extends GameState{
 	{
 		super(cm);
 		this.counter = 0;
+		tutorial = ImageHandler.getScaledImage(ImageHandler.getImage(ImageType.mage2));
 		bgWidth = tutorial.getWidth(null);
 		bgHeight = tutorial.getHeight(null);
 		midX = ControlManager.screenWidth/2;
