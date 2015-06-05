@@ -52,6 +52,7 @@ public class Player extends Entity implements ActionListener {
 		//Drawing lives:
 		for(int x = 0; x < lives; x++) 
 			g2.drawImage(liveHeart,50+150*x,5,null);
+		//Drawing dead message: 
 		if(deadMessageTimer.isRunning()) {
 			g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
 			g2.setColor(Color.WHITE);
@@ -71,12 +72,12 @@ public class Player extends Entity implements ActionListener {
 //		boolean pressurePlate3 = input.getPressurePlate3(); //Right foot
 //		boolean pressurePlate4 = input.getPressurePlate4(); //Left foot
 		if(pressurePlate1 && pressurePlate3 && !pressurePlate2 && !pressurePlate4) { // Go to the right
-			if(positionX <= screenWidth/4*3-240) {
+			if(positionX <= screenWidth/4*3-screenWidth/8) {
 				positionX += 13;
 			}	
 		}
 		else if(!pressurePlate1 && !pressurePlate3 && pressurePlate2 && pressurePlate4) {// Go to the left
-			if(positionX > screenWidth/4+100)
+			if(positionX > screenWidth/4+screenWidth/20)
 				positionX -= 13;
 		}
 	}
