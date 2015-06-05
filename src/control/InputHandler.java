@@ -93,10 +93,10 @@ public class InputHandler {
 		 * @param state - If you want to read the pressure plates or not.
 		 */
 		public void turnPressurePlates(boolean state) {
-//			if(state) 
-//				arduino.sendCommand("EPP");
-//			else
-//				arduino.sendCommand("DPP");
+			if(state) 
+				arduino.sendCommand("EPP");
+			else
+				arduino.sendCommand("DPP");
 		}
 		
 		/**
@@ -104,10 +104,10 @@ public class InputHandler {
 		 * @param state - Turn the led on or off.
 		 */
 		public void setLed1(boolean state) {
-//			if(state) 
-//				arduino.sendCommand("L1E");
-//			else
-//				arduino.sendCommand("L1D");
+			if(state) 
+				arduino.sendCommand("L1E");
+			else
+				arduino.sendCommand("L1D");
 		}
 		
 		public boolean getPressurePlate1() {

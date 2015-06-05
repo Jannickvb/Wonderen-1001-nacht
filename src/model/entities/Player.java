@@ -90,7 +90,7 @@ public class Player extends Entity implements ActionListener {
 		positionX = ControlManager.screenWidth/2;
 		positionY = ControlManager.screenHeight - 250;
 		screenWidth = ControlManager.screenWidth;
-		input.turnPressurePlates(true);
+		//input.turnPressurePlates(true);
 	}
 
 	@Override
