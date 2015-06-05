@@ -126,5 +126,13 @@ public class InputHandler {
 			return pressurePlate4;
 		}
 
+		public boolean isA2Pressed() {
+			return wiimote.getA2Pressed();
+		}
+
+		public boolean isA1Pressed() {
+			return wiimote.getA1Pressed();
+		}
+
 		
 }

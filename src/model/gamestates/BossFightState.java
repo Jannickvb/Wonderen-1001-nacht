@@ -1,4 +1,3 @@
-
 package model.gamestates;
 
 import java.awt.BasicStroke;
@@ -52,8 +51,7 @@ public class BossFightState extends GameState{
 		position1 = new Point2D.Double(0,0);
 		position2 = new Point2D.Double(0,0);
 		this.timer = new Thread(new DrawThread(this));
-		midX = cm.screenWidth/2;
-		midY = cm.screenHeight/2;
+		
 		started = false;
 		drawing = true;
 		time = 1800;
@@ -105,7 +103,6 @@ public class BossFightState extends GameState{
 	@Override
 	public void draw(Graphics2D g2) 
 	{
-		System.out.println("draw");
 		AffineTransform oldAF = new AffineTransform();
 		oldAF.setTransform(g2.getTransform());
 		oldAF.scale(1.6,1.6);
@@ -120,15 +117,15 @@ public class BossFightState extends GameState{
 		g2.setStroke(new BasicStroke(60f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
 		g2.drawRect((int)position1.getX(),(int)position1.getY(), 1, 1);
 		g2.drawRect((int)position2.getX(),(int)position2.getY(), 1, 1);
-//		if(cm.getInputHandler().getA1Pressed() && drawing)
-//		{
-//			drawPoints(cm.getInputHandler().getX1(),cm.getInputHandler().getY1());
-//		}
+		if(cm.getInputHandler().isA1Pressed() && drawing)
+		{
+			drawPoints(cm.getInputHandler().getX1(),cm.getInputHandler().getY1());
+		}
 		
-//		if(cm.getInputHandler().getA2Pressed() && drawing)
-//		{
-//			drawPoints(cm.getInputHandler().getX2(),cm.getInputHandler().getY2());
-//		}
+		if(cm.getInputHandler().isA2Pressed() && drawing)
+		{
+			drawPoints(cm.getInputHandler().getX2(),cm.getInputHandler().getY2());
+		}
 		g2.setColor(Color.black);
 		g2.drawString(time + "", 20, 10);
 		g2.drawString(spelScore + "%" , 20, 20);
@@ -139,7 +136,7 @@ public class BossFightState extends GameState{
 		 Graphics2D g2 =  currentImage.createGraphics();
 		 g2.setColor(Color.red);
 		 g2.setStroke(new BasicStroke(96f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
-		 g2.drawLine((int) (x*1.6), (int) (1.6*y), (int) (1.6*x), (int) (1.6*y));
+		 g2.drawLine((int) (x*1.6) + ((1920 - (midX*2))/2), (int) (1.6*y) + ((1080 - (midY*2))/2), (int) (1.6*x) + ((1920 - (midX*2))/2), (int) (1.6*y) + ((1080 - (midY*2))/2));
 	}
 	
 	@Override
@@ -150,6 +147,8 @@ public class BossFightState extends GameState{
 			timer.start();
 			started = true;
 		}
+		midX = cm.getWidth()/2;
+		midY = cm.getHeight()/2;
 	}
 	
 	public void refresh()
