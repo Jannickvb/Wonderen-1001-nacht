@@ -81,7 +81,7 @@ public class Player extends Entity implements ActionListener {
 	
 	public void init() {
 		positionX = ControlManager.screenWidth/2;
-		positionY = ControlManager.screenWidth - 250;
+		positionY = ControlManager.screenHeight - 250;
 		input.turnPressurePlates(true);
 	}
 
