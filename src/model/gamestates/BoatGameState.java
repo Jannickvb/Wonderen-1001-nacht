@@ -21,12 +21,9 @@ public class BoatGameState extends GameState implements ActionListener {
 
 	private Player boat;
 	private BufferedImage grass;
-	private int screenWidth, screenHeight, backgroundPositionY;
-	private int width,height,midX,midY,bgWidth,bgHeight;
+	private int backgroundPositionY;
 	private ArrayList<Rock> rocks;
 	private ArrayList<Foilage> plants;
-	private TileMap map;
-	private boolean scaledOnce = false;
 	private boolean pressurePlate1= false; //Right foot
 	private boolean pressurePlate2= false; //Left foot
 	private boolean pressurePlate3= false; //Right foot
@@ -74,16 +71,6 @@ public class BoatGameState extends GameState implements ActionListener {
 
 	@Override
 	public void update() {
-		width = cm.getWidth();
-		height = cm.getHeight();
-		if(width != 0 && !scaledOnce){
-			grass = ImageHandler.getScaledImage(ImageHandler.getImage(ImageHandler.ImageType.grass),width);
-			scaledOnce = true;
-		}
-		bgWidth = grass.getWidth(null);
-		bgHeight = grass.getHeight(null);
-		midX = width/2;
-		midY = height/2;
 		boat.update();
 		for(Rock rock : rocks) {
 			if(rock.containsPoint(boat)) {
@@ -134,9 +121,7 @@ public class BoatGameState extends GameState implements ActionListener {
 
 	@Override
 	public void init() {
-		grass = ImageHandler.getImage(ImageHandler.ImageType.grass);
-		screenWidth = cm.getWidth();
-		screenHeight = cm.getHeight();
+		grass = ImageHandler.getScaledImage(ImageHandler.getImage(ImageHandler.ImageType.grass));
 		boat.init();
 	}
 

@@ -1,5 +1,6 @@
 package control;
 
+import java.awt.Toolkit;
 import java.io.IOException;
 
 import javax.sound.sampled.LineUnavailableException;
@@ -15,7 +16,8 @@ public class ControlManager {
 	private MusicHandler music;
 	private MusicHandler voice;
 	private VideoHandler video;
-	
+	public static int screenWidth = Toolkit.getDefaultToolkit().getScreenSize().width;
+	public static int screenHeight = Toolkit.getDefaultToolkit().getScreenSize().height;
 	public ControlManager(GameFrame frame) throws LineUnavailableException, IOException{
 		this.input = new InputHandler("COM3");
 		this.frame = frame;
@@ -24,7 +26,7 @@ public class ControlManager {
 		this.music = new MusicHandler();
 		this.voice = new MusicHandler();
 		this.video = new VideoHandler(this);
-
+		
 		music.playSound(AudioType.intro);
 	}
 	
@@ -57,18 +59,10 @@ public class ControlManager {
 	public GameStateManager getGameStateManager() {
 		return gsm;
 	}
-	
-	public int getWidth(){
-		return frame.getContentPane().getWidth();
-	}
 
 	public JFrame getFrame()
 	{
 		return frame;
-	}
-	
-	public int getHeight(){
-		return frame.getContentPane().getHeight();
 	}
 	
 	public InputHandler getInputHandler(){

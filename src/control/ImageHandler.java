@@ -64,8 +64,13 @@ public class ImageHandler {
 		return images.get(img.ordinal());
 	}
 
-	public static BufferedImage getScaledImage(BufferedImage image, int targetSize){
+	public static BufferedImage getScaledImage(BufferedImage image){
 		getMode(image);
+		int targetSize;
+		if(mode == Scalr.Mode.FIT_TO_HEIGHT)
+			targetSize = ControlManager.screenHeight;
+		else
+			targetSize = ControlManager.screenWidth;
 		image = Scalr.resize(image, mode, targetSize,Scalr.OP_ANTIALIAS);
 		return image;
 	}

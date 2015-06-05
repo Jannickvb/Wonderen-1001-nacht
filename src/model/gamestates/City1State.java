@@ -21,6 +21,10 @@ public class City1State extends GameState{
 		super(cm);
 		this.counter = 0;
 		image = ImageHandler.getImage(ImageHandler.ImageType.mage2);
+		midX = cm.screenWidth/2;
+		midY = cm.screenHeight/2;
+		bgWidth = image.getWidth(null);
+		bgHeight = image.getHeight(null);
 	}
 
 	@Override
@@ -33,13 +37,7 @@ public class City1State extends GameState{
 
 	@Override
 	public void update() {
-		width = cm.getWidth();
-		height = cm.getHeight();
-		bgWidth = image.getWidth(null);
-		bgHeight = image.getHeight(null);
 		
-		midX = width/2;
-		midY = height/2;
 	}
 
 	@Override

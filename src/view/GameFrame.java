@@ -2,6 +2,7 @@ package view;
 
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
+import java.awt.Toolkit;
 import java.io.IOException;
 
 import javax.sound.sampled.LineUnavailableException;
@@ -16,7 +17,7 @@ public class GameFrame extends JFrame{
 	boolean fullscreenEnabled = false;
 	int windowMode = 0;
 	GraphicsDevice device = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[0];
-	
+	public static int screenWidth;
 	public GameFrame() throws LineUnavailableException, IOException{
 		super("Wonderen van 1001-nacht");
 		setSize(800,600);

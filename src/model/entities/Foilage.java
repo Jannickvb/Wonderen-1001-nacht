@@ -34,16 +34,16 @@ public class Foilage extends Entity implements ActionListener {
 		positionY = 0;
 		switch((int) Math.floor(Math.random()*4)) {
 		case 0:
-			positionX = ((int)Math.floor(Math.random()*((cm.getWidth()/4+80)-getSprite().getWidth())));
+			positionX = ((int)Math.floor(Math.random()*((ControlManager.screenWidth/4+80)-getSprite().getWidth())));
 			break;
 		case 1:
-			positionX = ((cm.getWidth()/4*3) + (int)Math.floor(Math.random()*(cm.getWidth()-getSprite().getWidth())));
+			positionX = ((ControlManager.screenWidth/4*3) + (int)Math.floor(Math.random()*(ControlManager.screenWidth-getSprite().getWidth())));
 			break;
 		case 2:
-			positionX = ((int)Math.floor(Math.random()*((cm.getWidth()/4+80)-getSprite().getWidth())));
+			positionX = ((int)Math.floor(Math.random()*((ControlManager.screenWidth/4+80)-getSprite().getWidth())));
 			break;
 		case 3:
-			positionX = ((cm.getWidth()/4*3+230) + (int)Math.floor(Math.random()*(cm.getWidth()-getSprite().getWidth())));
+			positionX = ((ControlManager.screenWidth/4*3+230) + (int)Math.floor(Math.random()*(ControlManager.screenWidth-getSprite().getWidth())));
 			break;
 		}
 		

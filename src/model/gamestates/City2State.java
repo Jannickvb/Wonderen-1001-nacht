@@ -20,6 +20,11 @@ public class City2State extends GameState{
 		super(cm);
 		this.counter = 0;
 		image = ImageHandler.getImage(ImageHandler.ImageType.troll);
+		bgWidth = image.getWidth(null);
+		bgHeight = image.getHeight(null);
+		
+		midX = ControlManager.screenWidth/2;
+		midY = ControlManager.screenHeight/2;
 	}
 
 	@Override
@@ -32,13 +37,7 @@ public class City2State extends GameState{
 
 	@Override
 	public void update() {
-		width = cm.getWidth();
-		height = cm.getHeight();
-		bgWidth = image.getWidth(null);
-		bgHeight = image.getHeight(null);
 		
-		midX = width/2;
-		midY = height/2;
 	}
 
 	@Override

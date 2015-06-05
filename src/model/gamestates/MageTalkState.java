@@ -14,13 +14,17 @@ import control.ImageHandler;
 public class MageTalkState extends GameState{
 	
 	private Image image;
-	private int width,height,midX,midY,bgWidth,bgHeight,counter;
+	private int midX,midY,bgWidth,bgHeight,counter;
 	
 	public MageTalkState(ControlManager cm)
 	{
 		super(cm);
 		this.counter = 0;
 		image = ImageHandler.getImage(ImageHandler.ImageType.mage1);
+		bgWidth = image.getWidth(null);
+		bgHeight = image.getHeight(null);
+		midX = ControlManager.screenWidth/2;
+		midY = ControlManager.screenHeight/2;
 	}
 
 	@Override
@@ -33,13 +37,7 @@ public class MageTalkState extends GameState{
 
 	@Override
 	public void update() {
-		width = cm.getWidth();
-		height = cm.getHeight();
-		bgWidth = image.getWidth(null);
-		bgHeight = image.getHeight(null);
-		
-		midX = width/2;
-		midY = height/2;
+
 	}
 
 	@Override

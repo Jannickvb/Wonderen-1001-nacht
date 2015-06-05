@@ -1,36 +1,43 @@
 package model.gamestates;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.RenderingHints;
+import java.awt.Shape;
 import java.awt.event.KeyEvent;
+import java.awt.font.GlyphVector;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Area;
+import java.awt.geom.Rectangle2D;
 
 import control.ControlManager;
 import control.ImageHandler;
 
 public class MenuState extends GameState{
 
-	private boolean pl1Ready,pl2Ready,scaledOnce = false;
-	private int width,height,midX,midY,bgWidth,bgHeight, mlWidth, mlHeight, mrWidth, mrHeight;
-	private Image background, menuleft, menuright;
+	private boolean pl1Ready = false,pl2Ready = false;
+	private int midX,midY,bgWidth,bgHeight,keyFrame;
+	private Image background;
 	private ControlManager cm;
-	
 	public MenuState(ControlManager cm){
 		super(cm);
 		this.cm = cm;
-		background = ImageHandler.getImage(ImageHandler.ImageType.menubg);
-		menuleft = ImageHandler.getImage(ImageHandler.ImageType.menu_left);
-		menuright = ImageHandler.getImage(ImageHandler.ImageType.menu_right);
-		
+		background = ImageHandler.getScaledImage(ImageHandler.getImage(ImageHandler.ImageType.menubg));
+		bgWidth = background.getWidth(null);
+		bgHeight = background.getHeight(null);
+		midX = ControlManager.screenWidth/2;
+		midY = ControlManager.screenHeight/2;
 	}
 
 	public void draw(Graphics2D g2) {
 		AffineTransform tx = new AffineTransform();
 		tx.translate(midX, midY);
 		g2.setTransform(tx);
+		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		g2.drawImage(background, -bgWidth/2,-bgHeight/2,null);
-		g2.drawImage(menuleft, -mlWidth/2, -mlHeight/2, null);
-		g2.drawImage(menuright, -mrWidth/2, -mrHeight/2, null);
 		if(pl1Ready)
 			g2.drawImage(background, 20, 20,null);
 		if(pl2Ready)
@@ -40,23 +47,7 @@ public class MenuState extends GameState{
 
 	@Override
 	public void update() {
-		width = cm.getWidth();
-		height = cm.getHeight();
-		if(width != 0 && !scaledOnce){
-			background = ImageHandler.getScaledImage(ImageHandler.getImage(ImageHandler.ImageType.menubg),width);
-			menuleft = ImageHandler.getScaledImage(ImageHandler.getImage(ImageHandler.ImageType.menu_left),width);
-			menuright = ImageHandler.getScaledImage(ImageHandler.getImage(ImageHandler.ImageType.menu_right),width);
-			scaledOnce = true;
-		}
-		bgWidth = background.getWidth(null);
-		bgHeight = background.getHeight(null);
-		mlWidth = menuleft.getWidth(null);
-		mlHeight = menuleft.getHeight(null);
-		mrWidth = menuright.getWidth(null);
-		mrHeight = menuright.getHeight(null);
-		
-		midX = width/2;
-		midY = height/2;
+
 	}
 
 	@Override

@@ -15,13 +15,17 @@ public class TutorialState extends GameState{
 	
 	private Image tutorial;
 	private boolean scaledOnce;
-	private int width,height,midX,midY,bgWidth,bgHeight,counter;
+	private int midX,midY,bgWidth,bgHeight,counter;
 	
 	public TutorialState(ControlManager cm, Image image)
 	{
 		super(cm);
 		this.counter = 0;
-		this.tutorial = image;
+		tutorial = ImageHandler.getScaledImage(ImageHandler.getImage(ImageHandler.ImageType.tutorial_plate));
+		bgWidth = tutorial.getWidth(null);
+		bgHeight = tutorial.getHeight(null);
+		midX = ControlManager.screenWidth/2;
+		midY = ControlManager.screenHeight/2;
 	}
 
 	@Override
@@ -34,16 +38,7 @@ public class TutorialState extends GameState{
 
 	@Override
 	public void update() {
-		width = cm.getWidth();
-		height = cm.getHeight();
-		if(width != 0 && !scaledOnce){
-			tutorial = ImageHandler.getScaledImage(ImageHandler.getImage(ImageHandler.ImageType.tutorial_plate),width);
-			scaledOnce = true;
-		}
-		bgWidth = tutorial.getWidth(null);
-		bgHeight = tutorial.getHeight(null);
-		midX = width/2;
-		midY = height/2;
+		
 	}
 
 	@Override

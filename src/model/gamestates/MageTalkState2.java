@@ -14,12 +14,16 @@ import control.ImageHandler;
 public class MageTalkState2 extends GameState{
 	
 	private Image tutorial;
-	private int width,height,midX,midY,bgWidth,bgHeight,counter;
+	private int midX,midY,bgWidth,bgHeight,counter;
 	
 	public MageTalkState2(ControlManager cm)
 	{
 		super(cm);
 		this.counter = 0;
+		bgWidth = tutorial.getWidth(null);
+		bgHeight = tutorial.getHeight(null);
+		midX = ControlManager.screenWidth/2;
+		midY = ControlManager.screenHeight/2;
 	}
 
 	@Override
@@ -32,12 +36,6 @@ public class MageTalkState2 extends GameState{
 
 	@Override
 	public void update() {
-		width = cm.getWidth();
-		height = cm.getHeight();
-		bgWidth = tutorial.getWidth(null);
-		bgHeight = tutorial.getHeight(null);
-		midX = width/2;
-		midY = height/2;
 		counter++;
 		if(counter > 300)
 		{

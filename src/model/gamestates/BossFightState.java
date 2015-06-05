@@ -52,7 +52,8 @@ public class BossFightState extends GameState{
 		position1 = new Point2D.Double(0,0);
 		position2 = new Point2D.Double(0,0);
 		this.timer = new Thread(new DrawThread(this));
-		
+		midX = cm.screenWidth/2;
+		midY = cm.screenHeight/2;
 		started = false;
 		drawing = true;
 		time = 1800;
@@ -149,8 +150,6 @@ public class BossFightState extends GameState{
 			timer.start();
 			started = true;
 		}
-		midX = cm.getWidth()/2;
-		midY = cm.getHeight()/2;
 	}
 	
 	public void refresh()

@@ -63,9 +63,8 @@ public class Player extends Entity implements ActionListener {
 	}
 	
 	public void init() {
-		screenWidth = cm.getWidth();
-		positionX = cm.getWidth()/2;
-		positionY = cm.getHeight()-250;
+		positionX = ControlManager.screenWidth/2;
+		positionY = ControlManager.screenWidth - 250;
 		input.turnPressurePlates(true);
 	}
 
@@ -82,7 +81,7 @@ public class Player extends Entity implements ActionListener {
 	public void collision() {
 		if(lives > 1) {
 			lives--;
-			positionY = cm.getHeight()-250;
+			positionY = ControlManager.screenHeight-250;
 		}
 		else {
 			lives--; 
