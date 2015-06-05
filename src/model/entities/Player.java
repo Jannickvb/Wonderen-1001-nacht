@@ -26,6 +26,7 @@ public class Player extends Entity implements ActionListener {
 	private BufferedImage liveHeart;
 	private int lives;
 	private float alpha;
+	private boolean drawBoat;
 	private Timer deadMessageTimer;
 	
 	private boolean pressurePlate1; //Right foot
@@ -38,6 +39,7 @@ public class Player extends Entity implements ActionListener {
 		input = cm.getInputHandler();
 		liveHeart = ImageHandler.getImage(ImageHandler.ImageType.heart);
 		animationCounter = 0;
+		drawBoat = true;
 		lives = 3;
 		alpha = 1.0f;
 		deadMessageTimer = new Timer(100,null);
@@ -47,8 +49,10 @@ public class Player extends Entity implements ActionListener {
 	
 	public void draw(Graphics2D g2) {
 		//Drawing ship:
-		BufferedImage subImage = getSprite().getSubimage((animationCounter%3)*128,0,128,193);
-		g2.drawImage(subImage,getPositionX(),getPositionY(),null);
+		if(drawBoat) {
+			BufferedImage subImage = getSprite().getSubimage((animationCounter%3)*128,0,128,193);
+			g2.drawImage(subImage,getPositionX(),getPositionY(),null);
+		}
 		//Drawing lives:
 		for(int x = 0; x < lives; x++) 
 			g2.drawImage(liveHeart,50+150*x,5,null);
@@ -104,14 +108,17 @@ public class Player extends Entity implements ActionListener {
 			lives--;
 			positionY = ControlManager.screenHeight-250;
 			setDead(true);
-			deadMessageTimer = new Timer(100,new ActionListener() {
+			deadMessageTimer = new Timer(200,new ActionListener() {
 				
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					if(alpha > 0.025)
-						alpha -= 0.025f;
+					if(alpha > 0.045) {
+						drawBoat = !drawBoat;
+						alpha -= 0.045f;
+					}
 					else {
 						deadMessageTimer.stop();
+						drawBoat = true;
 						alpha = 1.0f;
 					}
 				}
