@@ -2,24 +2,30 @@ package model.gamestates;
 
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.TexturePaint;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import javax.swing.Timer;
 
+import model.entities.BoatCrash;
 import model.entities.Foilage;
+import model.entities.Pier;
 import model.entities.Player;
 import model.entities.Rock;
-import model.tileset.TileMap;
 import control.ControlManager;
 import control.ImageHandler;
 
 public class BoatGameState extends GameState implements ActionListener {
 
 	private Player boat;
+	private Pier pier;
+	private BoatCrash boatCrash;
 	private BufferedImage grass;
 	private int backgroundPositionY;
 	private ArrayList<Rock> rocks;
@@ -33,7 +39,7 @@ public class BoatGameState extends GameState implements ActionListener {
 		super(cm);
 		boat = new Player(cm);
 		backgroundPositionY = 0;
-		Timer backgroundTimer = new Timer(1000/30,this);
+		Timer backgroundTimer = new Timer(1000/60,this);
 		backgroundTimer.start();
 		rocks = new ArrayList<>(1000);
 		plants = new ArrayList<>(1000);
@@ -45,28 +51,19 @@ public class BoatGameState extends GameState implements ActionListener {
 	             RenderingHints.KEY_ANTIALIASING	,
 	             RenderingHints.VALUE_ANTIALIAS_ON);
 	    g2.setRenderingHints(rh);
-	    g2.drawImage(grass, 0,0,null);
-		//Drawing objects:
-//		AffineTransform old = g2.getTransform();
-//		AffineTransform Tx = new AffineTransform();
-//		Tx.translate(screenWidth/4,backgroundPositionY);
-//		g2.setTransform(Tx);
-//		for(Tile[] tileX: map.getTileMap())
-//		{
-//			for(Tile tileY: tileX)
-//			{
-//				tileY.draw(g2);
-//			}
-//		}
-		//g2.setClip(new Rectangle2D.Double(0,0,screenWidth,screenHeight));
-		
-//	    g2.setTransform(old);
+	    TexturePaint tp = new TexturePaint(grass,new Rectangle2D.Double(0,backgroundPositionY,ControlManager.screenWidth,ControlManager.screenHeight));
+	    g2.setPaint(tp);
+	    g2.fill(new Rectangle2D.Double(0,0,ControlManager.screenWidth,ControlManager.screenHeight));
+		//Drawing objects:   
 	    for(Rock rock : rocks) 
 			rock.draw(g2);
 	    for(Foilage plant : plants) 
 			plant.draw(g2);
-		boat.draw(g2);
-		
+	    pier.draw(g2);
+	    if(!boat.isDead())
+	    	boat.draw(g2);	
+	    else 
+	    	boatCrash.draw(g2);
 	}
 
 	@Override
@@ -78,9 +75,9 @@ public class BoatGameState extends GameState implements ActionListener {
 			}
 		}
 		//Randomly spawning rocks: 
-		if(Math.floor(Math.random()*15) == 3) {
+		if(Math.floor(Math.random()*25) == 3) {
 			Rock rock = null;
-			switch((int) Math.floor(Math.random()*3)) {
+			switch((int) Math.floor(Math.random()*4)) {
 				case 0:
 					rock = new Rock(cm,ImageHandler.getImage(ImageHandler.ImageType.rock1));
 					break;
@@ -117,12 +114,35 @@ public class BoatGameState extends GameState implements ActionListener {
 			plants.add(plant);
 			plant.init();
 		}
+		
+		//Checking if trees or rocks are out of the screen:
+		Iterator it = rocks.iterator();
+		while(it.hasNext()) {
+			Rock rock = (Rock) it.next();
+			if(rock.isDead())
+				it.remove();
+		}
+		
+		it = plants.iterator();
+		while(it.hasNext()) {
+			Foilage rock = (Foilage) it.next();
+			if(rock.isDead())
+				it.remove();
+		}
+		
+		if(boatCrash != null) {
+			if(boatCrash.isDead()) {
+				boatCrash = null;
+				reset();
+			}
+		}
 	}
 
 	@Override
 	public void init() {
 		grass = ImageHandler.getScaledImage(ImageHandler.getImage(ImageHandler.ImageType.grass));
 		boat.init();
+		pier = new Pier(cm,ControlManager.screenHeight);
 	}
 
 	@Override
@@ -131,9 +151,16 @@ public class BoatGameState extends GameState implements ActionListener {
 	}
 	
 	public void collision() {
-		boat.collision();
+		if(!boat.isDead()) {
+			boatCrash = new BoatCrash(cm,boat.getPositionX(),boat.getPositionY());
+			boat.collision();
+		}
+	}
+	
+	public void reset() {
 		backgroundPositionY = 0;
 		rocks = new ArrayList<>();
+		boat.reset();
 	}
 	
 	@Override

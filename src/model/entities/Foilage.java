@@ -27,6 +27,8 @@ public class Foilage extends Entity implements ActionListener {
 
 	@Override
 	public void update() {
+		if(positionY > ControlManager.screenHeight) 
+			setDead(true);
 	}
 
 	@Override
@@ -46,7 +48,6 @@ public class Foilage extends Entity implements ActionListener {
 			positionX = ((ControlManager.screenWidth/4*3+230) + (int)Math.floor(Math.random()*(ControlManager.screenWidth-getSprite().getWidth())));
 			break;
 		}
-		
 	}
 
 	@Override

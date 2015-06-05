@@ -49,7 +49,7 @@ public class ImageHandler {
 			images.add(ImageIO.read(Main.class.getResource("/images/tree2.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/tree3.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/tree4.png")));
-			
+			images.add(ImageIO.read(Main.class.getResource("/images/pier.png")));
 			
 		}catch(IOException e){
 			e.printStackTrace();
@@ -57,7 +57,7 @@ public class ImageHandler {
 	}
 	
 	public enum ImageType{
-		menubg, tutorial_plate, tutorial_spell, player_boat, menu_right, menu_left, spell1, spell2, spell3, spell4, spell5, mage1, mage2, troll, grass, rock1, rock2, rock3, rock4, heart, tree1, tree2, tree3, tree4; 
+		menubg, tutorial_plate, tutorial_spell, player_boat, menu_right, menu_left, spell1, spell2, spell3, spell4, spell5, mage1, mage2, troll, grass, rock1, rock2, rock3, rock4, heart, tree1, tree2, tree3, tree4, pier; 
 	}
 	
 	public static BufferedImage getImage(ImageType img){
