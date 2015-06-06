@@ -39,16 +39,26 @@ public class ControlManager {
 		music.playSound(AudioType.poor);
 	}
 	
+	public void playMusic2() throws LineUnavailableException, IOException{
+		music.stopSound();
+		music.playSound(AudioType.rich);
+	}
+	
+	public void playMusic3() throws LineUnavailableException, IOException{
+		music.stopSound();
+		music.playSound(AudioType.end);
+	}
+	
 	public void playBoatTutorialVoice() throws LineUnavailableException, IOException{
 		voice.playSound(AudioType.boattutorial);
 	}
 	
-	public void playWizardVoice() throws LineUnavailableException, IOException{
-		voice.playSound(AudioType.boattutorial);
+	public void arrivalVoice() throws LineUnavailableException, IOException{
+		voice.playSound(AudioType.arrival1);
 	}
 	
-	public void playTrollVoice() throws LineUnavailableException, IOException{
-		voice.playSound(AudioType.boattutorial);
+	public void travelChoiceVoice() throws LineUnavailableException, IOException{
+		voice.playSound(AudioType.arrival2);
 	}
 
 	public VideoHandler getVideoHandler()

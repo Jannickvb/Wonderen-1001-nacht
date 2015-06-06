@@ -2,11 +2,14 @@ package control;
 
 import java.util.ArrayList;
 
+import model.gamestates.ArrivalState;
 import model.gamestates.BoatGameState;
 import model.gamestates.BossFightState;
 import model.gamestates.City1State;
 import model.gamestates.City2State;
+import model.gamestates.DoorChoiceState;
 import model.gamestates.GameState;
+import model.gamestates.IntroMovState;
 import model.gamestates.MageTalkState;
 import model.gamestates.MageTalkState2;
 import model.gamestates.MenuState;
@@ -30,9 +33,11 @@ public class GameStateManager {
 	public void reloadGameStates() { 
 		gameStates.clear();
 		gameStates.add(new MenuState(cm));
-		//gameStates.add(new IntroMovState(cm));
+		gameStates.add(new IntroMovState(cm));
 		gameStates.add(new TutorialState(cm, ImageHandler.getImage(ImageHandler.ImageType.tutorial_plate)));
 		gameStates.add(new BoatGameState(cm));
+		gameStates.add(new ArrivalState(cm));
+		gameStates.add(new DoorChoiceState(cm));
 		gameStates.add(new MageTalkState(cm));
 		gameStates.add(new City1State(cm));
 		gameStates.add(new City2State(cm));

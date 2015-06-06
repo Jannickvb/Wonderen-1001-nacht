@@ -9,10 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
-import javax.sound.sampled.Clip;
 import javax.swing.Timer;
-
-import com.sun.javafx.stage.ScreenHelper;
 
 import control.ControlManager;
 import control.ImageHandler;

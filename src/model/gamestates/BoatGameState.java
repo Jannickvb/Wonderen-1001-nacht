@@ -34,9 +34,11 @@ public class BoatGameState extends GameState implements ActionListener {
 	private boolean pressurePlate2= false; //Left foot
 	private boolean pressurePlate3= false; //Right foot
 	private boolean pressurePlate4= false; //Left foot
+	private int counter;
 	
 	public BoatGameState(ControlManager cm) {
 		super(cm);
+		counter = 0;
 		boat = new Player(cm);
 		backgroundPositionY = 0;
 		Timer backgroundTimer = new Timer(1000/60,this);
@@ -91,6 +93,7 @@ public class BoatGameState extends GameState implements ActionListener {
 					rock = new Rock(cm,ImageHandler.getImage(ImageHandler.ImageType.rock4));
 					break;		
 			}
+			counter++;
 			rocks.add(rock);
 			rock.init();
 		}
@@ -135,6 +138,10 @@ public class BoatGameState extends GameState implements ActionListener {
 				boatCrash = null;
 				reset();
 			}
+		}
+		
+		if(counter >= 60){
+			cm.getGameStateManager().next();
 		}
 	}
 
