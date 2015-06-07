@@ -4,6 +4,7 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.sound.sampled.LineUnavailableException;
@@ -13,15 +14,15 @@ import control.ImageHandler;
 
 public class TutorialState extends GameState{
 	
-	private Image tutorial;
+	private BufferedImage tutorial;
 	private boolean scaledOnce;
 	private int midX,midY,bgWidth,bgHeight,counter;
 	
-	public TutorialState(ControlManager cm, Image image)
+	public TutorialState(ControlManager cm, BufferedImage image)
 	{
 		super(cm);
 		this.counter = 0;
-		tutorial = ImageHandler.getScaledImage(ImageHandler.getImage(ImageHandler.ImageType.tutorial_plate));
+		this.tutorial = ImageHandler.getScaledImage(image);
 		bgWidth = tutorial.getWidth(null);
 		bgHeight = tutorial.getHeight(null);
 		midX = ControlManager.screenWidth/2;
@@ -38,12 +39,10 @@ public class TutorialState extends GameState{
 
 	@Override
 	public void update() {
-		
 	}
 
 	@Override
 	public void init() {
-		// TODO Auto-generated method stub
 		if(tutorial.equals(ImageHandler.getImage(ImageHandler.ImageType.tutorial_plate))){
 		try {
 			cm.playBoatTutorialVoice();

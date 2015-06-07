@@ -27,7 +27,8 @@ public class BossFightState extends GameState{
 	
 	private int outCounter,inCounter;
 	private int outColor,inColor;
-	private double spelScore;
+	private int wins, level = 0;
+	private double spellScore;
 	private boolean drawing, started;
 	
 	public BossFightState(ControlManager cm) {
@@ -35,10 +36,10 @@ public class BossFightState extends GameState{
 		spells = new ArrayList<BufferedImage>();
 		spells.add(ImageHandler.getImage(ImageHandler.ImageType.spell1));
 		spells.add(ImageHandler.getImage(ImageHandler.ImageType.spell2));
-		spells.add(ImageHandler.getImage(ImageHandler.ImageType.spell5));
-		
-		Random generator = new Random();
-		currentImage = spells.get(generator.nextInt(3));
+		spells.add(ImageHandler.getImage(ImageHandler.ImageType.spell3));
+		spells.add(ImageHandler.getImage(ImageHandler.ImageType.spell4));
+		spells.add(ImageHandler.getImage(ImageHandler.ImageType.spell5));		
+		currentImage = spells.get(level);
 		try {
 			outColor = currentImage.getRGB(0, 0);
 			inColor = Color.black.getRGB();
@@ -111,7 +112,7 @@ public class BossFightState extends GameState{
 		
 		g2.setTransform(tx);
 		g2.drawImage(currentImage,-currentImage.getWidth()/2, -currentImage.getHeight()/2, null);//(currentImage, -currentImage.getWidth()/2, -currentImage.getHeight()/2, null);
-				
+		
 		g2.setTransform(oldAF);	
 		g2.setColor(Color.red);
 		g2.setStroke(new BasicStroke(60f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
@@ -127,8 +128,15 @@ public class BossFightState extends GameState{
 			drawPoints(cm.getInputHandler().getX2(),cm.getInputHandler().getY2());
 		}
 		g2.setColor(Color.black);
-		g2.drawString(time + "", 20, 10);
-		g2.drawString(spelScore + "%" , 20, 20);
+		if(drawing)
+		{
+			g2.drawString(time/60 + "", 0, 10);
+		}
+		else
+		{
+			g2.drawString(spellScore + "%" , 20, 20);
+			g2.drawString("Wins: " + wins, 30, 10);
+		}
 	}
 	
 	private void drawPoints(int x, int y)
@@ -139,6 +147,42 @@ public class BossFightState extends GameState{
 		 g2.drawLine((int) (x*1.6) + ((1920 - (midX*2))/2), (int) (1.6*y) + ((1080 - (midY*2))/2), (int) (1.6*x) + ((1920 - (midX*2))/2), (int) (1.6*y) + ((1080 - (midY*2))/2));
 	}
 	
+	public void nextSpell()
+	{
+		level++;
+		if(level < spells.size())
+		{
+			currentImage = spells.get(level);
+			spellScore = 0;
+			drawing = true;
+			time = 1800 - (300*level);
+		}
+		else
+		{
+			if(wins > 3)
+			{
+				System.out.println("You win!");
+			}
+			else
+			{
+				System.out.println("You lost!");
+			}
+			cm.getGameStateManager().next();
+		}
+	}
+	
+	public void showScore()
+	{
+		if(time != 0)
+		{
+			time--;
+		}
+		else
+		{
+			nextSpell();
+		}
+	}
+	
 	@Override
 	public void update() 
 	{
@@ -147,8 +191,8 @@ public class BossFightState extends GameState{
 			timer.start();
 			started = true;
 		}
-		midX = cm.getWidth()/2;
-		midY = cm.getHeight()/2;
+		midX = ControlManager.screenWidth/2;
+		midY = ControlManager.screenHeight/2;
 	}
 	
 	public void refresh()
@@ -157,7 +201,6 @@ public class BossFightState extends GameState{
 		{
 			position1.setLocation(cm.getInputHandler().getX1(), cm.getInputHandler().getY1());
 			position2.setLocation(cm.getInputHandler().getX2(), cm.getInputHandler().getY2());
-			
 			if(time != 0)
 			{
 				time--;
@@ -165,8 +208,17 @@ public class BossFightState extends GameState{
 			else
 			{
 				drawing = false;
-				spelScore = calculateSpellScore();
+				spellScore = calculateSpellScore();
+				if(spellScore > 80)
+				{
+					wins++;
+				}
+				time = 300;
 			}
+		}
+		else
+		{
+			showScore();
 		}
 	}
 	
@@ -192,6 +244,10 @@ public class BossFightState extends GameState{
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
+		if(e.getKeyCode() == KeyEvent.VK_ENTER)
+		{
+			wins++;
+			nextSpell();
+		}
 	}
 }

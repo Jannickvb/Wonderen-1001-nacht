@@ -47,10 +47,9 @@ public class MageTalkState2 extends GameState{
 
 	@Override
 	public void init() {
-		// TODO Auto-generated method stub
 		if(tutorial.equals(ImageHandler.getImage(ImageHandler.ImageType.mage1))){
 		try {
-			cm.playWizardVoice();
+			cm.arrivalVoice();
 		} catch (LineUnavailableException | IOException e) {
 			e.printStackTrace();
 		}
