@@ -35,9 +35,9 @@ public class GameStateManager {
 	public void reloadGameStates() { 
 		gameStates.clear();
 		gameStates.add(new MenuState(cm));
-		gameStates.add(new EndState(cm));
-		gameStates.add(new OutroMovState(cm));
-		/*gameStates.add(new IntroMovState(cm));
+		//gameStates.add(new EndState(cm));
+		//gameStates.add(new OutroMovState(cm));
+		gameStates.add(new IntroMovState(cm));
 		gameStates.add(new TutorialState(cm, ImageHandler.getImage(ImageHandler.ImageType.tutorial_plate)));
 		gameStates.add(new BoatGameState(cm));
 		gameStates.add(new ArrivalState(cm));
@@ -47,7 +47,7 @@ public class GameStateManager {
 		gameStates.add(new City2State(cm));
 		gameStates.add(new MageTalkState2(cm));
 		gameStates.add(new TutorialState(cm, ImageHandler.getImage(ImageHandler.ImageType.tutorial_spell)));
-		gameStates.add(new BossFightState(cm));*/
+		gameStates.add(new BossFightState(cm));
 	}
 	
 	public void select(int i) {
@@ -76,15 +76,15 @@ public class GameStateManager {
 		gameSequence.add(gameStates.get(0));
 		gameSequence.add(gameStates.get(1));
 		gameSequence.add(gameStates.get(2));
-		/*gameSequence.add(gameStates.get(3));
+		gameSequence.add(gameStates.get(3));
 		gameSequence.add(gameStates.get(4));
-		gameSequence.add(gameStates.get(5));
-		gameSequence.add(gameStates.get(6));
-		gameSequence.add(gameStates.get(7));
-		gameSequence.add(gameStates.get(8));
-		gameSequence.add(gameStates.get(9));
-		gameSequence.add(gameStates.get(10));
-		gameSequence.add(gameStates.get(11));*/
+//		gameSequence.add(gameStates.get(5));
+//		gameSequence.add(gameStates.get(6));
+//		gameSequence.add(gameStates.get(7));
+//		gameSequence.add(gameStates.get(8));
+//		gameSequence.add(gameStates.get(9));
+//		gameSequence.add(gameStates.get(10));
+//		gameSequence.add(gameStates.get(11));
 	}
 	
 	public void next(){

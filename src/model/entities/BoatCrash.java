@@ -33,8 +33,6 @@ public class BoatCrash extends Entity implements ActionListener {
 					e1.printStackTrace();
 				}
 				crashClip.start();
-		Timer timer = new Timer(1000/60,this);
-		timer.start();
 	}
 
 	@Override
@@ -47,7 +45,8 @@ public class BoatCrash extends Entity implements ActionListener {
 
 	@Override
 	public void update() {
-		
+		if(!crashClip.isRunning())
+			setDead(true);		
 	}
 
 	@Override
@@ -57,8 +56,6 @@ public class BoatCrash extends Entity implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(!crashClip.isRunning())
-			setDead(true);		
-		positionY += 6;
+		
 	}
 }

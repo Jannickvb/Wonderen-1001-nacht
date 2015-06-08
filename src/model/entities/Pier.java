@@ -12,11 +12,13 @@ import control.ImageHandler.ImageType;
 
 public class Pier extends Entity implements ActionListener {
 
+	private Timer timer;
+	
 	public Pier(ControlManager cm, int positionY) {
 		super(cm,ImageHandler.getImage(ImageType.pier));
 		this.positionY = positionY-getSprite().getHeight();
 		positionX = (ControlManager.screenWidth/2)-(getSprite().getWidth()/2)-45;
-		Timer timer = new Timer(1000/60,this);
+		timer = new Timer(1000/60,this);
 		timer.start();
 	}
 
@@ -27,8 +29,7 @@ public class Pier extends Entity implements ActionListener {
 
 	@Override
 	public void update() {
-		if(positionY > ControlManager.screenHeight)
-			setDead(true);
+		
 	}
 
 	@Override
@@ -37,6 +38,10 @@ public class Pier extends Entity implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		positionY+=6;
+		
+		if(positionY >= -13 && positionY <= -7) {
+			setDead(true);
+			timer.stop();
+		}
 	}
 }

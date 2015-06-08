@@ -1,7 +1,9 @@
 package model.gamestates;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.Shape;
 import java.awt.TexturePaint;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -30,18 +32,18 @@ public class BoatGameState extends GameState implements ActionListener {
 	private int backgroundPositionY;
 	private ArrayList<Rock> rocks;
 	private ArrayList<Foilage> plants;
-	private boolean pressurePlate1= false; //Right foot
-	private boolean pressurePlate2= false; //Left foot
-	private boolean pressurePlate3= false; //Right foot
-	private boolean pressurePlate4= false; //Left foot
 	private int counter;
+	private float fade;
+	private boolean dead;
+	private Timer backgroundTimer;
 	
 	public BoatGameState(ControlManager cm) {
 		super(cm);
 		counter = 0;
 		boat = new Player(cm);
 		backgroundPositionY = 0;
-		Timer backgroundTimer = new Timer(1000/60,this);
+		fade = 0;
+		backgroundTimer = new Timer(1000/60,this);
 		backgroundTimer.start();
 		rocks = new ArrayList<>(1000);
 		plants = new ArrayList<>(1000);
@@ -66,84 +68,117 @@ public class BoatGameState extends GameState implements ActionListener {
 	    	boat.draw(g2);	
 	    else 
 	    	boatCrash.draw(g2);
+	    Shape rect = new Rectangle2D.Double(0,0,ControlManager.screenWidth,ControlManager.screenHeight);
+		g2.setColor(new Color(0,0,0,fade));
+		g2.fill(rect);
+	    
+	    
 	}
 
 	@Override
-	public void update() {
-		boat.update();
-		for(Rock rock : rocks) {
-			if(rock.containsPoint(boat)) {
-				collision();
+		public void update() {
+			boat.update();
+			for(Rock rock : rocks) {
+				if(boat.containsPoint(rock)) {
+					collision();
+				}
+			}
+			//Randomly spawning rocks: 
+			if(!dead) {
+				if(Math.floor(Math.random()*25) == 3) {
+					Rock rock = null;
+					switch((int) Math.floor(Math.random()*4)) {
+						case 0:
+							rock = new Rock(cm,ImageHandler.getImage(ImageHandler.ImageType.rock1));
+							break;
+						case 1:
+							rock = new Rock(cm,ImageHandler.getImage(ImageHandler.ImageType.rock2));
+							break;
+						case 2:
+							rock = new Rock(cm,ImageHandler.getImage(ImageHandler.ImageType.rock3));
+							break;
+						case 3:
+							rock = new Rock(cm,ImageHandler.getImage(ImageHandler.ImageType.rock4));
+							break;		
+					}
+					counter++;
+					rocks.add(rock);
+					rock.init();
+				}
+				//Randomly spawning trees:
+				if(Math.floor(Math.random()*6) == 3) {
+					Foilage plant = null;
+					switch((int) Math.floor(Math.random()*4)) {
+						case 0:
+							plant = new Foilage(cm,ImageHandler.getImage(ImageHandler.ImageType.tree1));
+							break;
+						case 1:
+							plant = new Foilage(cm,ImageHandler.getImage(ImageHandler.ImageType.tree2));
+							break;
+						case 2:
+							plant = new Foilage(cm,ImageHandler.getImage(ImageHandler.ImageType.tree3));
+							break;
+						case 3:
+							plant = new Foilage(cm,ImageHandler.getImage(ImageHandler.ImageType.tree4));
+							break;		
+					}
+					plants.add(plant);
+					plant.init();
+				}
+			}
+			
+			//Checking if trees or rocks are out of the screen:
+			Iterator it = rocks.iterator();
+			while(it.hasNext()) {
+				Rock rock = (Rock) it.next();
+				if(rock.isDead())
+					it.remove();
+				if(pier.isDead())
+					rock.setTimer(false);
+			}
+			
+			it = plants.iterator();
+			while(it.hasNext()) {
+				Foilage foilage = (Foilage) it.next();
+				if(foilage.isDead())
+					it.remove();
+				if(pier.isDead())
+					foilage.setTimer(false);
+			}
+			
+			if(boatCrash != null) {
+				if(boatCrash.isDead()) {
+					boatCrash = null;
+					reset();
+				}
+				else
+					boatCrash.update();
+			}
+			
+			if(counter >= 10){
+				if(!dead) {
+					endGame();
+					dead = true;
+					counter = 0;
+				}
+			}
+			
+			
+			if(pier.isDead()) {
+				backgroundTimer.stop();
+				pier.setTimer(false);
+				boat.endGame();
+			}
+			
+			if(boat.reachedEnd()) {
+				if(counter < 20 && fade < 1) {
+					fade += 0.1;
+					counter++;
+				}
+				else
+					cm.getGameStateManager().next();
 			}
 		}
-		//Randomly spawning rocks: 
-		if(Math.floor(Math.random()*25) == 3) {
-			Rock rock = null;
-			switch((int) Math.floor(Math.random()*4)) {
-				case 0:
-					rock = new Rock(cm,ImageHandler.getImage(ImageHandler.ImageType.rock1));
-					break;
-				case 1:
-					rock = new Rock(cm,ImageHandler.getImage(ImageHandler.ImageType.rock2));
-					break;
-				case 2:
-					rock = new Rock(cm,ImageHandler.getImage(ImageHandler.ImageType.rock3));
-					break;
-				case 3:
-					rock = new Rock(cm,ImageHandler.getImage(ImageHandler.ImageType.rock4));
-					break;		
-			}
-			counter++;
-			rocks.add(rock);
-			rock.init();
-		}
-		//Randomly spawning trees:
-		if(Math.floor(Math.random()*6) == 3) {
-			Foilage plant = null;
-			switch((int) Math.floor(Math.random()*4)) {
-				case 0:
-					plant = new Foilage(cm,ImageHandler.getImage(ImageHandler.ImageType.tree1));
-					break;
-				case 1:
-					plant = new Foilage(cm,ImageHandler.getImage(ImageHandler.ImageType.tree2));
-					break;
-				case 2:
-					plant = new Foilage(cm,ImageHandler.getImage(ImageHandler.ImageType.tree3));
-					break;
-				case 3:
-					plant = new Foilage(cm,ImageHandler.getImage(ImageHandler.ImageType.tree4));
-					break;		
-			}
-			plants.add(plant);
-			plant.init();
-		}
-		
-		//Checking if trees or rocks are out of the screen:
-		Iterator it = rocks.iterator();
-		while(it.hasNext()) {
-			Rock rock = (Rock) it.next();
-			if(rock.isDead())
-				it.remove();
-		}
-		
-		it = plants.iterator();
-		while(it.hasNext()) {
-			Foilage rock = (Foilage) it.next();
-			if(rock.isDead())
-				it.remove();
-		}
-		
-		if(boatCrash != null) {
-			if(boatCrash.isDead()) {
-				boatCrash = null;
-				reset();
-			}
-		}
-		
-		if(counter >= 60){
-			cm.getGameStateManager().next();
-		}
-	}
 
 	@Override
 	public void init() {
@@ -167,7 +202,14 @@ public class BoatGameState extends GameState implements ActionListener {
 	public void reset() {
 		backgroundPositionY = 0;
 		rocks = new ArrayList<>();
+		counter = 0;
 		boat.reset();
+	}
+	
+	public void endGame() {
+		pier.setDead(false);
+		pier.setPositionY(-178);
+		
 	}
 	
 	@Override

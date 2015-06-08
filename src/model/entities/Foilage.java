@@ -17,7 +17,7 @@ public class Foilage extends Entity implements ActionListener {
 	public Foilage(ControlManager cm, BufferedImage rockImage) {
 		super(cm,rockImage);
 		Timer moveTimer = new Timer(1000/60,this);
-		moveTimer.start();
+		//moveTimer.start();
 	}
 	
 

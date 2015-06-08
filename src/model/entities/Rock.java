@@ -16,7 +16,7 @@ public class Rock extends Entity implements ActionListener {
 	public Rock(ControlManager cm, BufferedImage rockImage) {
 		super(cm,rockImage);
 		Timer moveTimer = new Timer(1000/60,this);
-		moveTimer.start();
+		//moveTimer.start();
 	}
 	
 
@@ -40,19 +40,4 @@ public class Rock extends Entity implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		positionY+=6;
 	}
-	
-	/**
-	 * Checks if one of the pixels is inside the boats body.
-	 * @param boat - the boat you want to check with.
-	 * @return if there is an intersection between the two objects.
-	 */
-	public boolean containsPoint(Player boat) {
-		Shape ownShape = new Rectangle2D.Double(positionX,positionY,getSprite().getWidth(),getSprite().getHeight());
-		Rectangle2D boatShape = boat.getRectangleBounds();
-		if(ownShape.intersects(boatShape)) 
-			return true;
-		else
-			return false;
-	}
-
 }

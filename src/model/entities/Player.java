@@ -4,6 +4,7 @@ import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.Shape;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
@@ -24,7 +25,9 @@ public class Player extends Entity implements ActionListener {
 	private int lives;
 	private float alpha;
 	private boolean drawBoat;
+	private boolean reachedEnd;
 	private Timer deadMessageTimer;
+	private Timer endTimer;
 	
 	private boolean pressurePlate1; //Right foot
 	private boolean pressurePlate2; //Left foot
@@ -40,6 +43,19 @@ public class Player extends Entity implements ActionListener {
 		lives = 3;
 		alpha = 1.0f;
 		deadMessageTimer = new Timer(100,null);
+		endTimer = new Timer(1000/60,new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(positionY > 6)
+					positionY -= 6;
+				else {
+					reachedEnd = true;
+					endTimer.stop();
+				}
+					
+			}
+		});
 		Timer animationTimer = new Timer(350,this);
 		animationTimer.start();
 	}
@@ -58,7 +74,7 @@ public class Player extends Entity implements ActionListener {
 			g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
 			g2.setColor(Color.WHITE);
 			g2.setFont(new Font("Verdana",Font.BOLD,60));
-			drawCenteredText("Try Again", g2, ControlManager.screenHeight/2);
+			drawCenteredText("Probeer het opnieuw", g2, ControlManager.screenHeight/2);
 		}
 	}
 	
@@ -72,7 +88,7 @@ public class Player extends Entity implements ActionListener {
 //		boolean pressurePlate2 = input.getPressurePlate2(); //Left foot
 //		boolean pressurePlate3 = input.getPressurePlate3(); //Right foot
 //		boolean pressurePlate4 = input.getPressurePlate4(); //Left foot
-		if(pressurePlate1 && pressurePlate3 && !pressurePlate2 && !pressurePlate4) { // Go to the right
+		if(pressurePlate1 && pressurePlate3 && !pressurePlate2 && !pressurePlate4) { // Go to the rights
 			if(positionX <= screenWidth/4*3-screenWidth/8) {
 				positionX += 13;
 			}	
@@ -87,6 +103,7 @@ public class Player extends Entity implements ActionListener {
 		positionX = ControlManager.screenWidth/2;
 		positionY = ControlManager.screenHeight - 250;
 		screenWidth = ControlManager.screenWidth;
+		setTimer(false);
 		//input.turnPressurePlates(true);
 	}
 
@@ -122,15 +139,15 @@ public class Player extends Entity implements ActionListener {
 			});
 			deadMessageTimer.start();
 		}
-		else {
-			lives--; 
-			dead();
-		}
 	}
 	
 	public void reset() {
-		positionY = ControlManager.screenHeight-250;
-		setDead(false);
+		if(lives > 1) {
+			positionY = ControlManager.screenHeight-250;
+			setDead(false);
+		}
+		else
+			cm.getGameStateManager().next();
 	}
 	
 	public void setPressurePlates(int i){
@@ -149,7 +166,25 @@ public class Player extends Entity implements ActionListener {
 		}
 	}
 	
-	public void dead() {
-		
+	public void endGame() {
+		endTimer.start();
+	}
+	
+	/**
+	 * Checks if one of the pixels is inside the boats body.
+	 * @param object - the object you want to check for collision.
+	 * @return if there is an intersection between the two objects.
+	 */
+	public boolean containsPoint(Entity object) {
+		Shape boatShape = getRectangleBounds();
+		Rectangle2D objectRectangle = object.getRectangle();
+		if(boatShape.intersects(objectRectangle)) 
+			return true;
+		else
+			return false;
+	}
+	
+	public boolean reachedEnd() {
+		return reachedEnd;
 	}
 }
