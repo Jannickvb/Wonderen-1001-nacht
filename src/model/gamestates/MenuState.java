@@ -78,6 +78,8 @@ public class MenuState extends GameState{
 
 	@Override
 	public void update() {
+		if(cm.getInputHandler().isA1Pressed() && cm.getInputHandler().isA2Pressed())
+			play = true;
 		if(play) {
 			keyFrame++;
 			rX+=5;
@@ -99,16 +101,11 @@ public class MenuState extends GameState{
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		play = true;
+		if(e.getKeyCode() == KeyEvent.VK_UP)
+			play = true;
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {}
 	
-	public void setPlayerStatus(boolean p1,boolean p2){
-		pl1Ready = p1;
-		pl2Ready = p2;
-		if(pl1Ready && pl2Ready)
-			play = true;
-	}
 }
