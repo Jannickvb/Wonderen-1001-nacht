@@ -40,6 +40,9 @@ public class ImageHandler {
 			images.add(ImageIO.read(Main.class.getResource("/images/Trol.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/PalaceOutside.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/DoorChoosing.jpg")));
+			images.add(ImageIO.read(Main.class.getResource("/images/treasureRoom.jpg")));
+			images.add(ImageIO.read(Main.class.getResource("/images/poorKid.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/richKid.png")));
 			
 			images.add(ImageIO.read(Main.class.getResource("/images/background.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/rock1.png")));
@@ -53,13 +56,15 @@ public class ImageHandler {
 			images.add(ImageIO.read(Main.class.getResource("/images/tree4.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/pier.png")));
 			
+			
+			
 		}catch(IOException e){
 			e.printStackTrace();
 		}
 	}
 	
 	public enum ImageType{
-		menubg, tutorial_plate, tutorial_spell, player_boat, menu_right, menu_left, spell1, spell2, spell3, spell4, spell5, mage1, mage2, troll, arrival, choice1, grass, rock1, rock2, rock3, rock4, heart, tree1, tree2, tree3, tree4, pier; 
+		menubg, tutorial_plate, tutorial_spell, player_boat, menu_right, menu_left, spell1, spell2, spell3, spell4, spell5, mage1, mage2, troll, arrival, choice1, treasure_room, poorKid, richKid, grass, rock1, rock2, rock3, rock4, heart, tree1, tree2, tree3, tree4, pier; 
 	}
 	
 	public static BufferedImage getImage(ImageType img){
