@@ -22,13 +22,18 @@ public class ImageHandler {
 	
 	static{
 		try{
-			images.add(ImageIO.read(Main.class.getResource("/images/bg_menu.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/menu/bg_menu.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/menu/menu_right.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/menu/menu_left.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/menu/menu_statue_l.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/menu/menu_statue_r.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/menu/menu_buttons.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/menu/menu_header.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/menu/menu_grad.png")));
 			
 			images.add(ImageIO.read(Main.class.getResource("/images/Tutorial.jpg")));
 			images.add(ImageIO.read(Main.class.getResource("/images/spell_tutorial.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/boat.png")));
-			images.add(ImageIO.read(Main.class.getResource("/images/menu_fg_right.png")));
-			images.add(ImageIO.read(Main.class.getResource("/images/menu_fg_left.png")));
 			
 			images.add(ImageIO.read(Main.class.getResource("/images/spells/circle.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/spells/rectangle.png")));
@@ -64,7 +69,7 @@ public class ImageHandler {
 	}
 	
 	public enum ImageType{
-		menubg, tutorial_plate, tutorial_spell, player_boat, menu_right, menu_left, spell1, spell2, spell3, spell4, spell5, mage1, mage2, troll, arrival, choice1, treasure_room, poorKid, richKid, grass, rock1, rock2, rock3, rock4, heart, tree1, tree2, tree3, tree4, pier; 
+		menubg, menu_left , menu_right,menu_statue_l,menu_statue_r,menu_buttons,menu_header,menu_grad, tutorial_plate, tutorial_spell, player_boat, spell1, spell2, spell3, spell4, spell5, mage1, mage2, troll, arrival, choice1,treasure_room,poorKid,richKid, grass, rock1, rock2, rock3, rock4, heart, tree1, tree2, tree3, tree4, pier; 
 	}
 	
 	public static BufferedImage getImage(ImageType img){
