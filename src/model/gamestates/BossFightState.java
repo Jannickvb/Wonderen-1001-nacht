@@ -28,7 +28,7 @@ public class BossFightState extends GameState{
 	private int outColor,inColor;
 	private int wins, level = 0;
 	private double spellScore;
-	private boolean drawing, started;
+	private boolean drawing, started, finished;
 	
 	public BossFightState(ControlManager cm) {
 		super(cm);				
@@ -54,6 +54,7 @@ public class BossFightState extends GameState{
 		
 		started = false;
 		drawing = true;
+		finished = false;
 		time = 1800;
 	}
 	
@@ -110,14 +111,14 @@ public class BossFightState extends GameState{
 		tx.translate(midX, midY);
 		
 		g2.setTransform(tx);
-		g2.drawImage(currentImage,-currentImage.getWidth()/2, -currentImage.getHeight()/2, null);//(currentImage, -currentImage.getWidth()/2, -currentImage.getHeight()/2, null);
+		g2.drawImage(currentImage,-currentImage.getWidth()/2, -currentImage.getHeight()/2, null);
 		
 		g2.setTransform(oldAF);	
 		g2.setColor(Color.red);
 		g2.setStroke(new BasicStroke(60f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
 		g2.drawRect((int)position1.getX(),(int)position1.getY(), 1, 1);
 		g2.drawRect((int)position2.getX(),(int)position2.getY(), 1, 1);
-		if(cm.getInputHandler().isA1Pressed() && drawing)
+		if(cm.getInputHandler().isA1Pressed() && drawing) 
 		{
 			drawPoints(cm.getInputHandler().getX1(),cm.getInputHandler().getY1());
 		}
@@ -136,11 +137,18 @@ public class BossFightState extends GameState{
 			g2.drawString(spellScore + "%" , 20, 20);
 			g2.drawString("Wins: " + wins, 30, 10);
 		}
+		if(finished)
+		{
+			if(wins > 3)
+			{
+				g2.drawString("You Win!", (int) (midX/1.6), 50);
+			}
+		}
 	}
 	
 	private void drawPoints(int x, int y)
 	{
-		 Graphics2D g2 =  currentImage.createGraphics();
+		 Graphics2D g2 = currentImage.createGraphics();
 		 g2.setColor(Color.red);
 		 g2.setStroke(new BasicStroke(96f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
 		 g2.drawLine((int) (x*1.6) + ((1920 - (midX*2))/2), (int) (1.6*y) + ((1080 - (midY*2))/2), (int) (1.6*x) + ((1920 - (midX*2))/2), (int) (1.6*y) + ((1080 - (midY*2))/2));
@@ -153,19 +161,35 @@ public class BossFightState extends GameState{
 		{
 			currentImage = spells.get(level);
 			spellScore = 0;
+			inCounter = 0;
+			outCounter = 0;
+			try {
+				initScanBMPImage(currentImage);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			drawing = true;
 			time = 1800 - (300*level);
 		}
 		else
 		{
-			if(wins > 3)
+			if(!finished)
 			{
-				System.out.println("You win!");
+				time = 300;
 			}
-			else
-			{
-				System.out.println("You lost!");
-			}
+			gameCompleted();
+		}
+	}
+	
+	public void gameCompleted()
+	{
+		finished = true;
+		if(time != 0)
+		{
+			time--;
+		}
+		else
+		{
 			cm.getGameStateManager().next();
 		}
 	}
