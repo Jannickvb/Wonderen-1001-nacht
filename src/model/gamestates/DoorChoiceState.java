@@ -26,7 +26,7 @@ public class DoorChoiceState extends GameState{
 		midX = ControlManager.screenWidth/2;
 		midY = ControlManager.screenHeight/2;
 	}
-
+ 
 	@Override
 	public void draw(Graphics2D g2) {
 		AffineTransform tx = new AffineTransform();
@@ -42,7 +42,6 @@ public class DoorChoiceState extends GameState{
 
 	@Override
 	public void init() {
-		// TODO Auto-generated method stub
 		if(image.equals(ImageHandler.getImage(ImageHandler.ImageType.choice1))){
 			try {
 				cm.travelChoiceVoice();
