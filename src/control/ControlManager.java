@@ -60,6 +60,18 @@ public class ControlManager {
 	public void travelChoiceVoice() throws LineUnavailableException, IOException{
 		voice.playSound(AudioType.arrival2);
 	}
+	
+	public void playIntroWizard() throws LineUnavailableException, IOException{
+		voice.playSound(AudioType.introwizard);
+	}
+	
+	public void playChoicePoor() throws LineUnavailableException, IOException{
+		voice.playSound(AudioType.choicepoor);
+	}
+	
+	public void playChoiceRich() throws LineUnavailableException, IOException{
+		voice.playSound(AudioType.choicerich);
+	}
 
 	public VideoHandler getVideoHandler()
 	{
