@@ -147,7 +147,7 @@ public class Person extends Entity implements ActionListener{
 				setDead(false);
 			}
 			else
-				cm.getGameStateManager().next();
+				getCm().getGameStateManager().next();
 		}
 		
 		public void setPressurePlates(int i){

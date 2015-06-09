@@ -29,7 +29,10 @@ public class Pier extends Entity implements ActionListener {
 
 	@Override
 	public void update() {
-		
+		if(positionY >= -13 && positionY <= -7) {
+			setDead(true);
+			timer.stop();
+		}
 	}
 
 	@Override
@@ -39,9 +42,6 @@ public class Pier extends Entity implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		
-		if(positionY >= -13 && positionY <= -7) {
-			setDead(true);
-			timer.stop();
-		}
+		
 	}
 }
