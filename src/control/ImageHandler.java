@@ -36,6 +36,7 @@ public class ImageHandler {
 			images.add(ImageIO.read(Main.class.getResource("/images/Tutorial.jpg")));
 			images.add(ImageIO.read(Main.class.getResource("/images/spell_tutorial.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/boat.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/RunningGuys.png")));
 			
 			images.add(ImageIO.read(Main.class.getResource("/images/spells/circle.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/spells/rectangle.png")));
@@ -48,10 +49,10 @@ public class ImageHandler {
 			images.add(ImageIO.read(Main.class.getResource("/images/PalaceOutside.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/DoorChoosing.jpg")));
 			images.add(ImageIO.read(Main.class.getResource("/images/treasureRoom.jpg")));
-			images.add(ImageIO.read(Main.class.getResource("/images/poorKid.png")));
-			images.add(ImageIO.read(Main.class.getResource("/images/richKid.png")));
 			
 			images.add(ImageIO.read(Main.class.getResource("/images/background.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/Poorcity.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/Richcity.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/rock1.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/rock2.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/rock3.png")));
@@ -63,6 +64,14 @@ public class ImageHandler {
 			images.add(ImageIO.read(Main.class.getResource("/images/tree4.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/pier.png")));
 			
+			images.add(ImageIO.read(Main.class.getResource("/images/box1.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/box2.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/box3.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/box4.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/box5.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/box6.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/box7.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/palace.png")));
 			
 			
 		}catch(IOException e){
@@ -70,8 +79,15 @@ public class ImageHandler {
 		}
 	}
 	
+	//als je een plaatje toegevoegd hebt, sorteer het dan gelijk even fatsoenlijk
+	
 	public enum ImageType{
-		menubg, menu_left , menu_right,menu_statue_l,menu_statue_r,menu_buttons,menu_header,menu_grad,menu_instr, tutorial_plate, tutorial_spell, player_boat, spell1, spell2, spell3, spell4, spell5, mage1, mage2, troll, arrival, choice1,treasure_room,poorKid,richKid, grass, rock1, rock2, rock3, rock4, heart, tree1, tree2, tree3, tree4, pier; 
+		menubg, menu_left , menu_right,menu_statue_l,menu_statue_r,menu_buttons,menu_header,menu_grad,menu_instr,
+		tutorial_plate, tutorial_spell, 
+		player_boat, player_run,
+		spell1, spell2, spell3, spell4, spell5, mage1, mage2, troll, arrival, choice1, treasure_room, 
+		grass, poorcity, richcity,
+		rock1, rock2, rock3, rock4, heart, tree1, tree2, tree3, tree4, pier, box1, box2, box3, box4, box5, box6, box7, palace; 
 	}
 	
 	public static BufferedImage getImage(ImageType img){

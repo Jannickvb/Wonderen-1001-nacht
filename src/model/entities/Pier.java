@@ -10,33 +10,43 @@ import control.ControlManager;
 import control.ImageHandler;
 import control.ImageHandler.ImageType;
 
-public class Pier extends Entity implements ActionListener {
-
+public class Pier extends Entity {
+	
+	/**
+	 * Constructor of the Pier object.
+	 * @param cm - The control manager of the game.
+	 * @param positionY - The y start position of the pier.
+	 */
 	public Pier(ControlManager cm, int positionY) {
 		super(cm,ImageHandler.getImage(ImageType.pier));
 		this.positionY = positionY-getSprite().getHeight();
-		positionX = (ControlManager.screenWidth/2)-(getSprite().getWidth()/2)-45;
-		Timer timer = new Timer(1000/60,this);
-		timer.start();
+		this.positionX = (ControlManager.screenWidth/2)-(getSprite().getWidth()/2)-45;
 	}
 
+	/**
+	 * Draws the pier on the screen.
+	 */
 	@Override
 	public void draw(Graphics2D g2) {
 		g2.drawImage(getSprite(),positionX,positionY,null);	
 	}
 
+	/**
+	 * Update method for the Pier object.
+	 * The piers stops moving when its fully displayed.
+	 */
 	@Override
 	public void update() {
-		if(positionY > ControlManager.screenHeight)
+		if(positionY >= -16 && positionY <= -7) {
 			setDead(true);
+			setTimer(false);
+		}
 	}
-
+	
+	/**
+	 * Init method for the Pier object.
+	 */
 	@Override
 	public void init() {
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent arg0) {
-		positionY+=6;
 	}
 }

@@ -15,10 +15,21 @@ import control.ControlManager;
 import control.ImageHandler;
 import control.ImageHandler.ImageType;
 
-public class BoatCrash extends Entity implements ActionListener {
+/**
+ * This class animates the crash of the ship object.
+ * @author Wesley de Hek
+ * @version 1.2
+ */
+public class BoatCrash extends Entity {
 
 	private Clip crashClip;
 	
+	/**
+	 * Constructor for the crash animation.
+	 * @param cm - The control manager object of the game.
+	 * @param positionX - The x coordinate of the start position.
+	 * @param positionY - The y coordinate of the start position.
+	 */
 	public BoatCrash(ControlManager cm, int positionX, int positionY) {
 		super(cm,ImageHandler.getImage(ImageType.player_boat));
 		this.positionX = positionX;
@@ -26,39 +37,38 @@ public class BoatCrash extends Entity implements ActionListener {
 		//Importing sound: 
 				AudioInputStream inputStream;
 				try {
-					inputStream = AudioSystem.getAudioInputStream(Main.class.getResource("/audio/crash.wav"));
+					inputStream = AudioSystem.getAudioInputStream(Main.class.getResource("/audio/boatCrash.wav"));
 					crashClip = AudioSystem.getClip();
 					crashClip.open(inputStream);
-				} catch (Exception e1) {
-					e1.printStackTrace();
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
 				crashClip.start();
-		Timer timer = new Timer(1000/60,this);
-		timer.start();
 	}
 
+	/**
+	 * Draws the animation of the crash.
+	 */
 	@Override
 	public void draw(Graphics2D g2) {
-		//Drawing ship:
 		BufferedImage subImage = getSprite().getSubimage(0*128,0,128,193);
 		g2.drawImage(subImage,getPositionX(),getPositionY(),null);
-		
 	}
 
+	/**
+	 * Update method for the animation object.
+	 * Checks if the crash sound is done playing, if yes the object gets set to dead.
+	 */
 	@Override
 	public void update() {
-		
-	}
-
-	@Override
-	public void init() {
-		
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
 		if(!crashClip.isRunning())
 			setDead(true);		
-		positionY += 6;
+	}
+
+	/**
+	 * Init method for the crash animation object.
+	 */
+	@Override
+	public void init() {
 	}
 }

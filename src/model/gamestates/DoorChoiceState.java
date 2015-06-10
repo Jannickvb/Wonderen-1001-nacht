@@ -54,7 +54,11 @@ public class DoorChoiceState extends GameState{
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
-		
+		if(e.getKeyCode() == KeyEvent.VK_LEFT){
+			cm.getGameStateManager().next();
+		}else if(e.getKeyCode() == KeyEvent.VK_RIGHT){
+			cm.getGameStateManager().skipNext();
+		}
 	}
 
 	@Override

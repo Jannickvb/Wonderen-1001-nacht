@@ -4,6 +4,7 @@ import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.Shape;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
@@ -15,55 +16,79 @@ import control.ControlManager;
 import control.ImageHandler;
 import control.InputHandler;
 
-public class Player extends Entity implements ActionListener {
+public class Player extends Entity {
 
-	private int screenWidth;
 	private InputHandler input;
 	private int animationCounter;
-	private BufferedImage liveHeart;
-	private int lives;
 	private float alpha;
 	private boolean drawBoat;
+	private boolean reachedEnd;
 	private Timer deadMessageTimer;
+	private Timer endTimer;
 	
 	private boolean pressurePlate1; //Right foot
 	private boolean pressurePlate2; //Left foot
 	private boolean pressurePlate3; //Right foot
 	private boolean pressurePlate4; //Left foot
 	
+	/**
+	 * Constructor of the Player object.
+	 * @param cm - The control manager of the game.
+	 */
 	public Player(ControlManager cm) {
 		super(cm,ImageHandler.getImage(ImageHandler.ImageType.player_boat));
 		input = cm.getInputHandler();
-		liveHeart = ImageHandler.getImage(ImageHandler.ImageType.heart);
 		animationCounter = 0;
-		drawBoat = true;
-		lives = 3;
 		alpha = 1.0f;
-		deadMessageTimer = new Timer(100,null);
-		Timer animationTimer = new Timer(350,this);
+		drawBoat = true;
+		endTimer = new Timer(1000/60,new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(positionY > 6)
+					positionY -= 6;
+				else {
+					reachedEnd = true;
+					endTimer.stop();
+				}	
+			}
+		});
+		Timer animationTimer = new Timer(350,new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				animationCounter++;	
+			}
+		});
 		animationTimer.start();
 	}
 	
+	@Override
 	public void draw(Graphics2D g2) {
 		//Drawing ship:
 		if(drawBoat) {
 			BufferedImage subImage = getSprite().getSubimage((animationCounter%3)*128,0,128,193);
 			g2.drawImage(subImage,getPositionX(),getPositionY(),null);
 		}
-		//Drawing lives:
-		for(int x = 0; x < lives; x++) 
-			g2.drawImage(liveHeart,50+150*x,5,null);
 		//Drawing dead message: 
-		if(deadMessageTimer.isRunning()) {
-			g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
-			g2.setColor(Color.WHITE);
-			g2.setFont(new Font("Verdana",Font.BOLD,60));
-			drawCenteredText("Try Again", g2, ControlManager.screenHeight/2);
+		if(deadMessageTimer != null) {
+			if(deadMessageTimer.isRunning()) {
+				g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
+				g2.setColor(Color.WHITE);
+				g2.setFont(new Font("Verdana",Font.BOLD,60));
+				drawCenteredText("Probeer het opnieuw", g2, ControlManager.screenHeight/2);
+			}
 		}
 	}
 	
+	/**
+	 * Method that draws given text in the center of the screen.
+	 * @param text - The text you want to display.
+	 * @param g2 - The graphics2D object.
+	 * @param y - The y position of the text.
+	 */
 	public void drawCenteredText(String text, Graphics2D g2, int y) {
-		int x = (screenWidth-g2.getFontMetrics().stringWidth(text))/2;
+		int x = (ControlManager.screenWidth-g2.getFontMetrics().stringWidth(text))/2;
 		g2.drawString(text, x, y);
 	}
 	
@@ -72,13 +97,13 @@ public class Player extends Entity implements ActionListener {
 //		boolean pressurePlate2 = input.getPressurePlate2(); //Left foot
 //		boolean pressurePlate3 = input.getPressurePlate3(); //Right foot
 //		boolean pressurePlate4 = input.getPressurePlate4(); //Left foot
-		if(pressurePlate1 && pressurePlate3 && !pressurePlate2 && !pressurePlate4) { // Go to the right
-			if(positionX <= screenWidth/4*3-screenWidth/8) {
+		if(pressurePlate1 && pressurePlate3 && !pressurePlate2 && !pressurePlate4) { // Go to the rights
+			if(positionX <= ControlManager.screenWidth/4*3-ControlManager.screenWidth/8) {
 				positionX += 13;
 			}	
 		}
 		else if(!pressurePlate1 && !pressurePlate3 && pressurePlate2 && pressurePlate4) {// Go to the left
-			if(positionX > screenWidth/4+screenWidth/20)
+			if(positionX > ControlManager.screenWidth/4+ControlManager.screenWidth/20)
 				positionX -= 13;
 		}
 	}
@@ -86,13 +111,8 @@ public class Player extends Entity implements ActionListener {
 	public void init() {
 		positionX = ControlManager.screenWidth/2;
 		positionY = ControlManager.screenHeight - 250;
-		screenWidth = ControlManager.screenWidth;
+		setTimer(false);
 		//input.turnPressurePlates(true);
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		animationCounter++;
 	}
 	
 	public Rectangle2D getRectangleBounds() {
@@ -101,9 +121,8 @@ public class Player extends Entity implements ActionListener {
 	
 	
 	public void collision() {
-		if(lives > 1) {
-			lives--;
 			positionY = ControlManager.screenHeight-250;
+			positionX = ControlManager.screenWidth/2;
 			setDead(true);
 			deadMessageTimer = new Timer(200,new ActionListener() {
 				
@@ -121,16 +140,11 @@ public class Player extends Entity implements ActionListener {
 				}
 			});
 			deadMessageTimer.start();
-		}
-		else {
-			lives--; 
-			dead();
-		}
 	}
 	
 	public void reset() {
-		positionY = ControlManager.screenHeight-250;
-		setDead(false);
+			positionY = ControlManager.screenHeight-250;
+			setDead(false);
 	}
 	
 	public void setPressurePlates(int i){
@@ -149,7 +163,25 @@ public class Player extends Entity implements ActionListener {
 		}
 	}
 	
-	public void dead() {
-		
+	public void endGame() {
+		endTimer.start();
+	}
+	
+	/**
+	 * Checks if one of the pixels is inside the boats body.
+	 * @param object - the object you want to check for collision.
+	 * @return if there is an intersection between the two objects.
+	 */
+	public boolean containsPoint(Entity object) {
+		Shape boatShape = getRectangleBounds();
+		Rectangle2D objectRectangle = object.getRectangle();
+		if(boatShape.intersects(objectRectangle)) 
+			return true;
+		else
+			return false;
+	}
+	
+	public boolean reachedEnd() {
+		return reachedEnd;
 	}
 }

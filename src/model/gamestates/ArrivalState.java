@@ -45,8 +45,16 @@ public class ArrivalState extends GameState{
 		// TODO Auto-generated method stub
 		if(image.equals(ImageHandler.getImage(ImageHandler.ImageType.arrival))){
 			try {
-				cm.playMusic1();
 				cm.arrivalVoice();
+				new java.util.Timer().schedule( 
+				        new java.util.TimerTask() {
+				            @Override
+				            public void run() {
+				                cm.getGameStateManager().next();
+				            }
+				        }, 
+				        14000 
+				);
 			} catch (LineUnavailableException | IOException e) {
 				e.printStackTrace();
 			}

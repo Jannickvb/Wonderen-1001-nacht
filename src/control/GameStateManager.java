@@ -8,13 +8,13 @@ import model.gamestates.BossFightState;
 import model.gamestates.City1State;
 import model.gamestates.City2State;
 import model.gamestates.DoorChoiceState;
-import model.gamestates.EndState;
 import model.gamestates.GameState;
 import model.gamestates.IntroMovState;
 import model.gamestates.MageTalkState;
 import model.gamestates.MageTalkState2;
 import model.gamestates.MenuState;
-import model.gamestates.OutroMovState;
+import model.gamestates.PoorGameState;
+import model.gamestates.RichGameState;
 import model.gamestates.TutorialState;
 
 public class GameStateManager {
@@ -35,19 +35,21 @@ public class GameStateManager {
 	public void reloadGameStates() { 
 		gameStates.clear();
 		gameStates.add(new MenuState(cm));
-		gameStates.add(new EndState(cm));
-		gameStates.add(new OutroMovState(cm));
-		/*gameStates.add(new IntroMovState(cm));
-		gameStates.add(new TutorialState(cm, ImageHandler.getImage(ImageHandler.ImageType.tutorial_plate)));
+		//gameStates.add(new IntroMovState(cm));
+		//gameStates.add(new TutorialState(cm, ImageHandler.getImage(ImageHandler.ImageType.tutorial_plate)));
 		gameStates.add(new BoatGameState(cm));
-		gameStates.add(new ArrivalState(cm));
+		
+		//gameStates.add(new MageTalkState(cm));
+		//gameStates.add(new ArrivalState(cm));
 		gameStates.add(new DoorChoiceState(cm));
-		gameStates.add(new MageTalkState(cm));
+		gameStates.add(new PoorGameState(cm));
+		gameStates.add(new RichGameState(cm));
+		
 		gameStates.add(new City1State(cm));
 		gameStates.add(new City2State(cm));
 		gameStates.add(new MageTalkState2(cm));
 		gameStates.add(new TutorialState(cm, ImageHandler.getImage(ImageHandler.ImageType.tutorial_spell)));
-		gameStates.add(new BossFightState(cm));*/
+		gameStates.add(new BossFightState(cm));
 	}
 	
 	public void select(int i) {
@@ -76,15 +78,17 @@ public class GameStateManager {
 		gameSequence.add(gameStates.get(0));
 		gameSequence.add(gameStates.get(1));
 		gameSequence.add(gameStates.get(2));
-		/*gameSequence.add(gameStates.get(3));
+		gameSequence.add(gameStates.get(3));
 		gameSequence.add(gameStates.get(4));
 		gameSequence.add(gameStates.get(5));
 		gameSequence.add(gameStates.get(6));
 		gameSequence.add(gameStates.get(7));
 		gameSequence.add(gameStates.get(8));
 		gameSequence.add(gameStates.get(9));
-		gameSequence.add(gameStates.get(10));
-		gameSequence.add(gameStates.get(11));*/
+//		gameSequence.add(gameStates.get(10));
+//		gameSequence.add(gameStates.get(11));
+//		gameSequence.add(gameStates.get(12));
+//		gameSequence.add(gameStates.get(13));
 	}
 	
 	public void next(){
@@ -93,7 +97,14 @@ public class GameStateManager {
 		if(index == gameSequence.size()) {
 			index = 0;
 		}
-		
+	}
+	
+	public void skipNext(){
+		initializeGameState();
+		index+=2;
+		if(index == gameSequence.size()) {
+			index = 0;
+		}
 	}
 	
 	public void back(){

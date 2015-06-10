@@ -45,7 +45,18 @@ public class MageTalkState extends GameState{
 		// TODO Auto-generated method stub
 		if(image.equals(ImageHandler.getImage(ImageHandler.ImageType.mage1))){
 		try {
-			cm.playMusic1();
+			
+				cm.playMusic1();
+				cm.playIntroWizard();
+				new java.util.Timer().schedule( 
+				        new java.util.TimerTask() {
+				            @Override
+				            public void run() {
+				                cm.getGameStateManager().next();
+				            }
+				        }, 
+				        12000 
+				);
 		} catch (LineUnavailableException | IOException e) {
 			e.printStackTrace();
 		}
