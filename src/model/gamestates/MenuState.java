@@ -18,12 +18,12 @@ import control.ImageHandler;
 
 public class MenuState extends GameState{
 
-	private boolean pl1Ready = false,pl2Ready = false,play = false;
-	private int midX,midY,bgWidth,bgHeight,rX,lX,keyFrame = 0;
+	private boolean pl1Ready = false,pl2Ready = false,play = false,animation = false;
+	private int midX,midY,bgWidth,bgHeight,infoWidth,iY,rX,lX,keyFrame = 0;
 	private double lScale = 0,scale = 1;
 	private float fade = 0;
 	private AffineTransform r,l;
-	private Image background,rImg,lImg,statueL,statueR,gradient,buttons,header;
+	private Image background,rImg,lImg,statueL,statueR,gradient,buttons,header,instr;
 	private ControlManager cm;
 	private Rectangle2D rect;
 	public MenuState(ControlManager cm){
@@ -37,9 +37,11 @@ public class MenuState extends GameState{
 		gradient = ImageHandler.getScaledImage(ImageHandler.getImage(ImageHandler.ImageType.menu_grad));
 		buttons = ImageHandler.getScaledImage(ImageHandler.getImage(ImageHandler.ImageType.menu_buttons));
 		header = ImageHandler.getScaledImage(ImageHandler.getImage(ImageHandler.ImageType.menu_header));
+		instr = ImageHandler.getImage(ImageHandler.ImageType.menu_instr);
 		
 		bgWidth = background.getWidth(null);
 		bgHeight = background.getHeight(null);
+		infoWidth = instr.getWidth(null);
 		midX = ControlManager.screenWidth/2;
 		midY = ControlManager.screenHeight/2;
 	}
@@ -60,7 +62,8 @@ public class MenuState extends GameState{
 		g2.drawImage(gradient,-bgWidth/2,-bgHeight/2,null);
 		g2.drawImage(statueL, -bgWidth/2 +(lX/4), -bgHeight/2, null);
 		g2.drawImage(statueR, -bgWidth/2 +(rX/4), -bgHeight/2, null);
-		if(!play) {
+		g2.drawImage(instr, -infoWidth/2, bgHeight/2 -200 - iY, null);
+		if(!animation && !play) {
 			g2.drawImage(buttons,-bgWidth/2,-bgHeight/2,null);
 		}
 		AffineTransform logo = new AffineTransform();
@@ -75,11 +78,23 @@ public class MenuState extends GameState{
 		g2.fill(rect);
 		g2.draw(rect);
 	}
-
+	
 	@Override
 	public void update() {
 		if(cm.getInputHandler().isA1Pressed() && cm.getInputHandler().isA2Pressed())
-			play = true;
+			animation = true;
+		if(animation){
+			keyFrame++;
+			if(keyFrame<5){
+				iY+=keyFrame%5;
+			}else{
+				iY-=keyFrame-4;
+			}
+			if(keyFrame>20){
+				play = true;
+				animation = false;
+			}
+		}
 		if(play) {
 			keyFrame++;
 			rX+=5;
@@ -102,7 +117,7 @@ public class MenuState extends GameState{
 	@Override
 	public void keyPressed(KeyEvent e) {
 		if(e.getKeyCode() == KeyEvent.VK_UP)
-			play = true;
+			animation = true;
 	}
 
 	@Override

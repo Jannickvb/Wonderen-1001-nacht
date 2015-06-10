@@ -30,6 +30,8 @@ public class ImageHandler {
 			images.add(ImageIO.read(Main.class.getResource("/images/menu/menu_buttons.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/menu/menu_header.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/menu/menu_grad.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/menu/menu_instr.png")));
+			
 			
 			images.add(ImageIO.read(Main.class.getResource("/images/Tutorial.jpg")));
 			images.add(ImageIO.read(Main.class.getResource("/images/spell_tutorial.png")));
@@ -69,7 +71,7 @@ public class ImageHandler {
 	}
 	
 	public enum ImageType{
-		menubg, menu_left , menu_right,menu_statue_l,menu_statue_r,menu_buttons,menu_header,menu_grad, tutorial_plate, tutorial_spell, player_boat, spell1, spell2, spell3, spell4, spell5, mage1, mage2, troll, arrival, choice1,treasure_room,poorKid,richKid, grass, rock1, rock2, rock3, rock4, heart, tree1, tree2, tree3, tree4, pier; 
+		menubg, menu_left , menu_right,menu_statue_l,menu_statue_r,menu_buttons,menu_header,menu_grad,menu_instr, tutorial_plate, tutorial_spell, player_boat, spell1, spell2, spell3, spell4, spell5, mage1, mage2, troll, arrival, choice1,treasure_room,poorKid,richKid, grass, rock1, rock2, rock3, rock4, heart, tree1, tree2, tree3, tree4, pier; 
 	}
 	
 	public static BufferedImage getImage(ImageType img){
