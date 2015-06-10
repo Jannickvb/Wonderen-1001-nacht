@@ -163,6 +163,7 @@ public class BoatGameState extends GameState implements ActionListener {
 				}
 			}
 			
+			pier.update();
 			
 			if(pier.isDead()) {
 				backgroundTimer.stop();
@@ -203,6 +204,7 @@ public class BoatGameState extends GameState implements ActionListener {
 		backgroundPositionY = 0;
 		rocks = new ArrayList<>();
 		counter = 0;
+		pier = new Pier(cm,ControlManager.screenHeight);
 		boat.reset();
 	}
 	
