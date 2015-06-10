@@ -32,7 +32,7 @@ public class Box extends Entity implements ActionListener {
 
 	@Override
 	public void init() {
-		positionY = 50;
+		positionY = 0;
 		positionX = ((ControlManager.screenWidth/4)+ 140) +(int)  Math.floor(Math.random()*(ControlManager.screenWidth/2-270-getSprite().getWidth()));
 	}
 

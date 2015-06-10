@@ -16,7 +16,9 @@ import java.util.Iterator;
 import javax.swing.Timer;
 
 import model.entities.Box;
+import model.entities.Palace;
 import model.entities.Person;
+import model.entities.PlayerHit;
 import control.ControlManager;
 import control.ImageHandler;
 
@@ -24,8 +26,10 @@ public class RichGameState extends GameState implements ActionListener{
 
 		private Person guy;
 		private BufferedImage grass;
+		private PlayerHit boatCrash;
 		private int backgroundPositionY;
 		private ArrayList<Box> boxes;
+		private Palace palace;
 		private int counter;
 		private float fade;
 		private boolean dead;
@@ -40,7 +44,7 @@ public class RichGameState extends GameState implements ActionListener{
 			backgroundTimer = new Timer(1000/60,this);
 			backgroundTimer.start();
 			boxes = new ArrayList<>(1000);
-			
+			palace = new Palace(cm,ControlManager.screenHeight+200);
 		}
 
 		@Override
@@ -55,9 +59,12 @@ public class RichGameState extends GameState implements ActionListener{
 			//Drawing objects:   
 		    for(Box b : boxes) 
 				b.draw(g2);
-		    
+		    palace.draw(g2);
 		    if(!guy.isDead())
-		    	guy.draw(g2);	
+		    	guy.draw(g2);
+		    else
+		    	boatCrash.draw(g2);
+		    
 		    Shape rect = new Rectangle2D.Double(0,0,ControlManager.screenWidth,ControlManager.screenHeight);
 			g2.setColor(new Color(0,0,0,fade));
 			g2.fill(rect);
@@ -77,7 +84,7 @@ public class RichGameState extends GameState implements ActionListener{
 				if(!dead) {
 					if(Math.floor(Math.random()*25) == 3) {
 						Box b = null;
-						switch((int) Math.floor(Math.random()*4)) {
+						switch((int) Math.floor(Math.random()*6)) {
 							case 0:
 								b = new Box(cm,ImageHandler.getImage(ImageHandler.ImageType.box1));
 								break;
@@ -90,6 +97,15 @@ public class RichGameState extends GameState implements ActionListener{
 							case 3:
 								b = new Box(cm,ImageHandler.getImage(ImageHandler.ImageType.box4));
 								break;		
+							case 4:
+								b = new Box(cm,ImageHandler.getImage(ImageHandler.ImageType.box5));
+								break;
+							case 5:
+								b = new Box(cm,ImageHandler.getImage(ImageHandler.ImageType.box6));
+								break;
+							case 6:
+								b = new Box(cm,ImageHandler.getImage(ImageHandler.ImageType.box7));
+								break;	
 						}
 						counter++;
 						boxes.add(b);
@@ -103,6 +119,9 @@ public class RichGameState extends GameState implements ActionListener{
 					Box b= (Box) it.next();
 					if(b.isDead())
 						it.remove();
+					if(palace.isDead()){
+						b.setTimer(false);
+					}
 				}
 				
 				if(counter >= 10){
@@ -113,7 +132,20 @@ public class RichGameState extends GameState implements ActionListener{
 					}
 				}
 				
+				if(palace.isDead()){
+					backgroundTimer.stop();
+					palace.setTimer(false);
+					guy.endGame();
+				}
 				
+				if(boatCrash != null) {
+					if(boatCrash.isDead()) {
+						boatCrash = null;
+						reset();
+					}
+					else
+						boatCrash.update();
+				}
 				
 				if(guy.reachedEnd()) {
 					if(counter < 20 && fade < 1) {
@@ -139,6 +171,7 @@ public class RichGameState extends GameState implements ActionListener{
 		
 		public void collision() {
 			if(!guy.isDead()) {
+				boatCrash = new PlayerHit(cm,guy.getPositionX(),guy.getPositionY());
 				guy.collision();
 			}
 		}
@@ -151,7 +184,8 @@ public class RichGameState extends GameState implements ActionListener{
 		}
 		
 		public void endGame() {
-			
+			palace.setDead(false);
+			palace.setPositionY(-178);
 		}
 		
 		@Override

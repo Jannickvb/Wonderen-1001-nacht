@@ -72,7 +72,7 @@ public class Person extends Entity implements ActionListener{
 			//Drawing dead message: 
 			if(deadMessageTimer.isRunning()) {
 				g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
-				g2.setColor(Color.WHITE);
+				g2.setColor(Color.BLACK);
 				g2.setFont(new Font("Verdana",Font.BOLD,60));
 				drawCenteredText("Probeer het opnieuw", g2, ControlManager.screenHeight/2);
 			}
