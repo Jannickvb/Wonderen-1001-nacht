@@ -10,16 +10,12 @@ package model.entities;
 	import control.ImageHandler;
 	import control.ImageHandler.ImageType;
 
-public class Palace extends Entity implements ActionListener {
-
-		private Timer timer;
+public class Palace extends Entity {
 		
 		public Palace(ControlManager cm, int positionY) {
 			super(cm,ImageHandler.getImage(ImageType.palace));
 			this.positionY = positionY-getSprite().getHeight();
 			positionX = (ControlManager.screenWidth/2)-(getSprite().getWidth()/2);
-			timer = new Timer(1000/60,this);
-			timer.start();
 		}
 
 		@Override
@@ -31,19 +27,11 @@ public class Palace extends Entity implements ActionListener {
 		public void update() {
 			if(positionY >= -13 && positionY <= -7) {
 				setDead(true);
-				timer.stop();
+				setTimer(false);
 			}
 		}
 
 		@Override
 		public void init() {
 		}
-
-		@Override
-		public void actionPerformed(ActionEvent arg0) {
-			
-			
-		}
-	
-
 }

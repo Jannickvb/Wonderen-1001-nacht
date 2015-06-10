@@ -124,6 +124,8 @@ public class PoorGameState extends GameState implements ActionListener{
 					}
 				}
 				
+				palace.update();
+				
 				if(counter >= 10){
 					if(!dead) {
 						endGame();

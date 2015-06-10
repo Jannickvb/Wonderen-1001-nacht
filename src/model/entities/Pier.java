@@ -37,7 +37,7 @@ public class Pier extends Entity {
 	 */
 	@Override
 	public void update() {
-		if(positionY >= -13 && positionY <= -7) {
+		if(positionY >= -16 && positionY <= -7) {
 			setDead(true);
 			setTimer(false);
 		}

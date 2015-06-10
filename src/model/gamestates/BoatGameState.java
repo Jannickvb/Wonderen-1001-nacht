@@ -28,11 +28,12 @@ public class BoatGameState extends GameState implements ActionListener {
 	private Player boat;
 	private Pier pier;
 	private BoatCrash boatCrash;
-	private BufferedImage grass;
+	private BufferedImage background, liveHeart;
 	private int backgroundPositionY;
 	private ArrayList<Rock> rocks;
 	private ArrayList<Foilage> plants;
 	private int counter;
+	private int lives;
 	private float fade;
 	private boolean dead;
 	private Timer backgroundTimer;
@@ -40,6 +41,7 @@ public class BoatGameState extends GameState implements ActionListener {
 	public BoatGameState(ControlManager cm) {
 		super(cm);
 		counter = 0;
+		lives = 3;
 		boat = new Player(cm);
 		backgroundPositionY = 0;
 		fade = 0;
@@ -55,7 +57,7 @@ public class BoatGameState extends GameState implements ActionListener {
 	             RenderingHints.KEY_ANTIALIASING	,
 	             RenderingHints.VALUE_ANTIALIAS_ON);
 	    g2.setRenderingHints(rh);
-	    TexturePaint tp = new TexturePaint(grass,new Rectangle2D.Double(0,backgroundPositionY,ControlManager.screenWidth,ControlManager.screenHeight));
+	    TexturePaint tp = new TexturePaint(background,new Rectangle2D.Double(0,backgroundPositionY,ControlManager.screenWidth,ControlManager.screenHeight));
 	    g2.setPaint(tp);
 	    g2.fill(new Rectangle2D.Double(0,0,ControlManager.screenWidth,ControlManager.screenHeight));
 		//Drawing objects:   
@@ -64,6 +66,8 @@ public class BoatGameState extends GameState implements ActionListener {
 	    for(Foilage plant : plants) 
 			plant.draw(g2);
 	    pier.draw(g2);
+	    for(int x = 0; x < lives; x++) 
+			g2.drawImage(liveHeart,50+150*x,5,null);
 	    if(!boat.isDead())
 	    	boat.draw(g2);	
 	    else 
@@ -158,6 +162,7 @@ public class BoatGameState extends GameState implements ActionListener {
 			if(counter >= 10){
 				if(!dead) {
 					endGame();
+					System.out.println("test");
 					dead = true;
 					counter = 0;
 				}
@@ -167,23 +172,25 @@ public class BoatGameState extends GameState implements ActionListener {
 			
 			if(pier.isDead()) {
 				backgroundTimer.stop();
-				pier.setTimer(false);
 				boat.endGame();
+				if(!boat.reachedEnd()) {
+					System.out.println("reached");
+					if(counter < 20 && fade < 1) {
+						fade += 0.1;
+						counter++;
+					}
+					else
+						cm.getGameStateManager().next();
+				}
 			}
 			
-			if(boat.reachedEnd()) {
-				if(counter < 20 && fade < 1) {
-					fade += 0.1;
-					counter++;
-				}
-				else
-					cm.getGameStateManager().next();
-			}
+			
 		}
 
 	@Override
 	public void init() {
-		grass = ImageHandler.getScaledImage(ImageHandler.getImage(ImageHandler.ImageType.grass));
+		background = ImageHandler.getScaledImage(ImageHandler.getImage(ImageHandler.ImageType.grass));
+		liveHeart = ImageHandler.getImage(ImageHandler.ImageType.heart);
 		boat.init();
 		pier = new Pier(cm,ControlManager.screenHeight);
 	}
@@ -195,6 +202,7 @@ public class BoatGameState extends GameState implements ActionListener {
 	
 	public void collision() {
 		if(!boat.isDead()) {
+			lives--;
 			boatCrash = new BoatCrash(cm,boat.getPositionX(),boat.getPositionY());
 			boat.collision();
 		}
