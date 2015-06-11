@@ -1,4 +1,4 @@
-package model.gamestates;
+package model.gamestates.start;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -20,6 +20,7 @@ import model.entities.Foilage;
 import model.entities.Pier;
 import model.entities.Player;
 import model.entities.Rock;
+import model.gamestates.GameState;
 import control.ControlManager;
 import control.ImageHandler;
 

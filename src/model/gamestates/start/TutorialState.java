@@ -1,28 +1,31 @@
-package model.gamestates;
+package model.gamestates.start;
 
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.sound.sampled.LineUnavailableException;
 
+import model.gamestates.GameState;
 import control.ControlManager;
 import control.ImageHandler;
 
-public class City2State extends GameState{
-	private Image image;
-	private int width,height,midX,midY,bgWidth,bgHeight,counter;
+public class TutorialState extends GameState{
 	
-	public City2State(ControlManager cm)
+	private BufferedImage tutorial;
+	private boolean scaledOnce;
+	private int midX,midY,bgWidth,bgHeight,counter;
+	
+	public TutorialState(ControlManager cm, BufferedImage image)
 	{
 		super(cm);
 		this.counter = 0;
-		image = ImageHandler.getImage(ImageHandler.ImageType.troll);
-		bgWidth = image.getWidth(null);
-		bgHeight = image.getHeight(null);
-		
+		this.tutorial = ImageHandler.getScaledImage(image);
+		bgWidth = tutorial.getWidth(null);
+		bgHeight = tutorial.getHeight(null);
 		midX = ControlManager.screenWidth/2;
 		midY = ControlManager.screenHeight/2;
 	}
@@ -32,20 +35,18 @@ public class City2State extends GameState{
 		AffineTransform tx = new AffineTransform();
 		tx.translate(midX, midY);
 		g2.setTransform(tx);
-		g2.drawImage(image, -bgWidth/2,-bgHeight/2,null);
+		g2.drawImage(tutorial, -bgWidth/2,-bgHeight/2,null);
 	}
 
 	@Override
 	public void update() {
-		
 	}
 
 	@Override
 	public void init() {
-		// TODO Auto-generated method stub
-		if(image.equals(ImageHandler.getImage(ImageHandler.ImageType.troll))){
+		if(tutorial.equals(ImageHandler.getImage(ImageHandler.ImageType.tutorial_plate))){
 		try {
-			cm.playMusic1();
+			cm.playBoatTutorialVoice();
 		} catch (LineUnavailableException | IOException e) {
 			e.printStackTrace();
 		}
@@ -63,4 +64,5 @@ public class City2State extends GameState{
 		// TODO Auto-generated method stub
 		
 	}
+
 }

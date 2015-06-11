@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.Timer;
 
-import model.gamestates.BossFightState;
+import model.gamestates.Bossfight.BossFightState;
 
 public class DrawThread implements Runnable, ActionListener
 	{

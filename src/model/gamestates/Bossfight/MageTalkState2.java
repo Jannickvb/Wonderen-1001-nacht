@@ -1,4 +1,4 @@
-package model.gamestates;
+package model.gamestates.Bossfight;
 
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -8,57 +8,59 @@ import java.io.IOException;
 
 import javax.sound.sampled.LineUnavailableException;
 
+import model.gamestates.GameState;
 import control.ControlManager;
 import control.ImageHandler;
+import control.ImageHandler.ImageType;
 
-public class DoorChoiceState extends GameState{
+public class MageTalkState2 extends GameState{
 	
-	private Image image;
+	private Image tutorial;
 	private int midX,midY,bgWidth,bgHeight,counter;
 	
-	public DoorChoiceState(ControlManager cm)
+	public MageTalkState2(ControlManager cm)
 	{
 		super(cm);
 		this.counter = 0;
-		image = ImageHandler.getImage(ImageHandler.ImageType.choice1);
-		bgWidth = image.getWidth(null);
-		bgHeight = image.getHeight(null);
+		tutorial = ImageHandler.getScaledImage(ImageHandler.getImage(ImageType.mage2));
+		bgWidth = tutorial.getWidth(null);
+		bgHeight = tutorial.getHeight(null);
 		midX = ControlManager.screenWidth/2;
 		midY = ControlManager.screenHeight/2;
 	}
- 
+
 	@Override
 	public void draw(Graphics2D g2) {
 		AffineTransform tx = new AffineTransform();
 		tx.translate(midX, midY);
 		g2.setTransform(tx);
-		g2.drawImage(image, -bgWidth/2,-bgHeight/2,null);
+		g2.drawImage(tutorial, -bgWidth/2,-bgHeight/2,null);
 	}
 
 	@Override
 	public void update() {
-
+		counter++;
+		if(counter > 300)
+		{
+			cm.getGameStateManager().next();
+		}
 	}
 
 	@Override
 	public void init() {
-		if(image.equals(ImageHandler.getImage(ImageHandler.ImageType.choice1))){
-			try {
-				cm.travelChoiceVoice();
-			} catch (LineUnavailableException | IOException e) {
-				e.printStackTrace();
-			}
+		if(tutorial.equals(ImageHandler.getImage(ImageHandler.ImageType.mage1))){
+		try {
+			cm.arrivalVoice();
+		} catch (LineUnavailableException | IOException e) {
+			e.printStackTrace();
+		}
 		}
 	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
-		if(e.getKeyCode() == KeyEvent.VK_LEFT){
-			cm.getGameStateManager().next();
-		}else if(e.getKeyCode() == KeyEvent.VK_RIGHT){
-			cm.getGameStateManager().skipNext();
-		}
+		
 	}
 
 	@Override

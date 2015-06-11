@@ -1,14 +1,14 @@
-package model.gamestates;
+package model.gamestates.start;
 
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 
 import javax.sound.sampled.LineUnavailableException;
 
+import model.gamestates.GameState;
 import control.ControlManager;
 import control.VideoHandler;
 

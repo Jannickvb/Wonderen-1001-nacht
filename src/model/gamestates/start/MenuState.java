@@ -1,4 +1,4 @@
-package model.gamestates;
+package model.gamestates.start;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -13,6 +13,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 
+import model.gamestates.GameState;
 import control.ControlManager;
 import control.ImageHandler;
 

@@ -1,4 +1,4 @@
-package model.gamestates;
+package model.gamestates.story;
 
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -8,6 +8,7 @@ import java.io.IOException;
 
 import javax.sound.sampled.LineUnavailableException;
 
+import model.gamestates.GameState;
 import control.ControlManager;
 import control.ImageHandler;
 

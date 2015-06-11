@@ -1,30 +1,29 @@
-package model.gamestates;
+package model.gamestates.story;
 
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.geom.AffineTransform;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.sound.sampled.LineUnavailableException;
 
+import model.gamestates.GameState;
 import control.ControlManager;
 import control.ImageHandler;
 
-public class TutorialState extends GameState{
+public class ArrivalState extends GameState{
 	
-	private BufferedImage tutorial;
-	private boolean scaledOnce;
+	private Image image;
 	private int midX,midY,bgWidth,bgHeight,counter;
 	
-	public TutorialState(ControlManager cm, BufferedImage image)
+	public ArrivalState(ControlManager cm)
 	{
 		super(cm);
 		this.counter = 0;
-		this.tutorial = ImageHandler.getScaledImage(image);
-		bgWidth = tutorial.getWidth(null);
-		bgHeight = tutorial.getHeight(null);
+		image = ImageHandler.getImage(ImageHandler.ImageType.arrival);
+		bgWidth = image.getWidth(null);
+		bgHeight = image.getHeight(null);
 		midX = ControlManager.screenWidth/2;
 		midY = ControlManager.screenHeight/2;
 	}
@@ -34,21 +33,32 @@ public class TutorialState extends GameState{
 		AffineTransform tx = new AffineTransform();
 		tx.translate(midX, midY);
 		g2.setTransform(tx);
-		g2.drawImage(tutorial, -bgWidth/2,-bgHeight/2,null);
+		g2.drawImage(image, -bgWidth/2,-bgHeight/2,null);
 	}
 
 	@Override
 	public void update() {
+
 	}
 
 	@Override
 	public void init() {
-		if(tutorial.equals(ImageHandler.getImage(ImageHandler.ImageType.tutorial_plate))){
-		try {
-			cm.playBoatTutorialVoice();
-		} catch (LineUnavailableException | IOException e) {
-			e.printStackTrace();
-		}
+		// TODO Auto-generated method stub
+		if(image.equals(ImageHandler.getImage(ImageHandler.ImageType.arrival))){
+			try {
+				cm.arrivalVoice();
+				new java.util.Timer().schedule( 
+				        new java.util.TimerTask() {
+				            @Override
+				            public void run() {
+				                cm.getGameStateManager().next();
+				            }
+				        }, 
+				        14000 
+				);
+			} catch (LineUnavailableException | IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -65,3 +75,4 @@ public class TutorialState extends GameState{
 	}
 
 }
+

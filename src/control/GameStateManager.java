@@ -2,20 +2,22 @@ package control;
 
 import java.util.ArrayList;
 
-import model.gamestates.ArrivalState;
-import model.gamestates.BoatGameState;
-import model.gamestates.BossFightState;
-import model.gamestates.City1State;
-import model.gamestates.City2State;
-import model.gamestates.DoorChoiceState;
 import model.gamestates.GameState;
-import model.gamestates.IntroMovState;
-import model.gamestates.MageTalkState;
-import model.gamestates.MageTalkState2;
-import model.gamestates.MenuState;
-import model.gamestates.PoorGameState;
-import model.gamestates.RichGameState;
-import model.gamestates.TutorialState;
+import model.gamestates.Bossfight.BossFightState;
+import model.gamestates.Bossfight.MageTalkState2;
+import model.gamestates.magepath.City1State;
+import model.gamestates.magepath.PoorGameState;
+import model.gamestates.magepath.PoorMovState;
+import model.gamestates.start.BoatGameState;
+import model.gamestates.start.IntroMovState;
+import model.gamestates.start.MenuState;
+import model.gamestates.start.TutorialState;
+import model.gamestates.story.ArrivalState;
+import model.gamestates.story.DoorChoiceState;
+import model.gamestates.story.MageTalkState;
+import model.gamestates.trollpath.City2State;
+import model.gamestates.trollpath.RichGameState;
+import model.gamestates.trollpath.RichMovState;
 
 public class GameStateManager {
 	private ArrayList<GameState> gameStates = new ArrayList<GameState>();
@@ -34,22 +36,35 @@ public class GameStateManager {
 	
 	public void reloadGameStates() { 
 		gameStates.clear();
+		
+		//Intro
 		gameStates.add(new MenuState(cm));
 		//gameStates.add(new IntroMovState(cm));
 		//gameStates.add(new TutorialState(cm, ImageHandler.getImage(ImageHandler.ImageType.tutorial_plate)));
 		gameStates.add(new BoatGameState(cm));
 		
+		//Story
 		//gameStates.add(new MageTalkState(cm));
 		//gameStates.add(new ArrivalState(cm));
 		gameStates.add(new DoorChoiceState(cm));
-		gameStates.add(new PoorGameState(cm));
-		gameStates.add(new RichGameState(cm));
 		
+		//Choose poor path
+		gameStates.add(new PoorMovState(cm));
+		gameStates.add(new PoorGameState(cm));
 		gameStates.add(new City1State(cm));
+		
+		//Choose rich path
+		gameStates.add(new RichMovState(cm));
+		gameStates.add(new RichGameState(cm));
 		gameStates.add(new City2State(cm));
+		
+		//Before Bossfight
+		//gameStates.add(new ArrivedAtPalaceState(cm));
 		gameStates.add(new MageTalkState2(cm));
+		//gameStates.add(new TrollTalkState2(cm));
 		gameStates.add(new TutorialState(cm, ImageHandler.getImage(ImageHandler.ImageType.tutorial_spell)));
 		gameStates.add(new BossFightState(cm));
+		//gameStates.add(new EndGameState(cm));
 	}
 	
 	public void select(int i) {

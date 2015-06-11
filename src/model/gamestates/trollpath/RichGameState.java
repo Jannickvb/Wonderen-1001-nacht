@@ -1,4 +1,4 @@
-package model.gamestates;
+package model.gamestates.trollpath;
 
 	import java.awt.Color;
 import java.awt.Graphics2D;
@@ -19,6 +19,7 @@ import model.entities.Box;
 import model.entities.Palace;
 import model.entities.Person;
 import model.entities.PlayerHit;
+import model.gamestates.GameState;
 import control.ControlManager;
 import control.ImageHandler;
 

@@ -1,4 +1,4 @@
-package model.gamestates;
+package model.gamestates.Bossfight;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.DrawThread;
+import model.gamestates.GameState;
 import control.ControlManager;
 import control.ImageHandler;
 

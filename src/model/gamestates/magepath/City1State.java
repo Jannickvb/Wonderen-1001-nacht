@@ -1,4 +1,4 @@
-package model.gamestates;
+package model.gamestates.magepath;
 
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -8,23 +8,24 @@ import java.io.IOException;
 
 import javax.sound.sampled.LineUnavailableException;
 
+import model.gamestates.GameState;
 import control.ControlManager;
 import control.ImageHandler;
 
-public class ArrivalState extends GameState{
+public class City1State extends GameState{
 	
 	private Image image;
-	private int midX,midY,bgWidth,bgHeight,counter;
+	private int width,height,midX,midY,bgWidth,bgHeight,counter;
 	
-	public ArrivalState(ControlManager cm)
+	public City1State(ControlManager cm)
 	{
 		super(cm);
 		this.counter = 0;
-		image = ImageHandler.getImage(ImageHandler.ImageType.arrival);
+		image = ImageHandler.getImage(ImageHandler.ImageType.mage2);
+		midX = cm.screenWidth/2;
+		midY = cm.screenHeight/2;
 		bgWidth = image.getWidth(null);
 		bgHeight = image.getHeight(null);
-		midX = ControlManager.screenWidth/2;
-		midY = ControlManager.screenHeight/2;
 	}
 
 	@Override
@@ -37,27 +38,18 @@ public class ArrivalState extends GameState{
 
 	@Override
 	public void update() {
-
+		
 	}
 
 	@Override
 	public void init() {
 		// TODO Auto-generated method stub
-		if(image.equals(ImageHandler.getImage(ImageHandler.ImageType.arrival))){
-			try {
-				cm.arrivalVoice();
-				new java.util.Timer().schedule( 
-				        new java.util.TimerTask() {
-				            @Override
-				            public void run() {
-				                cm.getGameStateManager().next();
-				            }
-				        }, 
-				        14000 
-				);
-			} catch (LineUnavailableException | IOException e) {
-				e.printStackTrace();
-			}
+		if(image.equals(ImageHandler.getImage(ImageHandler.ImageType.mage2))){
+//		try {
+//			cm.playMusic1();
+//		} catch (LineUnavailableException | IOException e) {
+//			e.printStackTrace();
+//		}
 		}
 	}
 
@@ -72,6 +64,4 @@ public class ArrivalState extends GameState{
 		// TODO Auto-generated method stub
 		
 	}
-
 }
-
