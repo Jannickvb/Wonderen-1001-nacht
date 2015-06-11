@@ -109,12 +109,20 @@ public class Boat extends Entity {
 		//boolean pressurePlate3 = input.getPressurePlate3(); //Right foot
 		//boolean pressurePlate4 = input.getPressurePlate4(); //Left foot
 		if(pressurePlate1 && pressurePlate3 && !pressurePlate2 && !pressurePlate4) { // Go to the rights
-			if(positionX <= ControlManager.screenWidth/4*3-ControlManager.screenWidth/8) {
+			if( positionY < 178) {
+				if(positionX > ControlManager.screenWidth/2-(getSprite().getWidth()/2)-45)
+					positionX += 13;
+			}
+			else if(positionX <= ControlManager.screenWidth/4*3-ControlManager.screenWidth/8) 
 				positionX += 13;
-			}	
+				
 		}
 		else if(!pressurePlate1 && !pressurePlate3 && pressurePlate2 && pressurePlate4) {// Go to the left
-			if(positionX > ControlManager.screenWidth/4+ControlManager.screenWidth/20)
+			if( positionY < 178) {
+				if(positionX < ControlManager.screenWidth/2+13)
+					positionX -= 13;
+			}
+			else if(positionX > ControlManager.screenWidth/4+ControlManager.screenWidth/20)
 				positionX -= 13;
 		}
 	}
@@ -158,14 +166,7 @@ public class Boat extends Entity {
 		positionY = ControlManager.screenHeight-250;
 		positionX = ControlManager.screenWidth/2;
 	}
-	
-	/**
-	 * Let's the boat move upward on the screen.
-	 */
-	public void endGame() {
-		endTimer.start();
-	}
-	
+		
 	/**
 	 * The top of the screen is reached.
 	 * @return if the boat has reached the top of the screen.
@@ -180,6 +181,31 @@ public class Boat extends Entity {
 	 */
 	public void setReachedEnd(boolean reachedEnd) {
 		this.reachedEnd = reachedEnd;
+	}
+	
+	/**
+	 * Toggle the endTimer.
+	 * @param state - The state of the endTimer.
+	 */
+	public void setEndTimer(boolean state) {
+		if(state)
+			endTimer.start();
+		else
+			endTimer.stop();
+	}
+	
+	/**
+	 * Checks if one of the pixels is inside the boats body.
+	 * @param object - the object you want to check for collision.
+	 * @return if there is an intersection between the two objects.
+	 */
+	public boolean containsPoint(Entity object) {
+		Shape boatShape =  new Rectangle2D.Double(positionX+40,positionY,57,173-40);
+		Rectangle2D objectRectangle = object.getRectangle();
+		if(boatShape.intersects(objectRectangle)) 
+			return true;
+		else
+			return false;
 	}
 	
 	/**

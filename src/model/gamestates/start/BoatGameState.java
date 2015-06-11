@@ -197,10 +197,14 @@ public class BoatGameState extends GameState{
 			pier.setPositionY(-178);
 		}
 				
-		//Pier fully popped out of the top of the screen:
+		//Pier fully popped out of the top of the screen & also checking if boat collides with the pier:
 		if(pier.isDead()) {
 			backgroundTimer.stop();
-			boat.endGame();
+			boat.setEndTimer(true);
+			if(boat.containsPoint(pier))
+				boat.setEndTimer(false);
+			else
+				boat.setEndTimer(true);
 		}
 		
 		//Boat reached top of the screen:
@@ -256,7 +260,6 @@ public class BoatGameState extends GameState{
 	//Just for testing:
 	@Override
 	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
 		if (e.getKeyCode() == KeyEvent.VK_LEFT) {
         	boat.setPressurePlates(2);
         } else if (e.getKeyCode() == KeyEvent.VK_RIGHT){
@@ -266,7 +269,6 @@ public class BoatGameState extends GameState{
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
 		if (e.getKeyCode() == KeyEvent.VK_LEFT) {
 			boat.setPressurePlates(4);
         } else if (e.getKeyCode() == KeyEvent.VK_RIGHT){
