@@ -47,7 +47,16 @@ public class ImageHandler {
 			images.add(ImageIO.read(Main.class.getResource("/images/Tovenaar2.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/Trol.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/PalaceOutside.png")));
-			images.add(ImageIO.read(Main.class.getResource("/images/DoorChoosing.jpg")));
+			//poor rich state
+			images.add(ImageIO.read(Main.class.getResource("/images/poorrich/pr_vignette.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/poorrich/pr_door.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/poorrich/pr_door_left.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/poorrich/pr_door_right.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/poorrich/pr_wizard.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/poorrich/pr_djinn.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/poorrich/pr_cloud_left.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/poorrich/pr_cloud_right.png")));
+			
 			images.add(ImageIO.read(Main.class.getResource("/images/treasureRoom.jpg")));
 			
 			images.add(ImageIO.read(Main.class.getResource("/images/background.png")));
@@ -107,7 +116,17 @@ public class ImageHandler {
 		mage2, 
 		troll, 
 		arrival, 
-		choice1, 
+		
+		//poorich
+		pr_vignette,
+		pr_door,
+		pr_door_left,
+		pr_door_right,
+		pr_wizard,
+		pr_djinn,
+		pr_cloud_left,
+		pr_cloud_right,
+		
 		treasure_room, 
 		grass, 
 		poorcity, 

@@ -1,12 +1,9 @@
 package model.gamestates.story;
 
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.geom.AffineTransform;
-import java.io.IOException;
-
-import javax.sound.sampled.LineUnavailableException;
+import java.awt.image.BufferedImage;
 
 import model.gamestates.GameState;
 import control.ControlManager;
@@ -15,8 +12,8 @@ import control.InputHandler;
 
 public class DoorChoiceState extends GameState{
 	
-	private Image image;
-	private int midX,midY,bgWidth,bgHeight,counter;
+	private BufferedImage vignette,door,doorLeft,doorRight,djinn,wizard,cloudLeft,cloudRight;
+	private int midX,midY,bgWidth,bgHeight,keyFrames;
 	private InputHandler input;
 	
 	private boolean pressurePlate1; //Right foot
@@ -28,10 +25,19 @@ public class DoorChoiceState extends GameState{
 	{
 		super(cm);
 		input = cm.getInputHandler();
-		this.counter = 0;
-		image = ImageHandler.getImage(ImageHandler.ImageType.choice1);
-		bgWidth = image.getWidth(null);
-		bgHeight = image.getHeight(null);
+		this.keyFrames = 0;
+		
+		vignette = ImageHandler.getScaledImage(ImageHandler.getImage(ImageHandler.ImageType.pr_vignette));
+		door = ImageHandler.getScaledImage(ImageHandler.getImage(ImageHandler.ImageType.pr_door));
+		doorLeft = ImageHandler.getScaledImage(ImageHandler.getImage(ImageHandler.ImageType.pr_door_left));
+		doorRight = ImageHandler.getScaledImage(ImageHandler.getImage(ImageHandler.ImageType.pr_door_right));
+		djinn = ImageHandler.getScaledImage(ImageHandler.getImage(ImageHandler.ImageType.pr_djinn));
+		wizard = ImageHandler.getScaledImage(ImageHandler.getImage(ImageHandler.ImageType.pr_wizard));
+		cloudLeft = ImageHandler.getScaledImage(ImageHandler.getImage(ImageHandler.ImageType.pr_cloud_left));
+		cloudRight = ImageHandler.getScaledImage(ImageHandler.getImage(ImageHandler.ImageType.pr_cloud_right));
+		
+		bgWidth = door.getWidth(null);
+		bgHeight = door.getHeight(null);
 		midX = ControlManager.screenWidth/2;
 		midY = ControlManager.screenHeight/2;
 	}
@@ -41,7 +47,14 @@ public class DoorChoiceState extends GameState{
 		AffineTransform tx = new AffineTransform();
 		tx.translate(midX, midY);
 		g2.setTransform(tx);
-		g2.drawImage(image, -bgWidth/2,-bgHeight/2,null);
+		g2.drawImage(doorLeft, -bgWidth/2,-bgHeight/2,null);
+		g2.drawImage(doorRight, -bgWidth/2,-bgHeight/2,null);
+		g2.drawImage(door, -bgWidth/2,-bgHeight/2,null);
+		g2.drawImage(djinn, -bgWidth/2,-bgHeight/2,null);
+		g2.drawImage(wizard, -bgWidth/2,-bgHeight/2,null);
+		g2.drawImage(cloudRight, -bgWidth/2,-bgHeight/2,null);
+		g2.drawImage(cloudLeft, -bgWidth/2,-bgHeight/2,null);
+		g2.drawImage(vignette, -bgWidth/2,-bgHeight/2,null);
 	}
 
 	@Override
@@ -60,13 +73,11 @@ public class DoorChoiceState extends GameState{
 
 	@Override
 	public void init() {
-		if(image.equals(ImageHandler.getImage(ImageHandler.ImageType.choice1))){
-			try {
-				cm.travelChoiceVoice();
-			} catch (LineUnavailableException | IOException e) {
-				e.printStackTrace();
-			}
-		}
+//			try {
+//				cm.travelChoiceVoice();
+//			} catch (LineUnavailableException | IOException e) {
+//				e.printStackTrace();
+//			}
 		//input.turnPressurePlates(true);
 	}
 	
