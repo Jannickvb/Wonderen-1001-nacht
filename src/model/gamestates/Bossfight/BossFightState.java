@@ -23,7 +23,7 @@ public class BossFightState extends GameState{
 	private List<BufferedImage> spells;
 	private AffineTransform tx;
 	private int midX,midY, time;
-	private Point2D position1, position2;
+	private Point2D position1, position2, positioni1, positioni2;
 	
 	private int outCounter,inCounter;
 	private int outColor,inColor;
@@ -51,6 +51,8 @@ public class BossFightState extends GameState{
 		}
 		position1 = new Point2D.Double(0,0);
 		position2 = new Point2D.Double(0,0);
+		positioni1 = new Point2D.Double(-100,-100);
+		positioni2 = new Point2D.Double(-100,-100);
 		this.timer = new Thread(new DrawThread(this));
 		
 		started = false;
@@ -107,7 +109,7 @@ public class BossFightState extends GameState{
 	{
 		AffineTransform oldAF = new AffineTransform();
 		oldAF.setTransform(g2.getTransform());
-		oldAF.scale(1.6,1.6);
+		oldAF.scale(1.8,1.8);
 		this.tx = new AffineTransform();
 		tx.translate(midX, midY);
 		
@@ -115,18 +117,26 @@ public class BossFightState extends GameState{
 		g2.drawImage(currentImage,-currentImage.getWidth()/2, -currentImage.getHeight()/2, null);
 		
 		g2.setTransform(oldAF);	
-		g2.setColor(Color.red);
+		g2.setColor(Color.BLUE);
 		g2.setStroke(new BasicStroke(60f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
 		g2.drawRect((int)position1.getX(),(int)position1.getY(), 1, 1);
+		g2.setColor(Color.RED);
 		g2.drawRect((int)position2.getX(),(int)position2.getY(), 1, 1);
-		if(cm.getInputHandler().isA1Pressed() && drawing) 
+		g2.setColor(new Color(0,0,255,122)); // blue
+		g2.drawRect((int)positioni1.getX(),(int)positioni1.getY(), 1, 1);
+		g2.setColor(new Color(255,0,0,122)); // red
+		g2.drawRect((int)positioni2.getX(),(int)positioni2.getY(), 1, 1);
+		g2.setColor(Color.GRAY);
+		g2.setStroke(new BasicStroke(10f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+		g2.drawLine((int)(midX/1.8), 0, (int)(midX/1.8), midY*2);
+		if(cm.getInputHandler().isA1Pressed() && drawing)
 		{
-			drawPoints(cm.getInputHandler().getX1(),cm.getInputHandler().getY1());
+			drawPointsLeft(cm.getInputHandler().getX1(),cm.getInputHandler().getY1());
 		}
 		
 		if(cm.getInputHandler().isA2Pressed() && drawing)
 		{
-			drawPoints(cm.getInputHandler().getX2(),cm.getInputHandler().getY2());
+			drawPointsRight(cm.getInputHandler().getX2(),cm.getInputHandler().getY2());
 		}
 		g2.setColor(Color.black);
 		if(drawing)
@@ -142,17 +152,31 @@ public class BossFightState extends GameState{
 		{
 			if(wins > 3)
 			{
-				g2.drawString("You Win!", (int) (midX/1.6), 50);
+				g2.drawString("You Win!", (int) (midX/1.8), 20);
 			}
 		}
 	}
 	
-	private void drawPoints(int x, int y)
+	private void drawPointsLeft(int x, int y)
 	{
 		 Graphics2D g2 = currentImage.createGraphics();
-		 g2.setColor(Color.red);
+		 g2.setColor(Color.BLUE);
 		 g2.setStroke(new BasicStroke(96f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
-		 g2.drawLine((int) (x*1.6) + ((1920 - (midX*2))/2), (int) (1.6*y) + ((1080 - (midY*2))/2), (int) (1.6*x) + ((1920 - (midX*2))/2), (int) (1.6*y) + ((1080 - (midY*2))/2));
+		 if(x < 500)
+		 {
+			 g2.drawLine((int) (x*1.8) + ((1920 - (midX*2))/2), (int) (1.8*y) + ((1080 - (midY*2))/2), (int) (1.8*x) + ((1920 - (midX*2))/2), (int) (1.8*y) + ((1080 - (midY*2))/2));
+		 }
+	}
+	
+	private void drawPointsRight(int x, int y)
+	{
+		 Graphics2D g2 = currentImage.createGraphics();
+		 g2.setColor(Color.RED);
+		 g2.setStroke(new BasicStroke(96f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+		 if(x > 500 && x < 1100)
+		 {
+			 g2.drawLine((int) (x*1.8) + ((1920 - (midX*2))/2), (int) (1.8*y) + ((1080 - (midY*2))/2), (int) (1.8*x) + ((1920 - (midX*2))/2), (int) (1.8*y) + ((1080 - (midY*2))/2));
+		 }
 	}
 	
 	public void nextSpell()
@@ -223,8 +247,30 @@ public class BossFightState extends GameState{
 	{
 		if(drawing)
 		{
-			position1.setLocation(cm.getInputHandler().getX1(), cm.getInputHandler().getY1());
-			position2.setLocation(cm.getInputHandler().getX2(), cm.getInputHandler().getY2());
+			if(cm.getInputHandler().getX1() < 500 && cm.getInputHandler().getX1() > 0)
+			{
+				position1.setLocation(cm.getInputHandler().getX1(), cm.getInputHandler().getY1());
+				positioni1.setLocation(cm.getInputHandler().getX1(), cm.getInputHandler().getY1());
+			}
+			else if(cm.getInputHandler().getX1() > 500)
+			{
+				position1.setLocation(midX/1.8, cm.getInputHandler().getY1());
+				positioni1.setLocation(cm.getInputHandler().getX1(), cm.getInputHandler().getY1());
+			}
+			else
+			{
+				position1.setLocation(0, cm.getInputHandler().getY1());
+			}
+			if(cm.getInputHandler().getX2() > 500)
+			{
+				position2.setLocation(cm.getInputHandler().getX2(), cm.getInputHandler().getY2());
+				positioni2.setLocation(cm.getInputHandler().getX2(), cm.getInputHandler().getY2());
+			}
+			else
+			{
+				position2.setLocation(midX/1.8, cm.getInputHandler().getY2());
+				positioni2.setLocation(cm.getInputHandler().getX2(), cm.getInputHandler().getY2());
+			}
 			if(time != 0)
 			{
 				time--;
