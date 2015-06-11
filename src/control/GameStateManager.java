@@ -39,13 +39,13 @@ public class GameStateManager {
 		
 		//Intro
 		gameStates.add(new MenuState(cm));
-		//gameStates.add(new IntroMovState(cm));
-		//gameStates.add(new TutorialState(cm, ImageHandler.getImage(ImageHandler.ImageType.tutorial_plate)));
+		//gameStates.add(new IntroMovState(cm));//Done
+		//gameStates.add(new TutorialState(cm, ImageHandler.getImage(ImageHandler.ImageType.tutorial_plate)));//Done
 		gameStates.add(new BoatGameState(cm));
 		
 		//Story
-		//gameStates.add(new MageTalkState(cm));
-		//gameStates.add(new ArrivalState(cm));
+		//gameStates.add(new MageTalkState(cm));//Done
+		//gameStates.add(new ArrivalState(cm));//Done
 		gameStates.add(new DoorChoiceState(cm));
 		
 		//Choose poor path
