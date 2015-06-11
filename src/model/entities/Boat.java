@@ -16,12 +16,11 @@ import control.ControlManager;
 import control.ImageHandler;
 import control.InputHandler;
 
-public class Player extends Entity {
+public class Boat extends Entity {
 
 	private InputHandler input;
 	private int animationCounter;
 	private float alpha;
-	private boolean drawBoat;
 	private boolean reachedEnd;
 	private Timer deadMessageTimer;
 	private Timer endTimer;
@@ -32,15 +31,14 @@ public class Player extends Entity {
 	private boolean pressurePlate4; //Left foot
 	
 	/**
-	 * Constructor of the Player object.
+	 * Constructor of the Boat object.
 	 * @param cm - The control manager of the game.
 	 */
-	public Player(ControlManager cm) {
+	public Boat(ControlManager cm) {
 		super(cm,ImageHandler.getImage(ImageHandler.ImageType.player_boat));
 		input = cm.getInputHandler();
 		animationCounter = 0;
 		alpha = 1.0f;
-		drawBoat = true;
 		endTimer = new Timer(1000/60,new ActionListener() {
 			
 			@Override
@@ -63,10 +61,14 @@ public class Player extends Entity {
 		animationTimer.start();
 	}
 	
+	/**
+	 * Draws the Boat.
+	 * @param g2 - The Graphics2D object.
+	 */
 	@Override
 	public void draw(Graphics2D g2) {
 		//Drawing ship:
-		if(drawBoat) {
+		if(!isDead()) {
 			BufferedImage subImage = getSprite().getSubimage((animationCounter%3)*128,0,128,193);
 			g2.drawImage(subImage,getPositionX(),getPositionY(),null);
 		}
@@ -92,11 +94,15 @@ public class Player extends Entity {
 		g2.drawString(text, x, y);
 	}
 	
+	/**
+	 * Update method for the Boat object.
+	 * Get's pressure plate status and moves the boat.
+	 */
 	public void update() {
-//		boolean pressurePlate1 = input.getPressurePlate1(); //Right foot
-//		boolean pressurePlate2 = input.getPressurePlate2(); //Left foot
-//		boolean pressurePlate3 = input.getPressurePlate3(); //Right foot
-//		boolean pressurePlate4 = input.getPressurePlate4(); //Left foot
+		//boolean pressurePlate1 = input.getPressurePlate1(); //Right foot
+		//boolean pressurePlate2 = input.getPressurePlate2(); //Left foot
+		//boolean pressurePlate3 = input.getPressurePlate3(); //Right foot
+		//boolean pressurePlate4 = input.getPressurePlate4(); //Left foot
 		if(pressurePlate1 && pressurePlate3 && !pressurePlate2 && !pressurePlate4) { // Go to the rights
 			if(positionX <= ControlManager.screenWidth/4*3-ControlManager.screenWidth/8) {
 				positionX += 13;
@@ -108,6 +114,10 @@ public class Player extends Entity {
 		}
 	}
 	
+	/**
+	 * Init method for the Boat object.
+	 * Sets x and y starting positions, also initializes the pressure plates.
+	 */
 	public void init() {
 		positionX = ControlManager.screenWidth/2;
 		positionY = ControlManager.screenHeight - 250;
@@ -115,26 +125,20 @@ public class Player extends Entity {
 		//input.turnPressurePlates(true);
 	}
 	
-	public Rectangle2D getRectangleBounds() {
-		return new Rectangle2D.Double(positionX+40,positionY+30,57,173-40); //193
-	}
-	
-	
+	/**
+	 * Get's called when the ship collides with a Rock object.
+	 */
 	public void collision() {
-			positionY = ControlManager.screenHeight-250;
-			positionX = ControlManager.screenWidth/2;
-			setDead(true);
 			deadMessageTimer = new Timer(200,new ActionListener() {
-				
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					if(alpha > 0.045) {
-						drawBoat = !drawBoat;
+						setDead(!isDead());
 						alpha -= 0.045f;
 					}
 					else {
 						deadMessageTimer.stop();
-						drawBoat = true;
+						setDead(false);
 						alpha = 1.0f;
 					}
 				}
@@ -142,11 +146,40 @@ public class Player extends Entity {
 			deadMessageTimer.start();
 	}
 	
+	/**
+	 * Resets the position to start position.
+	 */
 	public void reset() {
-			positionY = ControlManager.screenHeight-250;
-			setDead(false);
+		positionY = ControlManager.screenHeight-250;
+		positionX = ControlManager.screenWidth/2;
 	}
 	
+	public void endGame() {
+		endTimer.start();
+	}
+	
+	public boolean reachedEnd() {
+		return reachedEnd;
+	}
+	
+	/**
+	 * Checks if one of the pixels is inside the boats body.
+	 * @param object - the object you want to check for collision.
+	 * @return if there is an intersection between the two objects.
+	 */
+	public boolean containsPoint(Entity object) {
+		Shape boatShape =  new Rectangle2D.Double(positionX+40,positionY+30,57,173-40);
+		Rectangle2D objectRectangle = object.getRectangle();
+		if(boatShape.intersects(objectRectangle)) 
+			return true;
+		else
+			return false;
+	}
+	
+	/**
+	 * Just for testing:
+	 * @param i
+	 */
 	public void setPressurePlates(int i){
 		if(i == 1){
 			pressurePlate1 = true;
@@ -161,27 +194,5 @@ public class Player extends Entity {
 			pressurePlate2 = false;
 			pressurePlate4 = false;
 		}
-	}
-	
-	public void endGame() {
-		endTimer.start();
-	}
-	
-	/**
-	 * Checks if one of the pixels is inside the boats body.
-	 * @param object - the object you want to check for collision.
-	 * @return if there is an intersection between the two objects.
-	 */
-	public boolean containsPoint(Entity object) {
-		Shape boatShape = getRectangleBounds();
-		Rectangle2D objectRectangle = object.getRectangle();
-		if(boatShape.intersects(objectRectangle)) 
-			return true;
-		else
-			return false;
-	}
-	
-	public boolean reachedEnd() {
-		return reachedEnd;
 	}
 }

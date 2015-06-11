@@ -18,15 +18,15 @@ import javax.swing.Timer;
 import model.entities.BoatCrash;
 import model.entities.Foilage;
 import model.entities.Pier;
-import model.entities.Player;
+import model.entities.Boat;
 import model.entities.Rock;
 import model.gamestates.GameState;
 import control.ControlManager;
 import control.ImageHandler;
 
-public class BoatGameState extends GameState implements ActionListener {
+public class BoatGameState extends GameState{
 
-	private Player boat;
+	private Boat boat;
 	private Pier pier;
 	private BoatCrash boatCrash;
 	private BufferedImage background, liveHeart;
@@ -43,10 +43,16 @@ public class BoatGameState extends GameState implements ActionListener {
 		super(cm);
 		counter = 0;
 		lives = 3;
-		boat = new Player(cm);
+		boat = new Boat(cm);
 		backgroundPositionY = 0;
 		fade = 0;
-		backgroundTimer = new Timer(1000/60,this);
+		backgroundTimer = new Timer(1000/60,new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				backgroundPositionY += 6;
+			}
+		});
 		backgroundTimer.start();
 		rocks = new ArrayList<>(1000);
 		plants = new ArrayList<>(1000);
@@ -69,25 +75,32 @@ public class BoatGameState extends GameState implements ActionListener {
 	    pier.draw(g2);
 	    for(int x = 0; x < lives; x++) 
 			g2.drawImage(liveHeart,50+150*x,5,null);
-	    if(!boat.isDead())
+	    if(boatCrash == null)
 	    	boat.draw(g2);	
 	    else 
 	    	boatCrash.draw(g2);
+	    //Fade out effect:
 	    Shape rect = new Rectangle2D.Double(0,0,ControlManager.screenWidth,ControlManager.screenHeight);
 		g2.setColor(new Color(0,0,0,fade));
-		g2.fill(rect);
-	    
-	    
+		g2.fill(rect); 
 	}
 
 	@Override
 		public void update() {
+		
+			//Updating the boat:
 			boat.update();
+			
+			//Updating the Pier:
+			pier.update();
+			
+			//Checking for collision:
 			for(Rock rock : rocks) {
 				if(boat.containsPoint(rock)) {
 					collision();
 				}
 			}
+			
 			//Randomly spawning rocks: 
 			if(!dead) {
 				if(Math.floor(Math.random()*25) == 3) {
@@ -132,7 +145,7 @@ public class BoatGameState extends GameState implements ActionListener {
 				}
 			}
 			
-			//Checking if trees or rocks are out of the screen:
+			//Checking if rocks are out of the screen:
 			Iterator it = rocks.iterator();
 			while(it.hasNext()) {
 				Rock rock = (Rock) it.next();
@@ -142,6 +155,7 @@ public class BoatGameState extends GameState implements ActionListener {
 					rock.setTimer(false);
 			}
 			
+			//Checking if Trees are out of the screen:
 			it = plants.iterator();
 			while(it.hasNext()) {
 				Foilage foilage = (Foilage) it.next();
@@ -151,14 +165,13 @@ public class BoatGameState extends GameState implements ActionListener {
 					foilage.setTimer(false);
 			}
 			
-			if(boatCrash != null) {
-				if(boatCrash.isDead()) {
-					boatCrash = null;
+			//Checking if crash animation is over:
+			if(boatCrash != null) 
+				if(boatCrash.isDead()) 
 					reset();
-				}
-				else
-					boatCrash.update();
-			}
+			
+			
+			
 			
 			if(counter >= 10){
 				if(!dead) {
@@ -169,20 +182,22 @@ public class BoatGameState extends GameState implements ActionListener {
 				}
 			}
 			
-			pier.update();
+			
 			
 			if(pier.isDead()) {
 				backgroundTimer.stop();
 				boat.endGame();
-				if(!boat.reachedEnd()) {
-					System.out.println("reached");
-					if(counter < 20 && fade < 1) {
-						fade += 0.1;
-						counter++;
-					}
-					else
-						cm.getGameStateManager().next();
+				
+			}
+			
+			if(boat.reachedEnd()) {
+				System.out.println("reached");
+				if(counter < 20 && fade < 1) {
+					fade += 0.1;
+					counter++;
 				}
+				else
+					cm.getGameStateManager().next();
 			}
 			
 			
@@ -195,17 +210,16 @@ public class BoatGameState extends GameState implements ActionListener {
 		boat.init();
 		pier = new Pier(cm,ControlManager.screenHeight);
 	}
-
-	@Override
-	public void actionPerformed(ActionEvent arg0) {
-		backgroundPositionY+=6;
-	}
 	
 	public void collision() {
-		if(!boat.isDead()) {
-			lives--;
-			boatCrash = new BoatCrash(cm,boat.getPositionX(),boat.getPositionY());
-			boat.collision();
+		if(boatCrash == null) {
+			if(lives > 0) {
+				lives--;
+				boatCrash = new BoatCrash(cm,boat.getPositionX(),boat.getPositionY());
+				boat.collision();
+			}
+			else
+				cm.getGameStateManager().next();
 		}
 	}
 	
@@ -214,7 +228,8 @@ public class BoatGameState extends GameState implements ActionListener {
 		rocks = new ArrayList<>();
 		counter = 0;
 		pier = new Pier(cm,ControlManager.screenHeight);
-		boat.reset();
+		boatCrash = null;
+		System.out.println("reset");
 	}
 	
 	public void endGame() {
