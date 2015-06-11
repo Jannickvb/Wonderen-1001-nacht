@@ -16,6 +16,11 @@ import control.ControlManager;
 import control.ImageHandler;
 import control.InputHandler;
 
+/**
+ * Boat class.
+ * @author Wesley de Hek
+ * @Version 1.7
+ */
 public class Boat extends Entity {
 
 	private InputHandler input;
@@ -154,26 +159,27 @@ public class Boat extends Entity {
 		positionX = ControlManager.screenWidth/2;
 	}
 	
+	/**
+	 * Let's the boat move upward on the screen.
+	 */
 	public void endGame() {
 		endTimer.start();
 	}
 	
+	/**
+	 * The top of the screen is reached.
+	 * @return if the boat has reached the top of the screen.
+	 */
 	public boolean reachedEnd() {
 		return reachedEnd;
 	}
 	
 	/**
-	 * Checks if one of the pixels is inside the boats body.
-	 * @param object - the object you want to check for collision.
-	 * @return if there is an intersection between the two objects.
+	 * Sets the reached end.
+	 * @param reachedEnd - whether the boat has reached the end or not.
 	 */
-	public boolean containsPoint(Entity object) {
-		Shape boatShape =  new Rectangle2D.Double(positionX+40,positionY+30,57,173-40);
-		Rectangle2D objectRectangle = object.getRectangle();
-		if(boatShape.intersects(objectRectangle)) 
-			return true;
-		else
-			return false;
+	public void setReachedEnd(boolean reachedEnd) {
+		this.reachedEnd = reachedEnd;
 	}
 	
 	/**

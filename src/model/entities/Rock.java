@@ -11,6 +11,11 @@ import javax.swing.Timer;
 
 import control.ControlManager;
 
+/**
+ * The Rock class.
+ * @author Wesley de Hek
+ * @version 1.0
+ */
 public class Rock extends Entity {
 
 	/**

@@ -1,6 +1,7 @@
 package model.entities;
 
 import java.awt.Graphics2D;
+import java.awt.Shape;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
@@ -9,7 +10,11 @@ import java.awt.image.BufferedImage;
 import javax.swing.Timer;
 
 import control.ControlManager;
-
+/**
+ * Abstract class for all the entities.
+ * @author Wesley de Hek
+ * @version 1.3
+ */
 public abstract class Entity {
 
 	protected int positionX, positionY;
@@ -116,6 +121,20 @@ public abstract class Entity {
 	 */
 	public Rectangle2D getRectangle() {
 		return  new Rectangle2D.Double(positionX,positionY,getSprite().getWidth(),getSprite().getHeight());
+	}
+	
+	/**
+	 * Checks if one of the pixels is inside the boats body.
+	 * @param object - the object you want to check for collision.
+	 * @return if there is an intersection between the two objects.
+	 */
+	public boolean containsPoint(Entity object) {
+		Shape boatShape =  new Rectangle2D.Double(positionX+40,positionY+30,57,173-40);
+		Rectangle2D objectRectangle = object.getRectangle();
+		if(boatShape.intersects(objectRectangle)) 
+			return true;
+		else
+			return false;
 	}
 	
 	/**
