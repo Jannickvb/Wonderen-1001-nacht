@@ -103,7 +103,8 @@ public class DoorChoiceState extends GameState{
 		if(e.getKeyCode() == KeyEvent.VK_LEFT){
 			cm.getGameStateManager().next();
 		}else if(e.getKeyCode() == KeyEvent.VK_RIGHT){
-			cm.getGameStateManager().skipNext();
+			cm.getGameStateManager().next();
+			cm.getGameStateManager().next();
 		}
 	}
 

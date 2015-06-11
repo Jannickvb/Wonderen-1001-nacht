@@ -142,12 +142,12 @@ public class Person extends Entity implements ActionListener{
 		}
 		
 		public void reset() {
-			if(lives > 1) {
+			if(lives >= 1) {
 				positionY = ControlManager.screenHeight-100;
 				setDead(false);
 			}
 			else
-				getCm().getGameStateManager().next();
+				getCm().getGameStateManager().skipNext();
 		}
 		
 		public void setPressurePlates(int i){

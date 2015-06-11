@@ -26,8 +26,8 @@ import control.ImageHandler;
 public class PoorGameState extends GameState implements ActionListener{
 
 		private Person guy;
-		private BufferedImage grass;
-		private PlayerHit boatCrash;
+		private BufferedImage background;
+		private PlayerHit hit;
 		private int backgroundPositionY;
 		private ArrayList<Box> boxes;
 		private Palace palace;
@@ -54,7 +54,7 @@ public class PoorGameState extends GameState implements ActionListener{
 		             RenderingHints.KEY_ANTIALIASING	,
 		             RenderingHints.VALUE_ANTIALIAS_ON);
 		    g2.setRenderingHints(rh);
-		    TexturePaint tp = new TexturePaint(grass,new Rectangle2D.Double(0,backgroundPositionY,ControlManager.screenWidth,ControlManager.screenHeight));
+		    TexturePaint tp = new TexturePaint(background,new Rectangle2D.Double(0,backgroundPositionY,ControlManager.screenWidth,ControlManager.screenHeight));
 		    g2.setPaint(tp);
 		    g2.fill(new Rectangle2D.Double(0,0,ControlManager.screenWidth,ControlManager.screenHeight));
 			//Drawing objects:   
@@ -64,7 +64,7 @@ public class PoorGameState extends GameState implements ActionListener{
 		    if(!guy.isDead())
 		    	guy.draw(g2);
 		    else
-		    	boatCrash.draw(g2);
+		    	hit.draw(g2);
 		    
 		    Shape rect = new Rectangle2D.Double(0,0,ControlManager.screenWidth,ControlManager.screenHeight);
 			g2.setColor(new Color(0,0,0,fade));
@@ -141,13 +141,13 @@ public class PoorGameState extends GameState implements ActionListener{
 					guy.endGame();
 				}
 				
-				if(boatCrash != null) {
-					if(boatCrash.isDead()) {
-						boatCrash = null;
+				if(hit != null) {
+					if(hit.isDead()) {
+						hit = null;
 						reset();
 					}
 					else
-						boatCrash.update();
+						hit.update();
 				}
 				
 				if(guy.reachedEnd()) {
@@ -156,13 +156,14 @@ public class PoorGameState extends GameState implements ActionListener{
 						counter++;
 					}
 					else
-						cm.getGameStateManager().skipNext();
+						cm.getGameStateManager().next();
+						cm.getGameStateManager().next();
 				}
 			}
 
 		@Override
 		public void init() {
-			grass = ImageHandler.getScaledImage(ImageHandler.getImage(ImageHandler.ImageType.poorcity));
+			background = ImageHandler.getScaledImage(ImageHandler.getImage(ImageHandler.ImageType.poorcity));
 			guy.init();
 			
 		}
@@ -174,7 +175,7 @@ public class PoorGameState extends GameState implements ActionListener{
 		
 		public void collision() {
 			if(!guy.isDead()) {
-				boatCrash = new PlayerHit(cm,guy.getPositionX(),guy.getPositionY());
+				hit = new PlayerHit(cm,guy.getPositionX(),guy.getPositionY());
 				guy.collision();
 			}
 		}
