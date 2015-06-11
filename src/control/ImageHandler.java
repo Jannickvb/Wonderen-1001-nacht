@@ -39,9 +39,9 @@ public class ImageHandler {
 			images.add(ImageIO.read(Main.class.getResource("/images/RunningGuys.png")));
 			
 			images.add(ImageIO.read(Main.class.getResource("/images/spells/circle.png")));
-			images.add(ImageIO.read(Main.class.getResource("/images/spells/rectangle.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/spells/triangle.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/spells/hexagon.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/spells/star.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/spells/spiral.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/Tovenaar.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/Tovenaar2.png")));
