@@ -67,10 +67,6 @@ public class ImageHandler {
 			images.add(ImageIO.read(Main.class.getResource("/images/rock3.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/rock4.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/heart.png")));
-			images.add(ImageIO.read(Main.class.getResource("/images/tree1.png")));
-			images.add(ImageIO.read(Main.class.getResource("/images/tree2.png")));
-			images.add(ImageIO.read(Main.class.getResource("/images/tree3.png")));
-			images.add(ImageIO.read(Main.class.getResource("/images/tree4.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/pier.png")));
 			
 			images.add(ImageIO.read(Main.class.getResource("/images/box1.png")));
@@ -136,10 +132,6 @@ public class ImageHandler {
 		rock3, 
 		rock4, 
 		heart, 
-		tree1, 
-		tree2, 
-		tree3, 
-		tree4, 
 		pier, 
 		box1, 
 		box2, 

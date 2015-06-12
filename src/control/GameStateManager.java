@@ -39,7 +39,7 @@ public class GameStateManager {
 		gameStates.add(new MenuState(cm));
 		//gameStates.add(new IntroMovState(cm));//Done
 		//gameStates.add(new TutorialState(cm, ImageHandler.getImage(ImageHandler.ImageType.tutorial_plate),0));//Done
-		//gameStates.add(new BoatGameState(cm));
+		gameStates.add(new BoatGameState(cm));
 		
 		//Story
 		//gameStates.add(new MageTalkState(cm));//Done
@@ -91,7 +91,7 @@ public class GameStateManager {
 		gameSequence.add(gameStates.get(4));
 		gameSequence.add(gameStates.get(5));
 		gameSequence.add(gameStates.get(6));
-//		gameSequence.add(gameStates.get(7));
+		gameSequence.add(gameStates.get(7));
 //		gameSequence.add(gameStates.get(8));
 //		gameSequence.add(gameStates.get(9));
 //		gameSequence.add(gameStates.get(10));

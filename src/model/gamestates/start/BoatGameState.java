@@ -17,7 +17,6 @@ import javax.swing.Timer;
 
 import model.entities.Boat;
 import model.entities.BoatCrash;
-import model.entities.Foilage;
 import model.entities.Pier;
 import model.entities.Rock;
 import model.gamestates.GameState;
@@ -37,7 +36,6 @@ public class BoatGameState extends GameState{
 	private BufferedImage background, liveHeart;
 	private int backgroundPositionY;
 	private ArrayList<Rock> rocks;
-	private ArrayList<Foilage> plants;
 	private int counter;
 	private int lives;
 	private float alpha;
@@ -54,8 +52,7 @@ public class BoatGameState extends GameState{
 		alpha = 0;
 		lives = 3;
 		boat = new Boat(cm);
-		rocks = new ArrayList<>(1000);
-		plants = new ArrayList<>(1000);
+		rocks = new ArrayList<>(100);
 		backgroundTimer = new Timer(1000/60,new ActionListener() {
 			
 			@Override
@@ -84,9 +81,6 @@ public class BoatGameState extends GameState{
 		//Drawing Rocks:   
 	    for(Rock rock : rocks) 
 			rock.draw(g2);
-	    //Drawing Plants:
-	    for(Foilage plant : plants) 
-			plant.draw(g2);
 	    //Drawing the Pier:
 	    pier.draw(g2);
 	    //Drawing Lives:
@@ -143,26 +137,6 @@ public class BoatGameState extends GameState{
 			rocks.add(rock);
 			rock.init();
 		}
-		//Randomly spawning trees:
-		if(Math.floor(Math.random()*6) == 3) {
-				Foilage plant = null;
-				switch((int) Math.floor(Math.random()*4)) {
-					case 0:
-						plant = new Foilage(cm,ImageHandler.getImage(ImageHandler.ImageType.tree1));
-						break;
-					case 1:
-						plant = new Foilage(cm,ImageHandler.getImage(ImageHandler.ImageType.tree2));
-						break;
-					case 2:
-						plant = new Foilage(cm,ImageHandler.getImage(ImageHandler.ImageType.tree3));
-						break;
-					case 3:
-						plant = new Foilage(cm,ImageHandler.getImage(ImageHandler.ImageType.tree4));
-						break;		
-				}
-				plants.add(plant);
-				plant.init();
-			}
 		}
 		
 		//Checking if rocks are out of the screen:
@@ -173,16 +147,6 @@ public class BoatGameState extends GameState{
 				it.remove();
 			if(pier.isDead())
 				rock.setTimer(false);
-		}
-		
-		//Checking if Trees are out of the screen:
-		it = plants.iterator();
-		while(it.hasNext()) {
-			Foilage foilage = (Foilage) it.next();
-			if(foilage.isDead())
-				it.remove();
-			if(pier.isDead())
-				foilage.setTimer(false);
 		}
 		
 		//Checking if crash animation is over:
@@ -251,7 +215,6 @@ public class BoatGameState extends GameState{
 	public void reset() {
 		pier = new Pier(cm,ControlManager.screenHeight);
 		rocks = new ArrayList<>();
-		plants = new ArrayList<>();
 		backgroundPositionY = 0;
 		backgroundTimer.start();
 		boatCrash = null;

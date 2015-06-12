@@ -63,12 +63,12 @@ public class Person extends Entity{
 		
 		@Override
 		public void draw(Graphics2D g2) {
-			//Drawing ship:
+			
 			if(!isDead()) {
 				BufferedImage subImage = getSprite().getSubimage((animationCounter%3)*23,0,23,29);
 				g2.drawImage(subImage,getPositionX(),getPositionY(),null);
 			}
-			//Drawing dead message: 
+			
 			if(deadMessageTimer != null) {
 				if(deadMessageTimer.isRunning()) {
 					g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
@@ -94,7 +94,7 @@ public class Person extends Entity{
 					if(positionX > ControlManager.screenWidth/2-(getSprite().getWidth()/2)-20)
 						positionX += 13;
 				}
-				else if(positionX <= ControlManager.screenWidth/4*3-ControlManager.screenWidth/8 + 35) 
+				else if(positionX <= ControlManager.screenWidth/4*3-ControlManager.screenWidth/8 + 15) 
 					positionX += 13;
 					
 			}
@@ -103,7 +103,7 @@ public class Person extends Entity{
 					if(positionX < ControlManager.screenWidth/2+13)
 						positionX -= 13;
 				}
-				else if(positionX > ControlManager.screenWidth/4+ControlManager.screenWidth/20+35)
+				else if(positionX > ControlManager.screenWidth/4+ControlManager.screenWidth/20+55)
 					positionX -= 13;
 			}
 		}
@@ -111,7 +111,7 @@ public class Person extends Entity{
 
 		
 		public Rectangle2D getRectangleBounds() {
-			return new Rectangle2D.Double(positionX,positionY,23,29); //193
+			return new Rectangle2D.Double(positionX,positionY,23,29);
 		}
 		
 		public void init() {
@@ -121,9 +121,6 @@ public class Person extends Entity{
 			//input.turnPressurePlates(true);
 		}
 		
-		/**
-		 * Get's called when the ship collides with a Rock object.
-		 */
 		public void collision() {
 				deadMessageTimer = new Timer(200,new ActionListener() {
 					@Override
@@ -147,26 +144,16 @@ public class Person extends Entity{
 			positionX = ControlManager.screenWidth/2;
 		}
 			
-		/**
-		 * The top of the screen is reached.
-		 * @return if the boat has reached the top of the screen.
-		 */
+		
 		public boolean reachedEnd() {
 			return reachedEnd;
 		}
 		
-		/**
-		 * Sets the reached end.
-		 * @param reachedEnd - whether the boat has reached the end or not.
-		 */
 		public void setReachedEnd(boolean reachedEnd) {
 			this.reachedEnd = reachedEnd;
 		}
 		
-		/**
-		 * Toggle the endTimer.
-		 * @param state - The state of the endTimer.
-		 */
+		
 		public void setEndTimer(boolean state) {
 			if(state)
 				endTimerCity.start();
@@ -183,10 +170,7 @@ public class Person extends Entity{
 				return false;
 		}
 		
-		/**
-		 * Just for testing:
-		 * @param i
-		 */
+		
 		public void setPressurePlates(int i){
 			if(i == 1){
 				pressurePlate1 = true;
