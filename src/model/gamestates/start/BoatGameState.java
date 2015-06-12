@@ -251,10 +251,13 @@ public class BoatGameState extends GameState{
 	public void reset() {
 		pier = new Pier(cm,ControlManager.screenHeight);
 		rocks = new ArrayList<>();
+		plants = new ArrayList<>();
 		backgroundPositionY = 0;
+		backgroundTimer.start();
 		boatCrash = null;
 		alpha = 0f;
 		counter = 0;
+		boat.reset();
 	}
 	
 	//Just for testing:

@@ -97,6 +97,40 @@ public class InputHandler {
 		}
 		
 		/**
+		 * Dead animation part 1.
+		 */
+		public void deadStageOne() {
+			arduino.sendCommand("BD1");
+		}
+		
+		/**
+		 * Dead animation part 2.
+		 */
+		public void deadStageTwo() {
+			arduino.sendCommand("BD2");
+		}
+		
+		/**
+		 * Reset the led strip.
+		 */
+		public void resetLedStrip() {
+			arduino.sendCommand("RES");
+		}
+		
+		/**
+		 * Enable wizard talk in the ledstrip.
+		 */
+		public void enableWizardTalk() {
+			arduino.sendCommand("EWT");
+		}
+		
+		/**
+		 * Enable troll talk in the ledstrip.
+		 */
+		public void enableTrollTalk() {
+			arduino.sendCommand("ETT");
+		}
+		/**
 		 * Lets you turn led number 1 on or off.
 		 * @param state - Turn the led on or off.
 		 */

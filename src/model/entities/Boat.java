@@ -142,6 +142,7 @@ public class Boat extends Entity {
 	 * Get's called when the ship collides with a Rock object.
 	 */
 	public void collision() {
+		//input.deadStageOne();
 			deadMessageTimer = new Timer(200,new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -163,6 +164,9 @@ public class Boat extends Entity {
 	 * Resets the position to start position.
 	 */
 	public void reset() {
+		//input.deadStageTwo();
+		setEndTimer(false);
+		reachedEnd = false;
 		positionY = ControlManager.screenHeight-250;
 		positionX = ControlManager.screenWidth/2;
 	}
