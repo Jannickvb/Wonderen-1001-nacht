@@ -8,9 +8,12 @@ import model.gamestates.Bossfight.MageTalkState2;
 import model.gamestates.magepath.City1State;
 import model.gamestates.magepath.PoorGameState;
 import model.gamestates.start.BoatGameState;
+import model.gamestates.start.IntroMovState;
 import model.gamestates.start.MenuState;
 import model.gamestates.start.TutorialState;
+import model.gamestates.story.ArrivalState;
 import model.gamestates.story.DoorChoiceState;
+import model.gamestates.story.MageTalkState;
 import model.gamestates.trollpath.City2State;
 import model.gamestates.trollpath.RichGameState;
 
@@ -34,13 +37,13 @@ public class GameStateManager {
 		
 		//Intro
 		gameStates.add(new MenuState(cm));
-		//gameStates.add(new IntroMovState(cm));//Done
-		//gameStates.add(new TutorialState(cm, ImageHandler.getImage(ImageHandler.ImageType.tutorial_plate)));//Done
+		gameStates.add(new IntroMovState(cm));//Done
+		gameStates.add(new TutorialState(cm, ImageHandler.getImage(ImageHandler.ImageType.tutorial_plate),0));//Done
 		gameStates.add(new BoatGameState(cm));
 		
 		//Story
-		//gameStates.add(new MageTalkState(cm));//Done
-		//gameStates.add(new ArrivalState(cm));//Done
+		gameStates.add(new MageTalkState(cm));//Done
+		gameStates.add(new ArrivalState(cm));//Done
 		gameStates.add(new DoorChoiceState(cm));
 		gameStates.add(new PoorGameState(cm));//Poor
 		gameStates.add(new RichGameState(cm));//Rich
@@ -48,12 +51,11 @@ public class GameStateManager {
 		gameStates.add(new City2State(cm));//Rich
 		
 		//Before Bossfight
-		//gameStates.add(new ArrivedAtPalaceState(cm));
+
 		gameStates.add(new MageTalkState2(cm));
-		//gameStates.add(new TrollTalkState2(cm));
-		gameStates.add(new TutorialState(cm, ImageHandler.getImage(ImageHandler.ImageType.tutorial_spell)));
+		gameStates.add(new TutorialState(cm, ImageHandler.getImage(ImageHandler.ImageType.tutorial_spell),1));
 		gameStates.add(new BossFightState(cm));
-		//gameStates.add(new EndGameState(cm));
+	//	gameStates.add(new EndGameState(cm));
 	}
 	
 	public void select(int i) {
