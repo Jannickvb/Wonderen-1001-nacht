@@ -17,3 +17,4 @@ hs_err_pid*
 !lib/slick/*
 !lib/slick/lib/*
 /bin/
+*.ini

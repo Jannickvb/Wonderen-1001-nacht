@@ -10,6 +10,11 @@ import control.ControlManager;
 import control.ImageHandler;
 import control.ImageHandler.ImageType;
 
+/**
+ * The pier class.
+ * @author Wesley de Hek
+ * @version 1.1
+ */
 public class Pier extends Entity {
 	
 	/**
@@ -37,7 +42,7 @@ public class Pier extends Entity {
 	 */
 	@Override
 	public void update() {
-		if(positionY >= -16 && positionY <= -7) {
+		if(positionY >= -20 && positionY <= -5) {
 			setDead(true);
 			setTimer(false);
 		}

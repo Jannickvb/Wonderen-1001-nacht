@@ -25,7 +25,7 @@ public class Palace extends Entity {
 
 		@Override
 		public void update() {
-			if(positionY >= -13 && positionY <= -7) {
+			if(positionY >= -20 && positionY <= 35) {
 				setDead(true);
 				setTimer(false);
 			}

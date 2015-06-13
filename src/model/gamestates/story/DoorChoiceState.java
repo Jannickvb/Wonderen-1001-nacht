@@ -177,6 +177,13 @@ public class DoorChoiceState extends GameState{
 			p3 = true;
 		if(e.getKeyCode() == KeyEvent.VK_4)
 			p4 = true;
+		// TODO Auto-generated method stub
+		if(e.getKeyCode() == KeyEvent.VK_LEFT){
+			cm.getGameStateManager().next();
+		}else if(e.getKeyCode() == KeyEvent.VK_RIGHT){
+			cm.getGameStateManager().next();
+			cm.getGameStateManager().next();
+		}
 	}
 
 	@Override

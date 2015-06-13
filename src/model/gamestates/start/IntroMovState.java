@@ -38,7 +38,7 @@ public class IntroMovState extends GameState{
 	
 	public void isFinished(boolean finished){
 		if(finished){
-			cm.getGameStateManager().next();
+			cm.getGameStateManager().skipNext();
 		}
 	}
 

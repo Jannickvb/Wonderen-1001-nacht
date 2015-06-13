@@ -12,6 +12,11 @@ import javax.swing.Timer;
 import control.ControlManager;
 import control.ImageHandler;
 
+/**
+ * Tree class.
+ * @author Tim Schijvenaars
+ * @version 1.0
+ */
 public class Foilage extends Entity {
 
 	/**

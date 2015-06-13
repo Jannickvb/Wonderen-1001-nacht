@@ -38,9 +38,9 @@ public class ImageHandler {
 			images.add(ImageIO.read(Main.class.getResource("/images/RunningGuys.png")));
 			
 			images.add(ImageIO.read(Main.class.getResource("/images/spells/circle.png")));
-			images.add(ImageIO.read(Main.class.getResource("/images/spells/rectangle.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/spells/triangle.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/spells/hexagon.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/spells/star.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/spells/spiral.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/Tovenaar.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/Tovenaar2.png")));
@@ -68,10 +68,6 @@ public class ImageHandler {
 			images.add(ImageIO.read(Main.class.getResource("/images/rock3.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/rock4.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/heart.png")));
-			images.add(ImageIO.read(Main.class.getResource("/images/tree1.png")));
-			images.add(ImageIO.read(Main.class.getResource("/images/tree2.png")));
-			images.add(ImageIO.read(Main.class.getResource("/images/tree3.png")));
-			images.add(ImageIO.read(Main.class.getResource("/images/tree4.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/pier.png")));
 			
 			images.add(ImageIO.read(Main.class.getResource("/images/box1.png")));
@@ -139,10 +135,6 @@ public class ImageHandler {
 		rock3, 
 		rock4, 
 		heart, 
-		tree1, 
-		tree2, 
-		tree3, 
-		tree4, 
 		pier, 
 		box1, 
 		box2, 

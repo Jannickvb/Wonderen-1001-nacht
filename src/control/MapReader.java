@@ -1,9 +1,9 @@
 package control;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 
 
 
@@ -50,18 +50,17 @@ public class MapReader {
 		}
 	}
 	
-	public static String[] readTextLines(String file) throws IOException
+	public static ArrayList<String> readTextLines(String file) throws IOException
 	{
-		String[] toReturn;
+		ArrayList<String> toReturn = new ArrayList<String>();
 		BufferedReader br = null;
 		
 		try {
 		    br = new BufferedReader(new FileReader(file));
-		    toReturn = new String[100];
 		    int i = 0;
 		    String text;
 		    while ((text = br.readLine()) != null){
-		    		toReturn[i] = text;
+		    		toReturn.add(text);
 		    		i++;
 		    	}
 		    return toReturn;

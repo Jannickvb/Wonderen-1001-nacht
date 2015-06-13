@@ -4,6 +4,7 @@ import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -18,7 +19,7 @@ import control.ImageHandler.ImageType;
 /**
  * This class animates the crash of the ship object.
  * @author Wesley de Hek
- * @version 1.2
+ * @version 1.3
  */
 public class BoatCrash extends Entity {
 
@@ -35,15 +36,23 @@ public class BoatCrash extends Entity {
 		this.positionX = positionX;
 		this.positionY = positionY;
 		//Importing sound: 
-				AudioInputStream inputStream;
+		AudioInputStream inputStream;
 				try {
 					inputStream = AudioSystem.getAudioInputStream(Main.class.getResource("/audio/boatCrash.wav"));
 					crashClip = AudioSystem.getClip();
 					crashClip.open(inputStream);
 				} catch (Exception e) {
 					e.printStackTrace();
-				}
+				}	
 				crashClip.start();
+		//Starting timer.		
+		Timer playTimer = new Timer(1000, new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+					setDead(true);
+				}
+			});
+			playTimer.start();
 	}
 
 	/**
@@ -57,12 +66,9 @@ public class BoatCrash extends Entity {
 
 	/**
 	 * Update method for the animation object.
-	 * Checks if the crash sound is done playing, if yes the object gets set to dead.
 	 */
 	@Override
 	public void update() {
-		if(!crashClip.isRunning())
-			setDead(true);		
 	}
 
 	/**

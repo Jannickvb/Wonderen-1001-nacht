@@ -7,7 +7,6 @@ import model.gamestates.Bossfight.BossFightState;
 import model.gamestates.Bossfight.MageTalkState2;
 import model.gamestates.magepath.City1State;
 import model.gamestates.magepath.PoorGameState;
-import model.gamestates.magepath.PoorMovState;
 import model.gamestates.start.BoatGameState;
 import model.gamestates.start.IntroMovState;
 import model.gamestates.start.MenuState;
@@ -17,7 +16,6 @@ import model.gamestates.story.DoorChoiceState;
 import model.gamestates.story.MageTalkState;
 import model.gamestates.trollpath.City2State;
 import model.gamestates.trollpath.RichGameState;
-import model.gamestates.trollpath.RichMovState;
 
 public class GameStateManager {
 	private ArrayList<GameState> gameStates = new ArrayList<GameState>();
@@ -40,36 +38,32 @@ public class GameStateManager {
 		//Intro
 		gameStates.add(new MenuState(cm));
 		//gameStates.add(new IntroMovState(cm));//Done
-		//gameStates.add(new TutorialState(cm, ImageHandler.getImage(ImageHandler.ImageType.tutorial_plate)));//Done
+		//gameStates.add(new TutorialState(cm, ImageHandler.getImage(ImageHandler.ImageType.tutorial_plate),0));//Done
 		gameStates.add(new BoatGameState(cm));
 		
 		//Story
 		//gameStates.add(new MageTalkState(cm));//Done
 		//gameStates.add(new ArrivalState(cm));//Done
 		gameStates.add(new DoorChoiceState(cm));
-		
-		//Choose poor path
-		gameStates.add(new PoorMovState(cm));
-		gameStates.add(new PoorGameState(cm));
-		gameStates.add(new City1State(cm));
-		
-		//Choose rich path
-		gameStates.add(new RichMovState(cm));
-		gameStates.add(new RichGameState(cm));
-		gameStates.add(new City2State(cm));
+		gameStates.add(new PoorGameState(cm));//Poor
+		gameStates.add(new RichGameState(cm));//Rich
+		gameStates.add(new City1State(cm));//Poor
+		gameStates.add(new City2State(cm));//Rich
 		
 		//Before Bossfight
-		//gameStates.add(new ArrivedAtPalaceState(cm));
+
 		gameStates.add(new MageTalkState2(cm));
-		//gameStates.add(new TrollTalkState2(cm));
-		gameStates.add(new TutorialState(cm, ImageHandler.getImage(ImageHandler.ImageType.tutorial_spell)));
-		gameStates.add(new BossFightState(cm));
-		//gameStates.add(new EndGameState(cm));
+		//gameStates.add(new TutorialState(cm, ImageHandler.getImage(ImageHandler.ImageType.tutorial_spell),1));
+		//gameStates.add(new BossFightState(cm));
+	//	gameStates.add(new EndGameState(cm));
 	}
 	
 	public void select(int i) {
-		if(i >= 0 && i < gameStates.size())
-			currentstate = gameStates.get(i);
+		if(i >= 0 && i < gameStates.size()){
+			initializeGameState();
+			index = i;
+			
+		}
 	}
 	
 	public void initializeGameState(){
@@ -98,8 +92,8 @@ public class GameStateManager {
 		gameSequence.add(gameStates.get(5));
 		gameSequence.add(gameStates.get(6));
 		gameSequence.add(gameStates.get(7));
-		gameSequence.add(gameStates.get(8));
-		gameSequence.add(gameStates.get(9));
+//		gameSequence.add(gameStates.get(8));
+//		gameSequence.add(gameStates.get(9));
 //		gameSequence.add(gameStates.get(10));
 //		gameSequence.add(gameStates.get(11));
 //		gameSequence.add(gameStates.get(12));
@@ -112,14 +106,16 @@ public class GameStateManager {
 		if(index == gameSequence.size()) {
 			index = 0;
 		}
+		
 	}
 	
 	public void skipNext(){
 		initializeGameState();
-		index+=2;
-		if(index == gameSequence.size()) {
+		index=index+2;
+		if(index >= gameSequence.size()) {
 			index = 0;
 		}
+		
 	}
 	
 	public void back(){

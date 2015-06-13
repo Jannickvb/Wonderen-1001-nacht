@@ -16,6 +16,11 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.util.TooManyListenersException;
 
+/**
+ * Arduino handler.
+ * @author Wesley de Hek
+ * @version 1.2
+ */
 public class ArduinoHandler implements SerialPortEventListener {
 
 	private InputStream serialInput;
@@ -23,6 +28,11 @@ public class ArduinoHandler implements SerialPortEventListener {
 	private BufferedReader serialReader;
 	private InputHandler superClass;
 	
+	/**
+	 * Constructor.
+	 * @param commPortNumber - The port of the arduino.
+	 * @param superClass - The parent class.
+	 */
 	public ArduinoHandler(String commPortNumber, InputHandler superClass) {
 		this.superClass = superClass;
 		try {
@@ -50,7 +60,7 @@ public class ArduinoHandler implements SerialPortEventListener {
 	}
 
 	/**
-	 * Reads if a command is send from the adruino to the pc
+	 * Reads if a command is send from the adruino to the pc.
 	 */
 	@Override
 	public void serialEvent(SerialPortEvent e) {
