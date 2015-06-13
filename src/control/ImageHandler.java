@@ -30,8 +30,7 @@ public class ImageHandler {
 			images.add(ImageIO.read(Main.class.getResource("/images/menu/menu_buttons.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/menu/menu_header.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/menu/menu_grad.png")));
-			images.add(ImageIO.read(Main.class.getResource("/images/menu/menu_instr.png")));
-			
+			images.add(ImageIO.read(Main.class.getResource("/images/menu/menu_instr.png")));		
 			
 			images.add(ImageIO.read(Main.class.getResource("/images/Tutorial.jpg")));
 			images.add(ImageIO.read(Main.class.getResource("/images/spell_tutorial.png")));
@@ -56,6 +55,8 @@ public class ImageHandler {
 			images.add(ImageIO.read(Main.class.getResource("/images/poorrich/pr_djinn.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/poorrich/pr_cloud_left.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/poorrich/pr_cloud_right.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/poorrich/pr_poor.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/poorrich/pr_rich.png")));
 			
 			images.add(ImageIO.read(Main.class.getResource("/images/treasureRoom.jpg")));
 			
@@ -126,6 +127,8 @@ public class ImageHandler {
 		pr_djinn,
 		pr_cloud_left,
 		pr_cloud_right,
+		pr_poor,
+		pr_rich,
 		
 		treasure_room, 
 		grass, 

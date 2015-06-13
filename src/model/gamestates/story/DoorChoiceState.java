@@ -12,21 +12,24 @@ import control.InputHandler;
 
 public class DoorChoiceState extends GameState{
 	
-	private BufferedImage vignette,door,doorLeft,doorRight,djinn,wizard,cloudLeft,cloudRight;
-	private int midX,midY,bgWidth,bgHeight,keyFrames;
+	private BufferedImage vignette,door,doorLeft,doorRight,djinn,wizard,cloudLeft,cloudRight,poor,rich;
+	private int midX,midY,bgWidth,bgHeight,keyFrame;
+	private int cloudX, doorX;
+	private double scale = 1;
 	private InputHandler input;
-	
-	private boolean pressurePlate1; //Right foot
-	private boolean pressurePlate2; //Left foot
-	private boolean pressurePlate3; //Right foot
-	private boolean pressurePlate4; //Left foot
-	
+	private boolean animationLeft = false, animationRight = false,play = false,choiceMade = false,choiceR = false,choiceL = false;
+	private boolean p1; //Right foot
+	private boolean p2; //Left foot
+	private boolean p3; //Right foot
+	private boolean p4; //Left foot
 	public DoorChoiceState(ControlManager cm)
 	{
 		super(cm);
 		input = cm.getInputHandler();
-		this.keyFrames = 0;
+		this.keyFrame = 0;
 		
+		poor = ImageHandler.getScaledImage(ImageHandler.getImage(ImageHandler.ImageType.pr_poor));
+		rich = ImageHandler.getScaledImage(ImageHandler.getImage(ImageHandler.ImageType.pr_rich));
 		vignette = ImageHandler.getScaledImage(ImageHandler.getImage(ImageHandler.ImageType.pr_vignette));
 		door = ImageHandler.getScaledImage(ImageHandler.getImage(ImageHandler.ImageType.pr_door));
 		doorLeft = ImageHandler.getScaledImage(ImageHandler.getImage(ImageHandler.ImageType.pr_door_left));
@@ -46,28 +49,88 @@ public class DoorChoiceState extends GameState{
 	public void draw(Graphics2D g2) {
 		AffineTransform tx = new AffineTransform();
 		tx.translate(midX, midY);
+		tx.scale(scale, scale);
 		g2.setTransform(tx);
-		g2.drawImage(doorLeft, -bgWidth/2,-bgHeight/2,null);
-		g2.drawImage(doorRight, -bgWidth/2,-bgHeight/2,null);
+		if(animationLeft)
+			g2.drawImage(poor, -bgWidth/2,-bgHeight/2,null);
+		if(animationRight)
+			g2.drawImage(rich,-bgWidth/2,-bgHeight/2,null);
+		g2.drawImage(doorLeft, -bgWidth/2 - doorX,-bgHeight/2,null);
+		g2.drawImage(doorRight, -bgWidth/2 + doorX,-bgHeight/2,null);
 		g2.drawImage(door, -bgWidth/2,-bgHeight/2,null);
 		g2.drawImage(djinn, -bgWidth/2,-bgHeight/2,null);
 		g2.drawImage(wizard, -bgWidth/2,-bgHeight/2,null);
-		g2.drawImage(cloudRight, -bgWidth/2,-bgHeight/2,null);
-		g2.drawImage(cloudLeft, -bgWidth/2,-bgHeight/2,null);
+		g2.drawImage(cloudRight, -bgWidth/2 + cloudX,-bgHeight/2,null);
+		g2.drawImage(cloudLeft, -bgWidth/2 - cloudX,-bgHeight/2,null);
 		g2.drawImage(vignette, -bgWidth/2,-bgHeight/2,null);
+		
 	}
 
 	@Override
 	public void update() {
-		boolean pressurePlate1 = input.getPressurePlate1(); //Right foot
-		boolean pressurePlate2 = input.getPressurePlate2(); //Left foot
-		boolean pressurePlate3 = input.getPressurePlate3(); //Right foot
-		boolean pressurePlate4 = input.getPressurePlate4(); //Left foot
-		if(pressurePlate1 && pressurePlate3 && !pressurePlate2 && !pressurePlate4) { // Go to the right
-			cm.getGameStateManager().skipNext();
+//		boolean pressurePlate1 = input.getPressurePlate1(); //Right foot
+//		boolean pressurePlate2 = input.getPressurePlate2(); //Left foot
+//		boolean pressurePlate3 = input.getPressurePlate3(); //Right foot
+//		boolean pressurePlate4 = input.getPressurePlate4(); //Left foot
+//		
+		if(play && platePressed()){
+			keyFrame++;
+			doorX+=5;
 		}
-		else if(!pressurePlate1 && !pressurePlate3 && pressurePlate2 && pressurePlate4) {// Go to the left
-			cm.getGameStateManager().next();
+		
+		if(!platePressed()){
+			if(!isIdle()){
+				doorX-=5;
+			}
+		}
+		
+		if(choiceMade){
+			keyFrame++;
+			doorX = keyFrame;
+			cloudX += 5;
+			scale += 0.001;
+			if(keyFrame >= 35){
+				if(choiceR){
+					cm.getGameStateManager().next();
+				}else if(choiceL){
+					cm.getGameStateManager().next();
+				}
+			}
+		}
+		if(platePressed() && !animationLeft && !animationRight && !play && isIdle()){
+			if(p1 && p3 && !p2 && !p4) { // Go to the right
+				animationLeft = true;
+				animationRight = false;
+				choiceR = false;
+				choiceL = true;
+				choiceMade = true;
+				keyFrame = 0;
+				System.out.println("go to right");
+			}
+			if(!p1 && !p3 && p2 && p4) {// Go to the left
+				animationLeft = false;
+				animationRight = true;
+				choiceR = true;
+				choiceL = false;
+				choiceMade = true;
+				keyFrame = 0;
+			}
+			if(!p1 && !p3 && p4){//single press right
+				animationLeft = false;
+				animationRight = true;
+				choiceR = true;
+				choiceL = false;
+			}
+			if(p1 && !p2 && !p4){//single press left
+				animationLeft = true;
+				animationRight = false;
+				choiceR = false;
+				choiceL = true;
+				System.out.println("left");
+			}
+		}
+		if(doorX>250){
+			doorX = 250;
 		}
 	}
 
@@ -80,38 +143,52 @@ public class DoorChoiceState extends GameState{
 //			}
 		//input.turnPressurePlates(true);
 	}
-	
-	public void setPressurePlates(int i){
-		if(i == 1){
-			pressurePlate1 = true;
-			pressurePlate3 = true;
-		}else if(i == 2){
-			pressurePlate2 = true;
-			pressurePlate4 = true;
-		}else if(i == 3){
-			pressurePlate1 = false;
-			pressurePlate3 = false;
-		}else if(i == 4){
-			pressurePlate2 = false;
-			pressurePlate4 = false;
-		}
-	}
 
+	public boolean platePressed(){
+		if(!p1 && !p2 && !p3 && !p4 && !choiceMade){
+			choiceR = false;
+			choiceL = false;
+			return false;
+		}else if(!choiceMade){
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean isIdle(){
+		if(doorX == 0){
+			keyFrame = 0;
+			animationLeft = false;
+			animationRight = false;
+			play = false;
+			return true;
+		}
+		else
+			return false;
+	}
+	
 	@Override
 	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
-		if(e.getKeyCode() == KeyEvent.VK_LEFT){
-			cm.getGameStateManager().next();
-		}else if(e.getKeyCode() == KeyEvent.VK_RIGHT){
-			cm.getGameStateManager().skipNext();
-		}
+		if(e.getKeyCode() == KeyEvent.VK_1)
+			p1 = true;
+		if(e.getKeyCode() == KeyEvent.VK_2)
+			p2 = true;
+		if(e.getKeyCode() == KeyEvent.VK_3)
+			p3 = true;
+		if(e.getKeyCode() == KeyEvent.VK_4)
+			p4 = true;
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
+		if(e.getKeyCode() == KeyEvent.VK_1)
+			p1 = false;
+		if(e.getKeyCode() == KeyEvent.VK_2)
+			p2 = false;
+		if(e.getKeyCode() == KeyEvent.VK_3)
+			p3 = false;
+		if(e.getKeyCode() == KeyEvent.VK_4)
+			p4 = false;		
 	}
-
 }
 
