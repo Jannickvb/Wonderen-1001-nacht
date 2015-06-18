@@ -130,11 +130,15 @@ public class BoatGameState extends GameState{
 				}
 			counter++;
 			rocks.add(rock);
+			//Checking if rock isnt overlapping
+			for(Rock rock2 : rocks)
+				if(rock.containsPoint(rock2)) 
+					rock.setDead(true);
 			rock.init();
 		}
 		}
 		
-		//Checking if rocks are out of the screen:
+		//Checking if rocks are out of the screen & if rocks are dead & if rocks are overlapping:
 		Iterator it = rocks.iterator();
 		while(it.hasNext()) {
 			Rock rock = (Rock) it.next();
@@ -168,7 +172,7 @@ public class BoatGameState extends GameState{
 		
 		//Boat reached top of the screen:
 		if(boat.reachedEnd()) {
-			if(alpha < 1) 
+			if(alpha < 0.95) 
 				alpha += 0.033;
 			else
 				cm.getGameStateManager().next();

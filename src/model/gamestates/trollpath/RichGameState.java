@@ -134,6 +134,10 @@ public class RichGameState extends GameState{
 					}
 					counter++;
 					boxes.add(box);
+					//Checking if boxes don't overlap.
+					for(Box box2 : boxes)
+						if(box.containsPoint(box2))
+							box.setDead(true);
 					box.init();
 				}
 			}
@@ -149,11 +153,12 @@ public class RichGameState extends GameState{
 			}
 
 			//Checking if crash animation is over:
-			if(playerHit != null) 
+			if(playerHit != null) {
+				playerHit.update();
 				if(playerHit.isDead()) 
 					reset();
-			
-							
+			}
+						
 			//Reaching the end of the game:
 			if(counter == 15) {
 				counter++;
@@ -172,7 +177,7 @@ public class RichGameState extends GameState{
 			
 			//Boat reached top of the screen:
 			if(guy.reachedEnd()) {
-				if(alpha < 1) 
+				if(alpha < 0.95) 
 					alpha += 0.033;
 				else
 					cm.getGameStateManager().next();

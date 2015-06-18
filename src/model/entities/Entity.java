@@ -103,6 +103,20 @@ public abstract class Entity {
 	public Rectangle2D getRectangle() {
 		return  new Rectangle2D.Double(positionX,positionY,getSprite().getWidth(),getSprite().getHeight());
 	}
+	
+	/**
+	 * Checks if one of the pixels is inside the boats body.
+	 * @param object - the object you want to check for collision.
+	 * @return if there is an intersection between the two objects.
+	 */
+	public boolean containsPoint(Entity object) {
+		Shape boatShape =  new Rectangle2D.Double(positionX+40,positionY,57,173-40);
+		Rectangle2D objectRectangle = object.getRectangle();
+		if(boatShape.intersects(objectRectangle)) 
+			return true;
+		else
+			return false;
+	}
 		
 	/**
 	 * Abstract draw method.

@@ -74,7 +74,9 @@ public class PlayerHit extends Entity {
 		 * Checks if the crash sound is done playing, if yes the object gets set to dead.
 		 */
 		@Override
-		public void update() {	
+		public void update() {
+			if(!isDead())
+				positionY += 6;
 		}
 
 		/**

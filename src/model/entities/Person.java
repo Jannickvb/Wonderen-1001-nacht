@@ -178,20 +178,6 @@ public class Person extends Entity{
 		}
 		
 		/**
-		 * Checks if one of the pixels is inside the persons body.
-		 * @param object - the object you want to check for collision.
-		 * @return if there is an intersection between the two objects.
-		 */
-		public boolean containsPoint(Entity object) {
-			Shape boatShape =  new Rectangle2D.Double(positionX,positionY,23,29);
-			Rectangle2D objectRectangle = object.getRectangle();
-			if(boatShape.intersects(objectRectangle)) 
-				return true;
-			else
-				return false;
-		}
-		
-		/**
 		 * Just for testing:
 		 * @param i
 		 */
