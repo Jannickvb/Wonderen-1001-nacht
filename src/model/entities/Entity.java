@@ -110,14 +110,14 @@ public abstract class Entity {
 	 * @return if there is an intersection between the two objects.
 	 */
 	public boolean containsPoint(Entity object) {
-		Shape boatShape =  new Rectangle2D.Double(positionX+40,positionY,57,173-40);
+		Shape boatShape =  new Rectangle2D.Double(positionX+40,positionY,getSprite().getWidth(),getSprite().getHeight());
 		Rectangle2D objectRectangle = object.getRectangle();
 		if(boatShape.intersects(objectRectangle)) 
 			return true;
 		else
 			return false;
 	}
-		
+	
 	/**
 	 * Abstract draw method.
 	 * @param g2 - The graphics 2D object.

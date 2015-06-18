@@ -138,6 +138,9 @@ public class RichGameState extends GameState{
 					for(Box box2 : boxes)
 						if(box.containsPoint(box2))
 							box.setDead(true);
+						else if(palace != null)
+							if(box.containsPoint(palace))
+								box.setDead(true);
 					box.init();
 				}
 			}
@@ -204,7 +207,10 @@ public class RichGameState extends GameState{
 			if(playerHit == null) {
 				if(lives > 0) {
 					lives--;
-					playerHit = new PlayerHit(cm,guy.getPositionX(),guy.getPositionY());
+					if(!palace.isDead())
+						playerHit = new PlayerHit(cm,guy.getPositionX(),guy.getPositionY(),true);
+					else
+						playerHit = new PlayerHit(cm,guy.getPositionX(),guy.getPositionY(),false);
 					guy.collision();
 				}
 				else {

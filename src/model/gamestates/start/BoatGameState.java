@@ -128,14 +128,18 @@ public class BoatGameState extends GameState{
 						rock = new Rock(cm,ImageHandler.getImage(ImageHandler.ImageType.rock4));
 						break;		
 				}
-			counter++;
-			rocks.add(rock);
-			//Checking if rock isnt overlapping
-			for(Rock rock2 : rocks)
-				if(rock.containsPoint(rock2)) 
-					rock.setDead(true);
-			rock.init();
-		}
+				counter++;
+				rocks.add(rock);
+				rock.init();
+				//Checking if rock isnt overlapping
+				for(Rock rock2 : rocks) {
+					if(rock.containsPoint(rock2)) 
+						rock.setDead(true);
+					else if(pier != null)
+						if(rock.containsPoint(pier))
+							rock.setDead(true);	
+				}
+			}
 		}
 		
 		//Checking if rocks are out of the screen & if rocks are dead & if rocks are overlapping:
@@ -199,7 +203,10 @@ public class BoatGameState extends GameState{
 		if(boatCrash == null) {
 			if(lives > 0) {
 				lives--;
-				boatCrash = new BoatCrash(cm,boat.getPositionX(),boat.getPositionY());
+				if(!pier.isDead())
+					boatCrash = new BoatCrash(cm,boat.getPositionX(),boat.getPositionY(),true);
+				else
+					boatCrash = new BoatCrash(cm,boat.getPositionX(),boat.getPositionY(),false);
 				boat.collision();
 			}
 			else {
