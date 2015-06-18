@@ -19,11 +19,13 @@ public class PlayerHit extends Entity {
 
 
 		private Clip crashClip;
+		private boolean move;
 		
-		public PlayerHit(ControlManager cm, int positionX, int positionY) {
+		public PlayerHit(ControlManager cm, int positionX, int positionY, boolean move) {
 			super(cm,ImageHandler.getImage(ImageType.player_run));
 			this.positionX = positionX;
 			this.positionY = positionY;
+			this.move = move;
 			//Importing sound: 
 					AudioInputStream inputStream;
 
@@ -75,8 +77,9 @@ public class PlayerHit extends Entity {
 		 */
 		@Override
 		public void update() {
-			if(!isDead())
-				positionY += 6;
+			if(move)
+				if(!isDead())
+					positionY += 6;
 		}
 
 		/**

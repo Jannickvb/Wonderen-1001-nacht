@@ -24,6 +24,7 @@ import control.ImageHandler.ImageType;
 public class BoatCrash extends Entity {
 
 	private Clip crashClip;
+	private boolean move;
 	
 	/**
 	 * Constructor for the crash animation.
@@ -31,10 +32,11 @@ public class BoatCrash extends Entity {
 	 * @param positionX - The x coordinate of the start position.
 	 * @param positionY - The y coordinate of the start position.
 	 */
-	public BoatCrash(ControlManager cm, int positionX, int positionY) {
+	public BoatCrash(ControlManager cm, int positionX, int positionY, boolean move) {
 		super(cm,ImageHandler.getImage(ImageType.player_boat));
 		this.positionX = positionX;
 		this.positionY = positionY;
+		this.move = move;
 		//Importing sound: 
 		AudioInputStream inputStream;
 				try {
@@ -69,8 +71,9 @@ public class BoatCrash extends Entity {
 	 */
 	@Override
 	public void update() {
-		if(!isDead())
-			positionY += 6;
+		if(move)
+			if(!isDead())
+				positionY += 6;
 	}
 
 	/**
