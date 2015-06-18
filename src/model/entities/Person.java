@@ -22,7 +22,7 @@ public class Person extends Entity{
 	private int animationCounter;
 	private float alpha;
 	private boolean reachedEnd;
-	private Timer deadMessageTimer;
+	private boolean deadMessage;
 	private Timer endTimerCity;
 	
 	private boolean pressurePlate1; //Right foot
@@ -30,55 +30,55 @@ public class Person extends Entity{
 	private boolean pressurePlate3; //Right foot
 	private boolean pressurePlate4; //Left foot
 		
+	/**
+	 * Constructor of the Person object.
+	 * @param cm - The control manager of the game.
+	 */
 		public Person(ControlManager cm) {
 			super(cm,ImageHandler.getImage(ImageHandler.ImageType.player_run));
 			input = cm.getInputHandler();
 			animationCounter = 0;
 			alpha = 1.0f;
-			deadMessageTimer = new Timer(100,null);
 			endTimerCity = new Timer(1000/60,new ActionListener() {
 				
 				public void actionPerformed(ActionEvent e) {
-					if(positionY > 150)
+					if(positionY > 6)
 						positionY -= 6;
-						
 					else {
-						
-							
-							endTimerCity.stop();
-					}
+						reachedEnd = true;
+						endTimerCity.stop();
+					}	
 						
 				}
 			});
-			Timer animationTimer = new Timer(150,new ActionListener() {
-				
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					animationCounter++;	
-				}
-			});
-			animationTimer.start();
 		}
 		
-		
+		/**
+		 * Draws the Person.
+		 * @param g2 - The Graphics2D object.
+		 */
 		@Override
 		public void draw(Graphics2D g2) {
-			
+			//Drawing Person
 			if(!isDead()) {
-				BufferedImage subImage = getSprite().getSubimage((animationCounter%3)*23,0,23,29);
+				BufferedImage subImage = getSprite().getSubimage((animationCounter/3)%3*23,0,23,29);
 				g2.drawImage(subImage,getPositionX(),getPositionY(),null);
 			}
-			
-			if(deadMessageTimer != null) {
-				if(deadMessageTimer.isRunning()) {
-					g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
-					g2.setColor(Color.WHITE);
-					g2.setFont(new Font("Verdana",Font.BOLD,60));
-					drawCenteredText("Probeer het opnieuw", g2, ControlManager.screenHeight/2);
-				}
+			//Drawing dead message:
+			if(deadMessage) {
+				g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
+				g2.setColor(Color.WHITE);
+				g2.setFont(new Font("Verdana",Font.BOLD,60));
+				drawCenteredText("Probeer het opnieuw", g2, ControlManager.screenHeight/2);
 			}
 		}
 		
+		/**
+		 * Method that draws given text in the center of the screen.
+		 * @param text - The text you want to display.
+		 * @param g2 - The graphics2D object.
+		 * @param y - The y position of the text.
+		 */
 		public void drawCenteredText(String text, Graphics2D g2, int y) {
 			int x = (ControlManager.screenWidth-g2.getFontMetrics().stringWidth(text))/2;
 			g2.drawString(text, x, y);
@@ -106,14 +106,27 @@ public class Person extends Entity{
 				else if(positionX > ControlManager.screenWidth/4+ControlManager.screenWidth/20+55)
 					positionX -= 13;
 			}
+			//Animation person:
+			animationCounter++;
+			//Showing deadMessage
+			if(deadMessage) {
+				if(alpha > 0.045) {
+					if(animationCounter%4 == 0)
+						setDead(!isDead());
+					alpha -= 0.01125f;
+				}
+				else {
+					deadMessage = false;
+					setDead(false);
+					alpha = 1.0f;
+				}
+			}
 		}
-		
-
-		
-		public Rectangle2D getRectangleBounds() {
-			return new Rectangle2D.Double(positionX,positionY,23,29);
-		}
-		
+	
+		/**
+		 * Init method for the Person object.
+		 * Sets x and y starting positions, also initializes the pressure plates.
+		 */
 		public void init() {
 			positionX = ControlManager.screenWidth/2;
 			positionY = ControlManager.screenHeight - 100;
@@ -121,39 +134,45 @@ public class Person extends Entity{
 			//input.turnPressurePlates(true);
 		}
 		
+		/**
+		 * Get's called when the Person collides with a Box object.
+		 */
 		public void collision() {
-				deadMessageTimer = new Timer(200,new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						if(alpha > 0.045) {
-							setDead(!isDead());
-							alpha -= 0.045f;
-						}
-						else {
-							deadMessageTimer.stop();
-							setDead(false);
-							alpha = 1.0f;
-						}
-					}
-				});
-				deadMessageTimer.start();
+			//input.deadStageOne();
+			deadMessage = true;
 		}
 		
+		/**
+		 * Resets the position to start position.
+		 */
 		public void reset() {
+			//input.deadStageTwo();
+			setEndTimer(false);
+			reachedEnd = false;
 			positionY = ControlManager.screenHeight-100;
 			positionX = ControlManager.screenWidth/2;
 		}
 			
-		
+		/**
+		 * The top of the screen is reached.
+		 * @return if the person has reached the top of the screen.
+		 */
 		public boolean reachedEnd() {
 			return reachedEnd;
 		}
 		
+		/**
+		 * Sets the reached end.
+		 * @param reachedEnd - whether the person has reached the end or not.
+		 */
 		public void setReachedEnd(boolean reachedEnd) {
 			this.reachedEnd = reachedEnd;
 		}
 		
-		
+		/**
+		 * Toggle the endTimer.
+		 * @param state - The state of the endTimer.
+		 */
 		public void setEndTimer(boolean state) {
 			if(state)
 				endTimerCity.start();
@@ -161,6 +180,11 @@ public class Person extends Entity{
 				endTimerCity.stop();
 		}
 		
+		/**
+		 * Checks if one of the pixels is inside the persons body.
+		 * @param object - the object you want to check for collision.
+		 * @return if there is an intersection between the two objects.
+		 */
 		public boolean containsPoint(Entity object) {
 			Shape boatShape =  new Rectangle2D.Double(positionX,positionY,23,29);
 			Rectangle2D objectRectangle = object.getRectangle();
@@ -170,7 +194,10 @@ public class Person extends Entity{
 				return false;
 		}
 		
-		
+		/**
+		 * Just for testing:
+		 * @param i
+		 */
 		public void setPressurePlates(int i){
 			if(i == 1){
 				pressurePlate1 = true;

@@ -26,17 +26,20 @@ import control.ImageHandler;
 public class PoorGameState extends GameState{
 
 		private Person guy;
+		private Palace palace;
+		private PlayerHit playerHit;
 		private BufferedImage background, liveHeart;
-		private PlayerHit hit;
 		private int backgroundPositionY;
 		private ArrayList<Box> boxes;
-		private Palace palace;
 		private int counter;
 		private int lives;
 		private float alpha;
-		private Timer backgroundTimer, endFader;
+		private Timer backgroundTimer;
 		
-		
+		/**
+		 * Constructor of the Poor game state.
+		 * @param cm - The control manager of the game.
+		 */
 		public PoorGameState(ControlManager cm) {
 			super(cm);
 			counter = 0;
@@ -53,47 +56,51 @@ public class PoorGameState extends GameState{
 				}
 			});
 			backgroundTimer.start();
-			
 		}
 
+		/**
+		 * Drawing the poor game state:
+		 * @param g2 - The Graphics2D object.
+		 */
 		@Override
 		public void draw(Graphics2D g2) {
+			//Enabling AntiAliasing. 
 			RenderingHints rh = new RenderingHints(
 		             RenderingHints.KEY_ANTIALIASING	,
 		             RenderingHints.VALUE_ANTIALIAS_ON);
 		    g2.setRenderingHints(rh);
+		    //Drawing background: 
 		    TexturePaint tp = new TexturePaint(background,new Rectangle2D.Double(0,backgroundPositionY,ControlManager.screenWidth,ControlManager.screenHeight));
 		    g2.setPaint(tp);
 		    g2.fill(new Rectangle2D.Double(0,0,ControlManager.screenWidth,ControlManager.screenHeight));
-			  
+			//Drawing Boxes:    
 		    for(Box b : boxes) 
 				b.draw(g2);
+		  //Drawing the Palace:
 		    palace.draw(g2);
+		  //Drawing Lives:
 		    for(int x = 0; x < lives; x++) 
 				g2.drawImage(liveHeart,50+150*x,5,null);
-		    //Drawing Boat or BoatCrash:
-		    if(hit == null)
+		    //Drawing Person or PlayerHit:
+		    if(playerHit == null)
 		    	guy.draw(g2);	
 		    else 
-		    	hit.draw(g2);
+		    	playerHit.draw(g2);
 		    //Fade out effect:
 		    Shape rect = new Rectangle2D.Double(0,0,ControlManager.screenWidth,ControlManager.screenHeight);
-			try{
-				g2.setColor(new Color(0,0,0,alpha));
-			}catch(IllegalArgumentException e){
-				cm.getGameStateManager().next();
-				cm.getGameStateManager().next();
-			}
+			g2.setColor(new Color(0,0,0,alpha));
 			g2.fill(rect); 
 		}
 		
-		
+		/**
+		 * Updating the poor game state.
+		 */
 		@Override
 		public void update() {
-			//Updating the boat:
+			//Updating the Person:
 			guy.update();
 			
-			//Updating the Pier:
+			//Updating the Palace:
 			palace.update();
 			
 			//Checking for collision:
@@ -103,39 +110,40 @@ public class PoorGameState extends GameState{
 				}
 			}
 			
-			//Randomly spawning rocks: 
+			//Randomly spawning boxes: 
 			if(!palace.isDead()) {
 				if(Math.floor(Math.random()*25) == 3) {
-					Box rock = null;
+					Box box = null;
 					switch((int) Math.floor(Math.random()*4)) {
 						case 0:
-							rock = new Box(cm,ImageHandler.getImage(ImageHandler.ImageType.box1));
+							box = new Box(cm,ImageHandler.getImage(ImageHandler.ImageType.box1));
 							break;
 						case 1:
-							rock = new Box(cm,ImageHandler.getImage(ImageHandler.ImageType.box2));
+							box = new Box(cm,ImageHandler.getImage(ImageHandler.ImageType.box2));
 							break;
 						case 2:
-							rock = new Box(cm,ImageHandler.getImage(ImageHandler.ImageType.box3));
+							box = new Box(cm,ImageHandler.getImage(ImageHandler.ImageType.box3));
 							break;
 						case 3:
-							rock = new Box(cm,ImageHandler.getImage(ImageHandler.ImageType.box4));
+							box = new Box(cm,ImageHandler.getImage(ImageHandler.ImageType.box4));
 							break;		
 						case 4:
-							rock = new Box(cm,ImageHandler.getImage(ImageHandler.ImageType.box5));
+							box = new Box(cm,ImageHandler.getImage(ImageHandler.ImageType.box5));
 							break;
 						case 5:
-							rock = new Box(cm,ImageHandler.getImage(ImageHandler.ImageType.box6));
+							box = new Box(cm,ImageHandler.getImage(ImageHandler.ImageType.box6));
 							break;
 						case 6:
-							rock = new Box(cm,ImageHandler.getImage(ImageHandler.ImageType.box7));
+							box = new Box(cm,ImageHandler.getImage(ImageHandler.ImageType.box7));
 							break;
 					}
 				counter++;
-				boxes.add(rock);
-				rock.init();
+				boxes.add(box);
+				box.init();
+				}
 			}
 			
-			//Checking if rocks are out of the screen:
+			//Checking if boxes are out of the screen:
 			Iterator it = boxes.iterator();
 			while(it.hasNext()) {
 				Box b = (Box) it.next();
@@ -145,67 +153,58 @@ public class PoorGameState extends GameState{
 					b.setTimer(false);
 			}
 			
-			
 			//Checking if crash animation is over:
-			if(hit != null) 
-				if(hit.isDead()) 
+			if(playerHit != null) 
+				if(playerHit.isDead()) 
 					reset();
 			
 			//Reaching the end of the game:
 			if(counter == 15) {
 				counter++;
-				palace.setDead(true);
+				palace.setDead(false);
 				palace.setPositionY(-100);
 			}
 					
-			//Pier fully popped out of the top of the screen & also checking if boat collides with the pier:
+			//Palace fully popped out of the top of the screen & also checking if boat collides with the pier:
 			if(palace.isDead()) {
 				backgroundTimer.stop();
 				guy.setEndTimer(true);
-				if(guy.containsPoint(palace)){
+				if(guy.containsPoint(palace)) {
+					guy.setReachedEnd(true);
 					guy.setEndTimer(false);
-					
-					}else{
-						for(Box b: boxes){
-							b.setTimer(false);
-						}
-						
-					endFader.start();
-					guy.setEndTimer(true);
 				}
 			}
+			
+			//Boat reached top of the screen:
+			if(guy.reachedEnd()) {
+				if(alpha < 1) 
+					alpha += 0.1;
+				else
+					cm.getGameStateManager().next();
 			}
 		}
 		
-		public void setAlpha(float i){
-			this.alpha = i;
-		}
-		
-		
-		
+		/**
+		 * Initializes the poor game state.
+		 * Loads background and live images.
+		 * Makes a pier and initializes boat object.
+		 */
 		@Override
 		public void init() {
 			background = ImageHandler.getScaledImage(ImageHandler.getImage(ImageHandler.ImageType.poorcity));
 			liveHeart = ImageHandler.getImage(ImageHandler.ImageType.heart);
-			endFader = new Timer(1000/60,new ActionListener() {
-				
-				public void actionPerformed(ActionEvent e) {
-					if(guy.getPositionY() > 40 && alpha < 1){
-						alpha += 0.01;
-					}else{
-						alpha = 1;
-					}
-				}
-			});
 			palace = new Palace(cm,ControlManager.screenHeight+400);
 			guy.init();
 		}
 
+		/**
+		 * Called on collision, will subtract a live and reset game.
+		 */
 		public void collision() {
-			if(hit == null) {
+			if(playerHit == null) {
 				if(lives > 0) {
 					lives--;
-					hit = new PlayerHit(cm,guy.getPositionX(),guy.getPositionY());
+					playerHit = new PlayerHit(cm,guy.getPositionX(),guy.getPositionY());
 					guy.collision();
 				}
 				else {
@@ -214,13 +213,18 @@ public class PoorGameState extends GameState{
 			}
 		}
 		
+		/**
+		 * Resets the game.
+		 */
 		public void reset() {
 			palace = new Palace(cm,ControlManager.screenHeight+200);
 			boxes = new ArrayList<>(200);
 			backgroundPositionY = 0;
-			hit = null;
+			backgroundTimer.start();
+			playerHit = null;
 			alpha = 0f;
 			counter = 0;
+			guy.reset();
 		}
 		
 		//Just for testing:

@@ -92,12 +92,12 @@ public class GameStateManager {
 		gameSequence.add(gameStates.get(5));
 		gameSequence.add(gameStates.get(6));
 		gameSequence.add(gameStates.get(7));
-//		gameSequence.add(gameStates.get(8));
-//		gameSequence.add(gameStates.get(9));
-//		gameSequence.add(gameStates.get(10));
-//		gameSequence.add(gameStates.get(11));
-//		gameSequence.add(gameStates.get(12));
-//		gameSequence.add(gameStates.get(13));
+		//gameSequence.add(gameStates.get(8));
+		//gameSequence.add(gameStates.get(9));
+		//gameSequence.add(gameStates.get(10));
+		//gameSequence.add(gameStates.get(11));
+		//gameSequence.add(gameStates.get(12));
+		//gameSequence.add(gameStates.get(13));
 	}
 	
 	public void next(){

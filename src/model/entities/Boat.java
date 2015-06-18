@@ -27,7 +27,7 @@ public class Boat extends Entity {
 	private int animationCounter;
 	private float alpha;
 	private boolean reachedEnd;
-	private Timer deadMessageTimer;
+	private boolean deadMessage;
 	private Timer endTimer;
 	
 	private boolean pressurePlate1; //Right foot
@@ -56,14 +56,6 @@ public class Boat extends Entity {
 				}	
 			}
 		});
-		Timer animationTimer = new Timer(350,new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				animationCounter++;	
-			}
-		});
-		animationTimer.start();
 	}
 	
 	/**
@@ -74,17 +66,15 @@ public class Boat extends Entity {
 	public void draw(Graphics2D g2) {
 		//Drawing ship:
 		if(!isDead()) {
-			BufferedImage subImage = getSprite().getSubimage((animationCounter%3)*128,0,128,193);
+			BufferedImage subImage = getSprite().getSubimage((animationCounter/7)%3*128,0,128,193);
 			g2.drawImage(subImage,getPositionX(),getPositionY(),null);
 		}
 		//Drawing dead message: 
-		if(deadMessageTimer != null) {
-			if(deadMessageTimer.isRunning()) {
-				g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
-				g2.setColor(Color.WHITE);
-				g2.setFont(new Font("Verdana",Font.BOLD,60));
-				drawCenteredText("Probeer het opnieuw", g2, ControlManager.screenHeight/2);
-			}
+		if(deadMessage) {
+			g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
+			g2.setColor(Color.WHITE);
+			g2.setFont(new Font("Verdana",Font.BOLD,60));
+			drawCenteredText("Probeer het opnieuw", g2, ControlManager.screenHeight/2);
 		}
 	}
 	
@@ -125,6 +115,21 @@ public class Boat extends Entity {
 			else if(positionX > ControlManager.screenWidth/4+ControlManager.screenWidth/20)
 				positionX -= 13;
 		}
+		//Animtating the ship: 
+		animationCounter++;	
+		//Showing dead message: 
+		if(deadMessage) {
+			if(alpha > 0.045) {
+				if(animationCounter%4 == 0)
+					setDead(!isDead());
+				alpha -= 0.01125f;
+			}
+			else {
+				deadMessage = false;
+				setDead(false);
+				alpha = 1.0f;
+			}
+		}
 	}
 	
 	/**
@@ -143,21 +148,7 @@ public class Boat extends Entity {
 	 */
 	public void collision() {
 		//input.deadStageOne();
-			deadMessageTimer = new Timer(200,new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					if(alpha > 0.045) {
-						setDead(!isDead());
-						alpha -= 0.045f;
-					}
-					else {
-						deadMessageTimer.stop();
-						setDead(false);
-						alpha = 1.0f;
-					}
-				}
-			});
-			deadMessageTimer.start();
+		deadMessage = true;
 	}
 	
 	/**
