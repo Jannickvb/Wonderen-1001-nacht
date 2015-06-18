@@ -19,6 +19,7 @@ import model.entities.Boat;
 import model.entities.BoatCrash;
 import model.entities.Pier;
 import model.entities.Rock;
+import model.entities.Upgrade;
 import model.gamestates.GameState;
 import control.ControlManager;
 import control.ImageHandler;
@@ -36,6 +37,7 @@ public class BoatGameState extends GameState{
 	private BufferedImage background, liveHeart;
 	private int backgroundPositionY;
 	private ArrayList<Rock> rocks;
+	private ArrayList<Upgrade> upgrades;
 	private int counter;
 	private int lives;
 	private float alpha;
@@ -52,6 +54,7 @@ public class BoatGameState extends GameState{
 		lives = 3;
 		boat = new Boat(cm);
 		rocks = new ArrayList<>(100);
+		upgrades = new ArrayList<>(100);
 	}
 
 	/**
@@ -72,6 +75,9 @@ public class BoatGameState extends GameState{
 		//Drawing Rocks:   
 	    for(Rock rock : rocks) 
 			rock.draw(g2);
+	    //Drawing upgrades:
+	    for(Upgrade upgrade : upgrades)
+	    	upgrade.draw(g2);
 	    //Drawing the Pier:
 	    pier.draw(g2);
 	    //Drawing Lives:
@@ -103,13 +109,20 @@ public class BoatGameState extends GameState{
 		//Updating the Pier:
 		pier.update();
 		
-		//Checking for collision:
+		//Checking for collision with rocks:
 		for(Rock rock : rocks) {
 			if(boat.containsPoint(rock)) {
 				collision();
 			}
 		}
 		
+		//Checking for collision with upgrades:
+		for(Upgrade upgrade : upgrades) {
+			if(boat.containsPoint(upgrade)) {
+				collisionUpgrade(upgrade);
+			}
+		}
+				
 		//Randomly spawning rocks: 
 		if(!pier.isDead()) {
 			if(Math.floor(Math.random()*25) == 3) {
@@ -142,8 +155,17 @@ public class BoatGameState extends GameState{
 			}
 		}
 		
+		//Randomly spawning upgrades: 
+		if(!pier.isDead()) {
+			if(Math.floor(Math.random()*45) == 3) {
+				Upgrade upgrade = new Upgrade(cm);
+				upgrades.add(upgrade);
+				upgrade.init();
+			}
+		}
+		
 		//Checking if rocks are out of the screen & if rocks are dead & if rocks are overlapping:
-		Iterator it = rocks.iterator();
+		Iterator<Rock> it = rocks.iterator();
 		while(it.hasNext()) {
 			Rock rock = (Rock) it.next();
 			if(rock.isDead())
@@ -151,6 +173,19 @@ public class BoatGameState extends GameState{
 			if(!pier.isDead())
 				rock.update();
 		}
+		
+		//Checking if upgrades are out of the screen & if upgrades are dead & if upgrades are overlapping:
+				Iterator<Upgrade> itU = upgrades.iterator();
+				while(itU.hasNext()) {
+					Upgrade upgrade = (Upgrade) itU.next();
+					if(upgrade.isDead())
+						itU.remove();
+					if(!pier.isDead())
+						upgrade.setMove(true);
+					else
+						upgrade.setMove(false);
+					upgrade.update();
+				}
 		
 		//Checking if crash animation is over:
 		if(boatCrash != null) {
@@ -214,6 +249,16 @@ public class BoatGameState extends GameState{
 			}
 		}
 	}
+	
+	/**
+	 * Called on collision with a upgrade.
+	 * @param upgrade - The upgrade that collided.
+	 */
+	public void collisionUpgrade(Upgrade upgrade) {
+		upgrade.playSound();
+		upgrade.setDead(true);
+	}
+	
 	
 	/**
 	 * Resets the game.
