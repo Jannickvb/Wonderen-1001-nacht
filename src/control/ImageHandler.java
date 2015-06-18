@@ -79,6 +79,7 @@ public class ImageHandler {
 			images.add(ImageIO.read(Main.class.getResource("/images/box7.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/palace.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/upgrade.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/coin.png")));
 			
 			
 		}catch(IOException e){
@@ -145,7 +146,8 @@ public class ImageHandler {
 		box6, 
 		box7, 
 		palace,
-		upgrade; 
+		upgrade,
+		coin; 
 	}
 	
 	public static BufferedImage getImage(ImageType img){

@@ -1,6 +1,7 @@
 package model.gamestates.start;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.Shape;
@@ -17,6 +18,8 @@ import javax.swing.Timer;
 
 import model.entities.Boat;
 import model.entities.BoatCrash;
+import model.entities.Coin;
+import model.entities.Entity;
 import model.entities.Pier;
 import model.entities.Rock;
 import model.entities.Upgrade;
@@ -38,8 +41,10 @@ public class BoatGameState extends GameState{
 	private int backgroundPositionY;
 	private ArrayList<Rock> rocks;
 	private ArrayList<Upgrade> upgrades;
+	private ArrayList<Coin> coins;
 	private int counter;
 	private int lives;
+	private int points;
 	private float alpha;
 	
 	/**
@@ -50,11 +55,13 @@ public class BoatGameState extends GameState{
 		super(cm);
 		backgroundPositionY = 0;
 		counter = 0;
-		alpha = 0;
+		points = 0;
 		lives = 3;
+		alpha = 0;
 		boat = new Boat(cm);
 		rocks = new ArrayList<>(100);
 		upgrades = new ArrayList<>(100);
+		coins = new ArrayList<>(100);
 	}
 
 	/**
@@ -78,11 +85,18 @@ public class BoatGameState extends GameState{
 	    //Drawing upgrades:
 	    for(Upgrade upgrade : upgrades)
 	    	upgrade.draw(g2);
+	    //Drawing coins: 
+	    for(Coin coin : coins)
+	    	coin.draw(g2);
 	    //Drawing the Pier:
 	    pier.draw(g2);
 	    //Drawing Lives:
 	    for(int x = 0; x < lives; x++) 
 			g2.drawImage(liveHeart,50+150*x,5,null);
+	    //Drawing points: 
+	    g2.setColor(Color.WHITE);
+		g2.setFont(new Font("Verdana",Font.BOLD,50));
+		g2.drawString("Points: " + points,50,170);
 	    //Drawing Boat or BoatCrash:
 	    if(boatCrash == null)
 	    	boat.draw(g2);	
@@ -122,6 +136,15 @@ public class BoatGameState extends GameState{
 				collisionUpgrade(upgrade);
 			}
 		}
+		
+		//Checking for collision with coins:
+		for(Coin coin : coins) {
+			if(boat.containsPoint(coin)) {
+				coin.playSound();
+				coin.setDead(true);
+				points += 20;
+			}
+		}
 				
 		//Randomly spawning rocks: 
 		if(!pier.isDead()) {
@@ -145,13 +168,8 @@ public class BoatGameState extends GameState{
 				rocks.add(rock);
 				rock.init();
 				//Checking if rock isnt overlapping
-				for(Rock rock2 : rocks) {
-					if(rock.containsPoint(rock2)) 
-						rock.setDead(true);
-					else if(pier != null)
-						if(rock.containsPoint(pier))
-							rock.setDead(true);	
-				}
+				if(checkCollision(rock)) 
+					rock.setDead(true);
 			}
 		}
 		
@@ -161,6 +179,19 @@ public class BoatGameState extends GameState{
 				Upgrade upgrade = new Upgrade(cm);
 				upgrades.add(upgrade);
 				upgrade.init();
+				if(checkCollision(upgrade))
+					upgrade.setDead(true);
+			}
+		}
+		
+		//Randomly spawning coins: 
+		if(!pier.isDead()) {
+			if(Math.floor(Math.random()*25) == 3) {
+				Coin coin = new Coin(cm);
+				coins.add(coin);
+				coin.init();
+				if(checkCollision(coin))
+					coin.setDead(true);
 			}
 		}
 		
@@ -175,17 +206,27 @@ public class BoatGameState extends GameState{
 		}
 		
 		//Checking if upgrades are out of the screen & if upgrades are dead & if upgrades are overlapping:
-				Iterator<Upgrade> itU = upgrades.iterator();
-				while(itU.hasNext()) {
-					Upgrade upgrade = (Upgrade) itU.next();
-					if(upgrade.isDead())
-						itU.remove();
-					if(!pier.isDead())
-						upgrade.setMove(true);
-					else
-						upgrade.setMove(false);
-					upgrade.update();
-				}
+		Iterator<Upgrade> itU = upgrades.iterator();
+		while(itU.hasNext()) {
+			Upgrade upgrade = (Upgrade) itU.next();
+			if(upgrade.isDead())
+				itU.remove();
+			if(!pier.isDead())
+				upgrade.setMove(true);
+			else
+				upgrade.setMove(false);
+			upgrade.update();
+		}
+		
+		//Checking if rocks are out of the screen & if rocks are dead & if rocks are overlapping:
+		Iterator<Coin> itC = coins.iterator();
+		while(itC.hasNext()) {
+			Coin coin = (Coin) itC.next();
+			if(coin.isDead())
+				itC.remove();
+			if(!pier.isDead())
+				coin.update();
+		}
 		
 		//Checking if crash animation is over:
 		if(boatCrash != null) {
@@ -194,7 +235,7 @@ public class BoatGameState extends GameState{
 				reset();
 		}
 		//Reaching the end of the game:
-		if(counter == 10) {
+		if(counter == 50) {
 			counter++;
 			pier.setDead(false);
 			pier.setPositionY(-178);
@@ -257,6 +298,7 @@ public class BoatGameState extends GameState{
 	public void collisionUpgrade(Upgrade upgrade) {
 		upgrade.playSound();
 		upgrade.setDead(true);
+		points += 100;
 	}
 	
 	
@@ -273,6 +315,26 @@ public class BoatGameState extends GameState{
 		boat.reset();
 	}
 	
+	public boolean checkCollision(Entity object) {
+		//Overlap with rock:
+		for(Rock rock2 : rocks) 
+			if(object.containsPoint(rock2)) 
+				return true;
+		//Overlap met coin:
+		for(Coin coin : coins)
+			if(object.containsPoint(coin))
+				return true;
+		//Overlap met upgrade:
+		for(Upgrade upgrade : upgrades)
+			if(object.containsPoint(upgrade))
+				return true;
+		//Overlap met pier:
+		if(pier != null)
+			if(object.containsPoint(pier))
+				return true;
+		return false;
+	}
+		
 	//Just for testing:
 	@Override
 	public void keyPressed(KeyEvent e) {
@@ -291,5 +353,4 @@ public class BoatGameState extends GameState{
         	boat.setPressurePlates(3);
         }
 	}
-
 }
