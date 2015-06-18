@@ -1,6 +1,7 @@
 package model.entities;
 
 import java.awt.Graphics2D;
+import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
@@ -34,8 +35,8 @@ public class Upgrade extends Entity {
 	}
 
 	/**
-	 * Drawing the coin
-	 * @parma g2 - The Graphics2D object.
+	 * Drawing the upgrade-coin.
+	 * @param g2 - The Graphics2D object.
 	 */
 	@Override
 	public void draw(Graphics2D g2) {
@@ -68,11 +69,23 @@ public class Upgrade extends Entity {
 		return  new Rectangle2D.Double(positionX,positionY,64,64);
 	}
 	
-	public void setMove(boolean state) {
-		if(state)
-			move = true;
+	/**
+	 * Checks if one of the pixels is inside the boats body.
+	 * @param object - the object you want to check for collision.
+	 * @return if there is an intersection between the two objects.
+	 */
+	@Override
+	public boolean containsPoint(Entity object) {
+		Shape ownShape =  new Rectangle2D.Double(positionX+40,positionY,64,64);
+		Rectangle2D objectRectangle = object.getRectangle();
+		if(ownShape.intersects(objectRectangle)) 
+			return true;
 		else
-			move = false;
+			return false;
+	}
+	
+	public void setMove(boolean state) {
+		move = state;
 	}
 	
 	/**

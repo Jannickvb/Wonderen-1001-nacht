@@ -13,10 +13,19 @@ import control.ControlManager;
 import control.ImageHandler;
 import control.ImageHandler.ImageType;
 
+/**
+ * The coin.
+ * @author Wesley de Hek
+ * @Version 1.1
+ */
 public class Coin extends Entity {
  
 	private Clip coinPickup;
 	
+	/**
+	 * Constructor.
+	 * @param cm - The Control manager of the game.
+	 */
 	public Coin(ControlManager cm) {
 		super(cm,ImageHandler.getImage(ImageType.coin));
 		//Importing sound: 
@@ -39,6 +48,10 @@ public class Coin extends Entity {
 		g2.drawImage(getSprite(),getPositionX(),getPositionY(),null);
 	}
 
+	/**
+	 * Updating the coin.
+	 * Updates position and dead status.
+	 */
 	@Override
 	public void update() {
 		positionY += 6;
@@ -46,6 +59,9 @@ public class Coin extends Entity {
 			setDead(true);
 	}
 
+	/**
+	 * Initialize the coin by setting it's start position.
+	 */
 	@Override
 	public void init() {
 		positionY = -50;

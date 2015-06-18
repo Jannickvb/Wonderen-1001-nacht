@@ -110,9 +110,9 @@ public abstract class Entity {
 	 * @return if there is an intersection between the two objects.
 	 */
 	public boolean containsPoint(Entity object) {
-		Shape boatShape =  new Rectangle2D.Double(positionX+40,positionY,getSprite().getWidth(),getSprite().getHeight());
+		Shape ownShape =  new Rectangle2D.Double(positionX+40,positionY,getSprite().getWidth(),getSprite().getHeight());
 		Rectangle2D objectRectangle = object.getRectangle();
-		if(boatShape.intersects(objectRectangle)) 
+		if(ownShape.intersects(objectRectangle)) 
 			return true;
 		else
 			return false;

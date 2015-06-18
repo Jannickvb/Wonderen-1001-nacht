@@ -19,7 +19,7 @@ import control.InputHandler;
 /**
  * Boat class.
  * @author Wesley de Hek
- * @Version 1.7
+ * @Version 1.8
  */
 public class Boat extends Entity {
 
@@ -29,6 +29,7 @@ public class Boat extends Entity {
 	private boolean reachedEnd;
 	private boolean deadMessage;
 	private boolean collisionPier;
+	private boolean move;
 	
 	private boolean pressurePlate1; //Right foot
 	private boolean pressurePlate2; //Left foot
@@ -86,25 +87,28 @@ public class Boat extends Entity {
 		//boolean pressurePlate2 = input.getPressurePlate2(); //Left foot
 		//boolean pressurePlate3 = input.getPressurePlate3(); //Right foot
 		//boolean pressurePlate4 = input.getPressurePlate4(); //Left foot
-		if(pressurePlate1 && pressurePlate3 && !pressurePlate2 && !pressurePlate4) { // Go to the rights
-			if( positionY < 178) {
-				if(positionX > ControlManager.screenWidth/2-(getSprite().getWidth()/2)-45)
+		if(move) {
+			if(pressurePlate1 && pressurePlate3 && !pressurePlate2 && !pressurePlate4) { // Go to the rights
+				if( positionY < 178) {
+					if(positionX > ControlManager.screenWidth/2-(getSprite().getWidth()/2)-45 && positionX <= ControlManager.screenWidth/4*3-ControlManager.screenWidth/8)
+						positionX += 4;
+				}
+				else if(positionX <= ControlManager.screenWidth/4*3-ControlManager.screenWidth/8) 
 					positionX += 4;
+					
 			}
-			else if(positionX <= ControlManager.screenWidth/4*3-ControlManager.screenWidth/8) 
-				positionX += 4;
-				
-		}
-		else if(!pressurePlate1 && !pressurePlate3 && pressurePlate2 && pressurePlate4) {// Go to the left
-			if( positionY < 178) {
-				if(positionX < ControlManager.screenWidth/2+13)
+			else if(!pressurePlate1 && !pressurePlate3 && pressurePlate2 && pressurePlate4) {// Go to the left
+				if( positionY < 178) {
+					if(positionX < ControlManager.screenWidth/2+13 && positionX > ControlManager.screenWidth/4+ControlManager.screenWidth/20)
+						positionX -= 4;
+				}
+				else if(positionX > ControlManager.screenWidth/4+ControlManager.screenWidth/20)
 					positionX -= 4;
 			}
-			else if(positionX > ControlManager.screenWidth/4+ControlManager.screenWidth/20)
-				positionX -= 4;
 		}
 		//Animtating the ship: 
-		animationCounter++;	
+		if(move)
+			animationCounter++;	
 		//Showing dead message: 
 		if(deadMessage) {
 			if(alpha > 0.045) {
@@ -120,12 +124,15 @@ public class Boat extends Entity {
 		}
 		
 		//To the end:
-		if(!collisionPier) {
-			if(positionY > 6)
-				positionY -= 6;
-			else {
-				reachedEnd = true;
-				collisionPier = true;
+		if(!reachedEnd) {
+			if(!collisionPier) {
+				if(positionY > 6)
+					positionY -= 6;
+				else {
+					reachedEnd = true;
+					move = false;
+					collisionPier = true;
+				}
 			}
 		}
 	}
@@ -138,6 +145,7 @@ public class Boat extends Entity {
 		positionX = ControlManager.screenWidth/2;
 		positionY = ControlManager.screenHeight - 250;
 		collisionPier = true;
+		move = true;
 		//input.turnPressurePlates(true);
 	}
 	
@@ -156,6 +164,7 @@ public class Boat extends Entity {
 		//input.deadStageTwo();
 		collisionPier = true;
 		reachedEnd = false;
+		move = true;
 		positionY = ControlManager.screenHeight-250;
 		positionX = ControlManager.screenWidth/2;
 	}
@@ -173,6 +182,7 @@ public class Boat extends Entity {
 	 * @param reachedEnd - whether the boat has reached the end or not.
 	 */
 	public void setReachedEnd(boolean reachedEnd) {
+		move = !reachedEnd;
 		this.reachedEnd = reachedEnd;
 	}
 	

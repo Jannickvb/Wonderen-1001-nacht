@@ -30,7 +30,7 @@ import control.ImageHandler;
 /**
  * The boat game state.
  * @author Wesley de Hek
- * @Version 1.8
+ * @Version 1.9
  */
 public class BoatGameState extends GameState{
 
@@ -45,6 +45,8 @@ public class BoatGameState extends GameState{
 	private int counter;
 	private int lives;
 	private int points;
+	private int pointCounter;
+	private String endText;
 	private float alpha;
 	
 	/**
@@ -90,22 +92,47 @@ public class BoatGameState extends GameState{
 	    	coin.draw(g2);
 	    //Drawing the Pier:
 	    pier.draw(g2);
-	    //Drawing Lives:
-	    for(int x = 0; x < lives; x++) 
-			g2.drawImage(liveHeart,50+150*x,5,null);
-	    //Drawing points: 
 	    g2.setColor(Color.WHITE);
-		g2.setFont(new Font("Verdana",Font.BOLD,50));
-		g2.drawString("Points: " + points,50,170);
+		g2.setFont(new Font("Verdana",Font.BOLD,50)); 
+	    if(!boat.reachedEnd()) {
+	    	//Drawing Lives:
+		    for(int x = 0; x < lives; x++) 
+				g2.drawImage(liveHeart,50+150*x,5,null);
+		    //Drawing points: 
+			g2.drawString("Punten: " + points,50,170);
+	    }
 	    //Drawing Boat or BoatCrash:
 	    if(boatCrash == null)
 	    	boat.draw(g2);	
 	    else 
 	    	boatCrash.draw(g2);
+	    //Drawing end screen: 
+	    if(boat.reachedEnd()) {
+	    	drawCenteredText(endText, g2, ControlManager.screenHeight/2-200);
+	    	drawCenteredText("Behaalde punten: " + pointCounter, g2, ControlManager.screenHeight/2-100);
+	    	if(pointCounter == points)
+	    		drawCenteredText("Druk op A om verder te gaan", g2, ControlManager.screenHeight/2);
+	    }
+	    else {
+	    	//Drawing upgrade thing:
+	    	
+	    }
 	    //Fade out effect:
 	    Shape rect = new Rectangle2D.Double(0,0,ControlManager.screenWidth,ControlManager.screenHeight);
 		g2.setColor(new Color(0,0,0,alpha));
 		g2.fill(rect); 
+		
+	}
+	
+	/**
+	 * Method that draws given text in the center of the screen.
+	 * @param text - The text you want to display.
+	 * @param g2 - The graphics2D object.
+	 * @param y - The y position of the text.
+	 */
+	public void drawCenteredText(String text, Graphics2D g2, int y) {
+		int x = (ControlManager.screenWidth-g2.getFontMetrics().stringWidth(text))/2;
+		g2.drawString(text, x, y);
 	}
 
 	/**
@@ -175,12 +202,13 @@ public class BoatGameState extends GameState{
 		
 		//Randomly spawning upgrades: 
 		if(!pier.isDead()) {
-			if(Math.floor(Math.random()*45) == 3) {
+			if(Math.floor(Math.random()*95) == 3) {
 				Upgrade upgrade = new Upgrade(cm);
-				upgrades.add(upgrade);
 				upgrade.init();
-				if(checkCollision(upgrade))
+				if(checkCollision(upgrade)) 
 					upgrade.setDead(true);
+				upgrades.add(upgrade);
+					
 			}
 		}
 		
@@ -250,13 +278,26 @@ public class BoatGameState extends GameState{
 				boat.setCollisionPier(false);
 		}
 		
-		//Boat reached top of the screen:
 		if(boat.reachedEnd()) {
-			if(alpha < 0.95) 
-				alpha += 0.033;
-			else
-				cm.getGameStateManager().next();
-		}		
+			if(pointCounter == 0)
+				endText = "Gefeliciteerd!";
+			if(pointCounter < points) {
+				if(alpha < 0.2)
+					alpha += 0.0033;
+				pointCounter+=3;
+			}
+			else {
+				pointCounter = points;
+				
+			}
+		}
+		//Boat reached top of the screen: <- when player presses A to continue;
+//		if(boat.reachedEnd()) {
+//			if(alpha < 0.95) 
+//				alpha += 0.033;
+//			else
+//				cm.getGameStateManager().next();
+//		}		
 	}
 
 	/**
@@ -277,7 +318,7 @@ public class BoatGameState extends GameState{
 	 */
 	public void collision() {
 		if(boatCrash == null) {
-			if(lives > 0) {
+			if(lives > 1) {
 				lives--;
 				if(!pier.isDead())
 					boatCrash = new BoatCrash(cm,boat.getPositionX(),boat.getPositionY(),true);
@@ -286,7 +327,9 @@ public class BoatGameState extends GameState{
 				boat.collision();
 			}
 			else {
+				endText = "Helaas! U heeft het eind niet bereikt";
 				boat.setReachedEnd(true); //Alternate ending when dead <- here
+				pier.setDead(true);
 			}
 		}
 	}
@@ -307,11 +350,18 @@ public class BoatGameState extends GameState{
 	 */
 	public void reset() {
 		pier = new Pier(cm,ControlManager.screenHeight);
-		rocks = new ArrayList<>();
+		rocks = new ArrayList<Rock>();
+		coins = new ArrayList<Coin>();
+		upgrades = new ArrayList<Upgrade>();
 		backgroundPositionY = 0;
 		boatCrash = null;
 		alpha = 0f;
 		counter = 0;
+		if(points > 200)
+			points -= 200;
+		else 
+			points = 0;
+		pointCounter = 0;
 		boat.reset();
 	}
 	
