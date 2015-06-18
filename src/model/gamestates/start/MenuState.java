@@ -86,25 +86,25 @@ public class MenuState extends GameState{
 			animation = true;
 		if(animation){
 			keyFrame++;
-			if(keyFrame<5){
-				iY+=keyFrame%5;
+			if(keyFrame<(5*3)){
+				iY+=keyFrame%(5);
 			}else{
-				iY-=keyFrame-4;
+				iY-=keyFrame-(4/3);
 			}
-			if(keyFrame>20){
+			if(keyFrame>(20*3)){
 				play = true;
 				animation = false;
 			}
 		}
 		if(play) {
 			keyFrame++;
-			rX+=5;
-			lX-=5;
-			scale+=0.01;
-			lScale+=0.005;
-			if(keyFrame >= 120&& fade < 1)
-				fade+=0.1;
-			if(keyFrame == 140)
+			rX+=(5/3);
+			lX-=(5/3);
+			scale+=(0.01/3);
+			lScale+=(0.005/3);
+			if(keyFrame >= (120*3) && fade < 1)
+				fade+=(0.1/3);
+			if(keyFrame == (140*3))
 				cm.getGameStateManager().next();
 		}
 		

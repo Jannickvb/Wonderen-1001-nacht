@@ -28,7 +28,7 @@ public class Boat extends Entity {
 	private float alpha;
 	private boolean reachedEnd;
 	private boolean deadMessage;
-	private Timer endTimer;
+	private boolean collisionPier;
 	
 	private boolean pressurePlate1; //Right foot
 	private boolean pressurePlate2; //Left foot
@@ -44,18 +44,6 @@ public class Boat extends Entity {
 		input = cm.getInputHandler();
 		animationCounter = 0;
 		alpha = 1.0f;
-		endTimer = new Timer(1000/60,new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if(positionY > 6)
-					positionY -= 6;
-				else {
-					reachedEnd = true;
-					endTimer.stop();
-				}	
-			}
-		});
 	}
 	
 	/**
@@ -66,7 +54,7 @@ public class Boat extends Entity {
 	public void draw(Graphics2D g2) {
 		//Drawing ship:
 		if(!isDead()) {
-			BufferedImage subImage = getSprite().getSubimage((animationCounter/7)%3*128,0,128,193);
+			BufferedImage subImage = getSprite().getSubimage((animationCounter/21)%3*128,0,128,193);
 			g2.drawImage(subImage,getPositionX(),getPositionY(),null);
 		}
 		//Drawing dead message: 
@@ -101,33 +89,43 @@ public class Boat extends Entity {
 		if(pressurePlate1 && pressurePlate3 && !pressurePlate2 && !pressurePlate4) { // Go to the rights
 			if( positionY < 178) {
 				if(positionX > ControlManager.screenWidth/2-(getSprite().getWidth()/2)-45)
-					positionX += 13;
+					positionX += 4;
 			}
 			else if(positionX <= ControlManager.screenWidth/4*3-ControlManager.screenWidth/8) 
-				positionX += 13;
+				positionX += 4;
 				
 		}
 		else if(!pressurePlate1 && !pressurePlate3 && pressurePlate2 && pressurePlate4) {// Go to the left
 			if( positionY < 178) {
 				if(positionX < ControlManager.screenWidth/2+13)
-					positionX -= 13;
+					positionX -= 4;
 			}
 			else if(positionX > ControlManager.screenWidth/4+ControlManager.screenWidth/20)
-				positionX -= 13;
+				positionX -= 4;
 		}
 		//Animtating the ship: 
 		animationCounter++;	
 		//Showing dead message: 
 		if(deadMessage) {
 			if(alpha > 0.045) {
-				if(animationCounter%4 == 0)
+				if(animationCounter%12 == 0)
 					setDead(!isDead());
-				alpha -= 0.01125f;
+				alpha -= 0.00375f;
 			}
 			else {
 				deadMessage = false;
 				setDead(false);
 				alpha = 1.0f;
+			}
+		}
+		
+		//To the end:
+		if(!collisionPier) {
+			if(positionY > 6)
+				positionY -= 6;
+			else {
+				reachedEnd = true;
+				collisionPier = true;
 			}
 		}
 	}
@@ -139,7 +137,7 @@ public class Boat extends Entity {
 	public void init() {
 		positionX = ControlManager.screenWidth/2;
 		positionY = ControlManager.screenHeight - 250;
-		setTimer(false);
+		collisionPier = true;
 		//input.turnPressurePlates(true);
 	}
 	
@@ -156,7 +154,7 @@ public class Boat extends Entity {
 	 */
 	public void reset() {
 		//input.deadStageTwo();
-		setEndTimer(false);
+		collisionPier = true;
 		reachedEnd = false;
 		positionY = ControlManager.screenHeight-250;
 		positionX = ControlManager.screenWidth/2;
@@ -179,14 +177,14 @@ public class Boat extends Entity {
 	}
 	
 	/**
-	 * Toggle the endTimer.
-	 * @param state - The state of the endTimer.
+	 * Set the collision with the pier.
+	 * @param state - The state of the collision.
 	 */
-	public void setEndTimer(boolean state) {
+	public void setCollisionPier(boolean state) {
 		if(state)
-			endTimer.start();
+			collisionPier = true;
 		else
-			endTimer.stop();
+			collisionPier = false;
 	}
 	
 	/**

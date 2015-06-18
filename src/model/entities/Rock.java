@@ -41,6 +41,7 @@ public class Rock extends Entity {
 	 */
 	@Override
 	public void update() {
+		positionY += 6;
 		if(positionY > ControlManager.screenHeight) 
 			setDead(true);
 	}

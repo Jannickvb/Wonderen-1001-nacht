@@ -39,7 +39,6 @@ public class BoatGameState extends GameState{
 	private int counter;
 	private int lives;
 	private float alpha;
-	private Timer backgroundTimer;
 	
 	/**
 	 * Constructor of the Boat game state.
@@ -53,14 +52,6 @@ public class BoatGameState extends GameState{
 		lives = 3;
 		boat = new Boat(cm);
 		rocks = new ArrayList<>(100);
-		backgroundTimer = new Timer(1000/60,new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				backgroundPositionY += 6;
-			}
-		});
-		backgroundTimer.start();
 	}
 
 	/**
@@ -105,6 +96,10 @@ public class BoatGameState extends GameState{
 		//Updating the boat:
 		boat.update();
 		
+		//Updating background: 
+		if(!pier.isDead())
+			backgroundPositionY += 6;
+		
 		//Updating the Pier:
 		pier.update();
 		
@@ -145,15 +140,16 @@ public class BoatGameState extends GameState{
 			Rock rock = (Rock) it.next();
 			if(rock.isDead())
 				it.remove();
-			if(pier.isDead())
-				rock.setTimer(false);
+			if(!pier.isDead())
+				rock.update();
 		}
 		
 		//Checking if crash animation is over:
-		if(boatCrash != null) 
+		if(boatCrash != null) {
+			boatCrash.update();
 			if(boatCrash.isDead()) 
 				reset();
-		
+		}
 		//Reaching the end of the game:
 		if(counter == 10) {
 			counter++;
@@ -163,18 +159,17 @@ public class BoatGameState extends GameState{
 				
 		//Pier fully popped out of the top of the screen & also checking if boat collides with the pier:
 		if(pier.isDead()) {
-			backgroundTimer.stop();
-			boat.setEndTimer(true);
+			boat.setCollisionPier(false);
 			if(boat.containsPoint(pier))
-				boat.setEndTimer(false);
+				boat.setCollisionPier(true);
 			else
-				boat.setEndTimer(true);
+				boat.setCollisionPier(false);
 		}
 		
 		//Boat reached top of the screen:
 		if(boat.reachedEnd()) {
 			if(alpha < 1) 
-				alpha += 0.1;
+				alpha += 0.033;
 			else
 				cm.getGameStateManager().next();
 		}		
@@ -216,7 +211,6 @@ public class BoatGameState extends GameState{
 		pier = new Pier(cm,ControlManager.screenHeight);
 		rocks = new ArrayList<>();
 		backgroundPositionY = 0;
-		backgroundTimer.start();
 		boatCrash = null;
 		alpha = 0f;
 		counter = 0;

@@ -75,21 +75,21 @@ public class DoorChoiceState extends GameState{
 //		
 		if(play && platePressed()){
 			keyFrame++;
-			doorX+=5;
+			doorX+=(5/3);
 		}
 		
 		if(!platePressed()){
 			if(!isIdle()){
-				doorX-=5;
+				doorX-=(5/3);
 			}
 		}
 		
 		if(choiceMade){
 			keyFrame++;
-			doorX = keyFrame;
-			cloudX += 5;
-			scale += 0.001;
-			if(keyFrame >= 35){
+			doorX = keyFrame/3;
+			cloudX += (5/3);
+			scale += (0.001/3);
+			if(keyFrame >= (35*3)){
 				if(choiceR){
 					cm.getGameStateManager().next();
 				}else if(choiceL){

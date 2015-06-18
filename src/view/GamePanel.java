@@ -34,7 +34,7 @@ public class GamePanel extends JPanel{
 		});
 		paint.start();
 		
-		Timer update = new Timer(1000/20, new ActionListener() {
+		Timer update = new Timer(1000/60, new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {

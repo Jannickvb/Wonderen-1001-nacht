@@ -34,7 +34,6 @@ public class PoorGameState extends GameState{
 		private int counter;
 		private int lives;
 		private float alpha;
-		private Timer backgroundTimer;
 		
 		/**
 		 * Constructor of the Poor game state.
@@ -48,14 +47,6 @@ public class PoorGameState extends GameState{
 			alpha = 0;
 			lives = 3;
 			boxes = new ArrayList<>(1000);
-			backgroundTimer = new Timer(1000/60,new ActionListener() {
-				
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					backgroundPositionY += 6;
-				}
-			});
-			backgroundTimer.start();
 		}
 
 		/**
@@ -76,9 +67,9 @@ public class PoorGameState extends GameState{
 			//Drawing Boxes:    
 		    for(Box b : boxes) 
 				b.draw(g2);
-		  //Drawing the Palace:
+		    //Drawing the Palace:
 		    palace.draw(g2);
-		  //Drawing Lives:
+		    //Drawing Lives:
 		    for(int x = 0; x < lives; x++) 
 				g2.drawImage(liveHeart,50+150*x,5,null);
 		    //Drawing Person or PlayerHit:
@@ -102,6 +93,10 @@ public class PoorGameState extends GameState{
 			
 			//Updating the Palace:
 			palace.update();
+			
+			//updating background:
+			if(!palace.isDead())
+				backgroundPositionY += 6;
 			
 			//Checking for collision:
 			for(Box b : boxes) {
@@ -137,9 +132,9 @@ public class PoorGameState extends GameState{
 							box = new Box(cm,ImageHandler.getImage(ImageHandler.ImageType.box7));
 							break;
 					}
-				counter++;
-				boxes.add(box);
-				box.init();
+					counter++;
+					boxes.add(box);
+					box.init();
 				}
 			}
 			
@@ -149,8 +144,8 @@ public class PoorGameState extends GameState{
 				Box b = (Box) it.next();
 				if(b.isDead())
 					it.remove();
-				if(palace.isDead())
-					b.setTimer(false);
+				if(!palace.isDead())
+					b.update();
 			}
 			
 			//Checking if crash animation is over:
@@ -165,20 +160,19 @@ public class PoorGameState extends GameState{
 				palace.setPositionY(-100);
 			}
 					
-			//Palace fully popped out of the top of the screen & also checking if boat collides with the pier:
+			//Palace fully popped out of the top of the screen & also checking if person collides with the palace:
 			if(palace.isDead()) {
-				backgroundTimer.stop();
-				guy.setEndTimer(true);
+				guy.setCollisionPalace(false);
 				if(guy.containsPoint(palace)) {
 					guy.setReachedEnd(true);
-					guy.setEndTimer(false);
+					guy.setCollisionPalace(true);
 				}
 			}
 			
-			//Boat reached top of the screen:
+			//Person reached top of the screen:
 			if(guy.reachedEnd()) {
 				if(alpha < 1) 
-					alpha += 0.1;
+					alpha += 0.033;
 				else
 					cm.getGameStateManager().next();
 			}
@@ -187,7 +181,7 @@ public class PoorGameState extends GameState{
 		/**
 		 * Initializes the poor game state.
 		 * Loads background and live images.
-		 * Makes a pier and initializes boat object.
+		 * Makes a palace and initializes person object.
 		 */
 		@Override
 		public void init() {
@@ -220,7 +214,6 @@ public class PoorGameState extends GameState{
 			palace = new Palace(cm,ControlManager.screenHeight+200);
 			boxes = new ArrayList<>(200);
 			backgroundPositionY = 0;
-			backgroundTimer.start();
 			playerHit = null;
 			alpha = 0f;
 			counter = 0;
@@ -245,7 +238,4 @@ public class PoorGameState extends GameState{
 	        	guy.setPressurePlates(3);
 	        }
 		}
-
-	}
-
-
+}

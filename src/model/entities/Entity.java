@@ -21,7 +21,6 @@ public abstract class Entity {
 	private boolean isDead;
 	private ControlManager cm;
 	private BufferedImage sprite;
-	private Timer moveTimer;
 	
 	/**
 	 * Constructor.
@@ -31,13 +30,6 @@ public abstract class Entity {
 	public Entity(ControlManager cm, BufferedImage sprite) {
 		this.cm = cm;
 		this.sprite = sprite;
-		moveTimer = new Timer(1000/60,new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				positionY += 6;
-			}
-		});
-		moveTimer.start();
 	}
 
 	/**
@@ -102,17 +94,6 @@ public abstract class Entity {
 	 */
 	public void setDead(boolean isDead) {
 		this.isDead = isDead;
-	}
-	
-	/**
-	 * Turn the timer that makes the entity move on or off.
-	 * @param state - The state of the timer.
-	 */
-	public void setTimer(boolean state) {
-		if(state)
-			moveTimer.start();
-		else
-			moveTimer.stop();
 	}
 	
 	/**

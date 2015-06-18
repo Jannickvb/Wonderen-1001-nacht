@@ -69,6 +69,8 @@ public class BoatCrash extends Entity {
 	 */
 	@Override
 	public void update() {
+		if(!isDead())
+			positionY += 6;
 	}
 
 	/**

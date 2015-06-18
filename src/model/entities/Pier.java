@@ -44,8 +44,9 @@ public class Pier extends Entity {
 	public void update() {
 		if(positionY >= -20 && positionY <= 35) {
 			setDead(true);
-			setTimer(false);
 		}
+		else
+			positionY += 6;
 	}
 	
 	/**

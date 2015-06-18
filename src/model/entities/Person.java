@@ -23,7 +23,7 @@ public class Person extends Entity{
 	private float alpha;
 	private boolean reachedEnd;
 	private boolean deadMessage;
-	private Timer endTimerCity;
+	private boolean collisionPalace;
 	
 	private boolean pressurePlate1; //Right foot
 	private boolean pressurePlate2; //Left foot
@@ -39,18 +39,6 @@ public class Person extends Entity{
 			input = cm.getInputHandler();
 			animationCounter = 0;
 			alpha = 1.0f;
-			endTimerCity = new Timer(1000/60,new ActionListener() {
-				
-				public void actionPerformed(ActionEvent e) {
-					if(positionY > 6)
-						positionY -= 6;
-					else {
-						reachedEnd = true;
-						endTimerCity.stop();
-					}	
-						
-				}
-			});
 		}
 		
 		/**
@@ -61,7 +49,7 @@ public class Person extends Entity{
 		public void draw(Graphics2D g2) {
 			//Drawing Person
 			if(!isDead()) {
-				BufferedImage subImage = getSprite().getSubimage((animationCounter/3)%3*23,0,23,29);
+				BufferedImage subImage = getSprite().getSubimage((animationCounter/9)%3*23,0,23,29);
 				g2.drawImage(subImage,getPositionX(),getPositionY(),null);
 			}
 			//Drawing dead message:
@@ -92,26 +80,26 @@ public class Person extends Entity{
 			if(pressurePlate1 && pressurePlate3 && !pressurePlate2 && !pressurePlate4) { // Go to the right
 				if( positionY < 100) {
 					if(positionX > ControlManager.screenWidth/2-(getSprite().getWidth()/2)-20)
-						positionX += 13;
+						positionX += 4;
 				}
 				else if(positionX <= ControlManager.screenWidth/4*3-ControlManager.screenWidth/8 + 15) 
-					positionX += 13;
+					positionX += 4;
 					
 			}
 			else if(!pressurePlate1 && !pressurePlate3 && pressurePlate2 && pressurePlate4) {// Go to the left
 				if( positionY < 100) {
 					if(positionX < ControlManager.screenWidth/2+13)
-						positionX -= 13;
+						positionX -= 4;
 				}
 				else if(positionX > ControlManager.screenWidth/4+ControlManager.screenWidth/20+55)
-					positionX -= 13;
+					positionX -= 4;
 			}
 			//Animation person:
 			animationCounter++;
 			//Showing deadMessage
 			if(deadMessage) {
 				if(alpha > 0.045) {
-					if(animationCounter%4 == 0)
+					if(animationCounter%12 == 0)
 						setDead(!isDead());
 					alpha -= 0.01125f;
 				}
@@ -119,6 +107,15 @@ public class Person extends Entity{
 					deadMessage = false;
 					setDead(false);
 					alpha = 1.0f;
+				}
+			}
+			
+			if(!collisionPalace) {
+				if(positionY > 6)
+					positionY -= 6;
+				else {
+					reachedEnd = true;
+					collisionPalace = true;
 				}
 			}
 		}
@@ -130,7 +127,7 @@ public class Person extends Entity{
 		public void init() {
 			positionX = ControlManager.screenWidth/2;
 			positionY = ControlManager.screenHeight - 100;
-			setTimer(false);
+			collisionPalace = true;
 			//input.turnPressurePlates(true);
 		}
 		
@@ -147,7 +144,7 @@ public class Person extends Entity{
 		 */
 		public void reset() {
 			//input.deadStageTwo();
-			setEndTimer(false);
+			collisionPalace = true;
 			reachedEnd = false;
 			positionY = ControlManager.screenHeight-100;
 			positionX = ControlManager.screenWidth/2;
@@ -170,14 +167,14 @@ public class Person extends Entity{
 		}
 		
 		/**
-		 * Toggle the endTimer.
-		 * @param state - The state of the endTimer.
+		 * Set the collision with the palace.
+		 * @param state - The state of the collision.
 		 */
-		public void setEndTimer(boolean state) {
+		public void setCollisionPalace(boolean state) {
 			if(state)
-				endTimerCity.start();
+				collisionPalace = true;
 			else
-				endTimerCity.stop();
+				collisionPalace = false;
 		}
 		
 		/**
