@@ -291,14 +291,14 @@ public class BoatGameState extends GameState{
 			}
 		}
 		//Boat reached top of the screen: <- when player presses A to continue;
-		if(boat.reachedEnd()) {
-			if(pointCounter == points)
-			{
-				if(cm.getInputHandler().isA1Pressed() && cm.getInputHandler().isA2Pressed())
-					cm.getGameStateManager().next();	
-				
-			}
-		}		
+//		if(boat.reachedEnd()) {
+//			if(pointCounter == points)
+//			{
+//				if(cm.getInputHandler().isA1Pressed() && cm.getInputHandler().isA2Pressed())
+//					cm.getGameStateManager().next();	
+//				
+//			}
+//		}		
 	}
 
 	/**
