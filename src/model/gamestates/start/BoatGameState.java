@@ -6,15 +6,11 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.TexturePaint;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Iterator;
-
-import javax.swing.Timer;
 
 import model.entities.Boat;
 import model.entities.BoatCrash;
@@ -108,14 +104,14 @@ public class BoatGameState extends GameState{
 		if(boat.deadMessage) {
 			g2.setColor(new Color(1.0f,1.0f,1.0f,boat.alpha));
 			g2.setFont(new Font("Verdana",Font.BOLD,60));
-			drawCenteredText("Probeer het opnieuw", g2, ControlManager.screenHeight/2);
+			ImageHandler.drawCenteredText("Probeer het opnieuw", g2, ControlManager.screenHeight/2);
 		}
 		g2.setColor(Color.WHITE);
 	    if(boat.reachedEnd()) {
-	    	drawCenteredText(endText, g2, ControlManager.screenHeight/2-200);
-	    	drawCenteredText("Behaalde punten: " + pointCounter, g2, ControlManager.screenHeight/2-100);
+	    	ImageHandler.drawCenteredText(endText, g2, ControlManager.screenHeight/2-200);
+	    	ImageHandler.drawCenteredText("Behaalde punten: " + pointCounter, g2, ControlManager.screenHeight/2-100);
 	    	if(pointCounter == points)
-	    		drawCenteredText("Druk op A om verder te gaan", g2, ControlManager.screenHeight/2);
+	    		ImageHandler.drawCenteredText("Druk op A om verder te gaan", g2, ControlManager.screenHeight/2);
 	    }
 	    else {
 	    	//Drawing upgrade thing:
@@ -133,17 +129,6 @@ public class BoatGameState extends GameState{
 		g2.setColor(new Color(0,0,0,alpha));
 		g2.fill(rect); 
 		
-	}
-	
-	/**
-	 * Method that draws given text in the center of the screen.
-	 * @param text - The text you want to display.
-	 * @param g2 - The graphics2D object.
-	 * @param y - The y position of the text.
-	 */
-	public void drawCenteredText(String text, Graphics2D g2, int y) {
-		int x = (ControlManager.screenWidth-g2.getFontMetrics().stringWidth(text))/2;
-		g2.drawString(text, x, y);
 	}
 
 	/**
@@ -299,16 +284,17 @@ public class BoatGameState extends GameState{
 			}
 			else {
 				pointCounter = points;
-				
 			}
 		}
 		//Boat reached top of the screen: <- when player presses A to continue;
-//		if(boat.reachedEnd()) {
-//			if(alpha < 0.95) 
-//				alpha += 0.033;
-//			else
-//				cm.getGameStateManager().next();
-//		}		
+		if(boat.reachedEnd()) {
+			if(pointCounter == points)
+			{
+				if(cm.getInputHandler().isA1Pressed() && cm.getInputHandler().isA2Pressed())
+					cm.getGameStateManager().next();	
+				
+			}
+		}		
 	}
 
 	/**

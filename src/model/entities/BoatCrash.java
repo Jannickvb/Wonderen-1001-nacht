@@ -23,8 +23,8 @@ import control.ImageHandler.ImageType;
  */
 public class BoatCrash extends Entity {
 
-	private Clip crashClip;
 	private boolean move;
+	private int keyFrame;
 	
 	/**
 	 * Constructor for the crash animation.
@@ -39,22 +39,14 @@ public class BoatCrash extends Entity {
 		this.move = move;
 		//Importing sound: 
 		AudioInputStream inputStream;
-				try {
-					inputStream = AudioSystem.getAudioInputStream(Main.class.getResource("/audio/boatCrash.wav"));
-					crashClip = AudioSystem.getClip();
-					crashClip.open(inputStream);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}	
-				crashClip.start();
-		//Starting timer.		
-		Timer playTimer = new Timer(1000, new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-					setDead(true);
-				}
-			});
-			playTimer.start();
+		try {
+			inputStream = AudioSystem.getAudioInputStream(Main.class.getResource("/audio/boatCrash.wav"));
+			Clip crashClip = AudioSystem.getClip();
+			crashClip.open(inputStream);
+			crashClip.start();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}	
 	}
 
 	/**
@@ -71,6 +63,9 @@ public class BoatCrash extends Entity {
 	 */
 	@Override
 	public void update() {
+		keyFrame++;
+		if(keyFrame > 60)
+			setDead(true);
 		if(move)
 			if(!isDead())
 				positionY += 6;

@@ -58,19 +58,7 @@ public class Boat extends Entity {
 			BufferedImage subImage = getSprite().getSubimage((animationCounter/21)%3*128,0,128,193);
 			g2.drawImage(subImage,getPositionX(),getPositionY(),null);
 		}
-		//Drawing dead message: 
 
-	}
-	
-	/**
-	 * Method that draws given text in the center of the screen.
-	 * @param text - The text you want to display.
-	 * @param g2 - The graphics2D object.
-	 * @param y - The y position of the text.
-	 */
-	public void drawCenteredText(String text, Graphics2D g2, int y) {
-		int x = (ControlManager.screenWidth-g2.getFontMetrics().stringWidth(text))/2;
-		g2.drawString(text, x, y);
 	}
 	
 	/**

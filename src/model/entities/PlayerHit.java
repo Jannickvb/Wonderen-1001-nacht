@@ -17,9 +17,8 @@ import control.ImageHandler.ImageType;
 
 public class PlayerHit extends Entity {
 
-
-		private Clip crashClip;
 		private boolean move;
+		private int keyFrame;
 		
 		public PlayerHit(ControlManager cm, int positionX, int positionY, boolean move) {
 			super(cm,ImageHandler.getImage(ImageType.player_run));
@@ -27,38 +26,30 @@ public class PlayerHit extends Entity {
 			this.positionY = positionY;
 			this.move = move;
 			//Importing sound: 
-					AudioInputStream inputStream;
-
-					switch((int) Math.floor(Math.random()*2)) {
-					case 0:
-						try {
-							inputStream = AudioSystem.getAudioInputStream(Main.class.getResource("/audio/Pain1.wav"));
-							crashClip = AudioSystem.getClip();
-							crashClip.open(inputStream);
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-						break;
-					case 1:
-						try {
-							inputStream = AudioSystem.getAudioInputStream(Main.class.getResource("/audio/Pain2.wav"));
-							crashClip = AudioSystem.getClip();
-							crashClip.open(inputStream);
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-						break;
-					}
-									crashClip.start();
-							//Starting timer.		
-							Timer playTimer = new Timer(1000, new ActionListener() {
-								@Override
-								public void actionPerformed(ActionEvent e) {
-										setDead(true);
-									}
-								});
-								playTimer.start();
-						}
+			AudioInputStream inputStream;
+			Clip crashClip = null;
+			switch((int) Math.floor(Math.random()*2)) {
+			case 0:
+				try {
+					inputStream = AudioSystem.getAudioInputStream(Main.class.getResource("/audio/Pain1.wav"));
+					crashClip = AudioSystem.getClip();
+					crashClip.open(inputStream);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				break;
+			case 1:
+				try {
+					inputStream = AudioSystem.getAudioInputStream(Main.class.getResource("/audio/Pain2.wav"));
+					crashClip = AudioSystem.getClip();
+					crashClip.open(inputStream);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				break;
+			}
+			crashClip.start();
+		}
 		
 		
 
@@ -77,6 +68,9 @@ public class PlayerHit extends Entity {
 		 */
 		@Override
 		public void update() {
+			keyFrame++;
+			if(keyFrame < 60)
+				setDead(true);
 			if(move)
 				if(!isDead())
 					positionY += 6;
