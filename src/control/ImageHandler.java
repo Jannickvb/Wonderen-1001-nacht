@@ -33,7 +33,7 @@ public class ImageHandler {
 			images.add(ImageIO.read(Main.class.getResource("/images/menu/menu_grad.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/menu/menu_instr.png")));		
 			
-			images.add(ImageIO.read(Main.class.getResource("/images/Tutorial.jpg")));
+			images.add(ImageIO.read(Main.class.getResource("/images/Tutorial.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/spell_tutorial.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/boatgame/boat.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/RunningGuys.png")));
