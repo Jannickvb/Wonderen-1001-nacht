@@ -47,6 +47,15 @@ public class Troll1State extends GameState{
 		if(image.equals(ImageHandler.getImage(ImageHandler.ImageType.troll))){
 		try {
 			cm.playTrollTalk1();
+			new java.util.Timer().schedule( 
+			        new java.util.TimerTask() {
+			            @Override
+			            public void run() {
+			                cm.getGameStateManager().next();
+			            }
+			        }, 
+			        15000 
+			);
 		} catch (LineUnavailableException | IOException e) {
 			e.printStackTrace();
 		}
