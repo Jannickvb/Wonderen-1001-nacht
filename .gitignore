@@ -23,5 +23,3 @@ resources/images/spells/spiral.png
 src/control/ImageHandler.java
 src/model/gamestates/Bossfight/BossFightState.java
 src/control/ImageHandler.java
-src/control/ImageHandler.java
-src/control/ImageHandler.java

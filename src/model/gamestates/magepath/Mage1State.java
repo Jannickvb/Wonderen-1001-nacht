@@ -48,15 +48,6 @@ public class Mage1State extends GameState{
 		try {
 			cm.playMusic2();
 			cm.playMageTalk1();
-			new java.util.Timer().schedule( 
-			        new java.util.TimerTask() {
-			            @Override
-			            public void run() {
-			                cm.getGameStateManager().next();
-			            }
-			        }, 
-			        17000 
-			);
 		} catch (LineUnavailableException | IOException e) {
 			e.printStackTrace();
 		}

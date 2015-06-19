@@ -45,8 +45,8 @@ public class ArrivalState extends GameState{
 		tx.translate(midX, midY);
 		g2.setTransform(tx);
 		g2.drawImage(image, -bgWidth/2,-bgHeight/2,null);
-//		g2.translate(-midX,-midY);
-//		DrawFuctions.drawString(g2, introText.get(lineCounter), ControlManager.screenHeight - 300);
+		g2.translate(-midX,-midY);
+		DrawFuctions.drawString(g2, introText.get(lineCounter), ControlManager.screenHeight - 300);
 	}
 
 	@Override

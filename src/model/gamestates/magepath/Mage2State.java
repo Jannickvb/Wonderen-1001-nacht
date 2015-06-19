@@ -47,15 +47,6 @@ public class Mage2State extends GameState{
 		if(image.equals(ImageHandler.getImage(ImageHandler.ImageType.mage2))){
 		try {
 			cm.playMageTalk2();
-			new java.util.Timer().schedule( 
-			        new java.util.TimerTask() {
-			            @Override
-			            public void run() {
-			                cm.getGameStateManager().next();
-			            }
-			        }, 
-			        12000 
-			);
 		} catch (LineUnavailableException | IOException e) {
 			e.printStackTrace();
 		}
