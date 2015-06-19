@@ -6,15 +6,11 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.TexturePaint;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Iterator;
-
-import javax.swing.Timer;
 
 import model.entities.Boat;
 import model.entities.BoatCrash;
@@ -288,16 +284,17 @@ public class BoatGameState extends GameState{
 			}
 			else {
 				pointCounter = points;
-				
 			}
 		}
 		//Boat reached top of the screen: <- when player presses A to continue;
-//		if(boat.reachedEnd()) {
-//			if(alpha < 0.95) 
-//				alpha += 0.033;
-//			else
-//				cm.getGameStateManager().next();
-//		}		
+		if(boat.reachedEnd()) {
+			if(pointCounter == points)
+			{
+				if(cm.getInputHandler().isA1Pressed() && cm.getInputHandler().isA2Pressed())
+					cm.getGameStateManager().next();	
+				
+			}
+		}		
 	}
 
 	/**

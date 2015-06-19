@@ -18,8 +18,7 @@ import control.MapReader;
 public class TutorialState extends GameState{
 	
 	private BufferedImage tutorial;
-	private boolean scaledOnce;
-	private int midX,midY,bgWidth,bgHeight,counter;
+	private int midX,midY,bgWidth,bgHeight;
 	private ArrayList<String> introText;
 	private int lineCounter = 0;
 	private int tutorialCounter;
@@ -27,7 +26,6 @@ public class TutorialState extends GameState{
 	public TutorialState(ControlManager cm, BufferedImage image,int tutorialCounter)
 	{
 		super(cm);
-		this.counter = 0;
 		this.tutorialCounter = tutorialCounter;
 		this.tutorial = ImageHandler.getScaledImage(image);
 		bgWidth = tutorial.getWidth(null);
@@ -37,7 +35,6 @@ public class TutorialState extends GameState{
 		try {
 			introText = MapReader.readTextLines("resources/texts/introBoot.txt");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -57,10 +54,7 @@ public class TutorialState extends GameState{
 	public void update() {
 		if(cm.getInputHandler().isA1Pressed() || cm.getInputHandler().isA2Pressed())
 		{
-			if(lineCounter<introText.size()-1)
-			{
-				lineCounter++;
-			}
+			cm.getGameStateManager().next();
 		}
 	}
 
@@ -77,10 +71,13 @@ public class TutorialState extends GameState{
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
 		if(lineCounter<introText.size()-1 && e.getKeyCode() == KeyEvent.VK_K)
 		{
 			lineCounter++;
+		}
+		else if(e.getKeyCode() == KeyEvent.VK_UP)
+		{
+			cm.getGameStateManager().next();
 		}
 	}
 
