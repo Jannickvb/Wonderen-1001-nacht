@@ -25,11 +25,11 @@ public class Boat extends Entity {
 
 	private InputHandler input;
 	private int animationCounter;
-	public float alpha;
+	private float alpha;
 	private boolean reachedEnd;
-	public boolean deadMessage;
+	private boolean deadMessage;
 	private boolean collisionPier;
-	public boolean move;
+	private boolean move;
 	
 	private boolean pressurePlate1; //Right foot
 	private boolean pressurePlate2; //Left foot
@@ -58,7 +58,6 @@ public class Boat extends Entity {
 			BufferedImage subImage = getSprite().getSubimage((animationCounter/21)%3*128,0,128,193);
 			g2.drawImage(subImage,getPositionX(),getPositionY(),null);
 		}
-
 	}
 	
 	/**
@@ -121,8 +120,6 @@ public class Boat extends Entity {
 		
 	}
 	
-	
-	
 	/**
 	 * Init method for the Boat object.
 	 * Sets x and y starting positions, also initializes the pressure plates.
@@ -161,6 +158,22 @@ public class Boat extends Entity {
 	 */
 	public boolean reachedEnd() {
 		return reachedEnd;
+	}
+	
+	/**
+	 * Get the state of the dead message
+	 * @return - The state of the dead message.
+	 */
+	public boolean getDeadMessage() {
+		return deadMessage;
+	}
+	
+	/**
+	 * Get the fade alpha.
+	 * @return - The alpha.
+	 */
+	public float getAlpha() {
+		return alpha;
 	}
 	
 	/**

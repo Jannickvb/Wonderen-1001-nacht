@@ -55,7 +55,7 @@ public class BoatGameState extends GameState{
 		counter = 0;
 		points = 0;
 		lives = 3;
-		alpha = 0;
+		alpha = 1.0F;
 		boat = new Boat(cm);
 		rocks = new ArrayList<>(100);
 		upgrades = new ArrayList<>(100);
@@ -97,15 +97,17 @@ public class BoatGameState extends GameState{
 	    	boat.draw(g2);	
 	    else 
 	    	boatCrash.draw(g2);
-	    //Drawing end screen: 
+	    //Drawing trees:
 	    TexturePaint tr = new TexturePaint(trees,new Rectangle2D.Double(0,backgroundPositionY,ControlManager.screenWidth,ControlManager.screenHeight));
 	    g2.setPaint(tr);
 	    g2.fill(new Rectangle2D.Double(0,0,ControlManager.screenWidth,ControlManager.screenHeight));
-		if(boat.deadMessage) {
-			g2.setColor(new Color(1.0f,1.0f,1.0f,boat.alpha));
+	    //Drawing message:
+		if(boat.getDeadMessage()) {
+			g2.setColor(new Color(1.0f,1.0f,1.0f,boat.getAlpha()));
 			g2.setFont(new Font("Verdana",Font.BOLD,60));
 			ImageHandler.drawCenteredText("Probeer het opnieuw", g2, ControlManager.screenHeight/2);
 		}
+	    //Drawing end screen: 
 		g2.setColor(Color.WHITE);
 	    if(boat.reachedEnd()) {
 	    	ImageHandler.drawCenteredText(endText, g2, ControlManager.screenHeight/2-200);
@@ -125,9 +127,11 @@ public class BoatGameState extends GameState{
 			g2.drawString("Punten: " + points,50,170);
 	    }
 	    //Fade out effect:
-	    Shape rect = new Rectangle2D.Double(0,0,ControlManager.screenWidth,ControlManager.screenHeight);
-		g2.setColor(new Color(0,0,0,alpha));
-		g2.fill(rect); 
+	    if(boat.reachedEnd()) {
+		    Shape rect = new Rectangle2D.Double(0,0,ControlManager.screenWidth,ControlManager.screenHeight);
+			g2.setColor(new Color(0,0,0,alpha));
+			g2.fill(rect); 
+	    }
 		
 	}
 
