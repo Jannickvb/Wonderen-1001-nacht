@@ -1,24 +1,25 @@
 package model.gamestates.trollpath;
 
 	import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.TexturePaint;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import javax.swing.Timer;
-
 import model.entities.Box;
+import model.entities.Coin;
+import model.entities.Entity;
 import model.entities.Palace;
 import model.entities.Person;
 import model.entities.PlayerHit;
+import model.entities.Box;
+import model.entities.Upgrade;
 import model.gamestates.GameState;
 import control.ControlManager;
 import control.ImageHandler;
@@ -31,8 +32,13 @@ public class RichGameState extends GameState{
 		private BufferedImage background, liveHeart;
 		private int backgroundPositionY;
 		private ArrayList<Box> boxes;
+		private ArrayList<Upgrade> upgrades;
+		private ArrayList<Coin> coins;
 		private int counter;
 		private int lives;
+		private int points;
+		private int pointCounter;
+		private String endText;
 		private float alpha;
 		
 		/**
@@ -44,9 +50,12 @@ public class RichGameState extends GameState{
 			counter = 0;
 			guy = new Person(cm);
 			backgroundPositionY = 0;
+			points = 0;
 			alpha = 0;
 			lives = 3;
-			boxes = new ArrayList<>(1000);
+			boxes = new ArrayList<>(100);
+			upgrades = new ArrayList<>(100);
+			coins = new ArrayList<>(100);
 		}
 
 		/**
@@ -64,23 +73,57 @@ public class RichGameState extends GameState{
 		    TexturePaint tp = new TexturePaint(background,new Rectangle2D.Double(0,backgroundPositionY,ControlManager.screenWidth,ControlManager.screenHeight));
 		    g2.setPaint(tp);
 		    g2.fill(new Rectangle2D.Double(0,0,ControlManager.screenWidth,ControlManager.screenHeight));
-		    //Drawing Boxes:    
-		    for(Box b : boxes) 
-				b.draw(g2);
-		    //Drawing the Palace:
+			//Drawing Rocks:   
+		    for(Box box : boxes) 
+				box.draw(g2);
+		    //Drawing upgrades:
+		    for(Upgrade upgrade : upgrades)
+		    	upgrade.draw(g2);
+		    //Drawing coins: 
+		    for(Coin coin : coins)
+		    	coin.draw(g2);
+		    //Drawing the Pier:
 		    palace.draw(g2);
-		    //Drawing Lives:
-		    for(int x = 0; x < lives; x++) 
-				g2.drawImage(liveHeart,50+150*x,5,null);
-		    //Drawing Person or PlayerHit:
-		    if(playerHit == null)
+		    g2.setColor(Color.WHITE);
+			g2.setFont(new Font("Verdana",Font.BOLD,50)); 
+		    if(!guy.reachedEnd()) {
+		    	//Drawing Lives:
+			    for(int x = 0; x < lives; x++) 
+					g2.drawImage(liveHeart,50+150*x,5,null);
+			    //Drawing points: 
+				g2.drawString("Punten: " + points,50,170);
+		    }
+		    //Drawing Boat or BoatCrash:
+		    if(palace == null)
 		    	guy.draw(g2);	
 		    else 
-		    	playerHit.draw(g2);
+		    	palace.draw(g2);
+		    //Drawing end screen: 
+		    if(guy.reachedEnd()) {
+		    	drawCenteredText(endText, g2, ControlManager.screenHeight/2-200);
+		    	drawCenteredText("Behaalde punten: " + pointCounter, g2, ControlManager.screenHeight/2-100);
+		    	if(pointCounter == points)
+		    		drawCenteredText("Druk op A om verder te gaan", g2, ControlManager.screenHeight/2);
+		    }
+		    else {
+		    	//Drawing upgrade thing:
+		    	
+		    }
 		    //Fade out effect:
 		    Shape rect = new Rectangle2D.Double(0,0,ControlManager.screenWidth,ControlManager.screenHeight);
 			g2.setColor(new Color(0,0,0,alpha));
-			g2.fill(rect); 
+			g2.fill(rect);
+		}
+		
+		/**
+		 * Method that draws given text in the center of the screen.
+		 * @param text - The text you want to display.
+		 * @param g2 - The graphics2D object.
+		 * @param y - The y position of the text.
+		 */
+		public void drawCenteredText(String text, Graphics2D g2, int y) {
+			int x = (ControlManager.screenWidth-g2.getFontMetrics().stringWidth(text))/2;
+			g2.drawString(text, x, y);
 		}
 		
 		/**
@@ -88,24 +131,40 @@ public class RichGameState extends GameState{
 		 */
 		@Override
 		public void update() {
-			//Updating the Person:
+			//Updating the boat:
 			guy.update();
 			
-			//Updating the Palace:
-			palace.update();
-			
-			//Updating palace:
+			//Updating background: 
 			if(!palace.isDead())
 				backgroundPositionY += 6;
 			
-			//Checking for collision:
-			for(Box b : boxes) {
-				if(guy.containsPoint(b)) {
+			//Updating the Pier:
+			palace.update();
+			
+			//Checking for collision with rocks:
+			for(Box box : boxes) {
+				if(guy.containsPoint(box)) {
 					collision();
 				}
 			}
 			
-			//Randomly spawning boxes: 
+			//Checking for collision with upgrades:
+			for(Upgrade upgrade : upgrades) {
+				if(guy.containsPoint(upgrade)) {
+					collisionUpgrade(upgrade);
+				}
+			}
+			
+			//Checking for collision with coins:
+			for(Coin coin : coins) {
+				if(guy.containsPoint(coin)) {
+					coin.playSound();
+					coin.setDead(true);
+					points += 20;
+				}
+			}
+					
+			//Randomly spawning rocks: 
 			if(!palace.isDead()) {
 				if(Math.floor(Math.random()*25) == 3) {
 					Box box = null;
@@ -121,7 +180,7 @@ public class RichGameState extends GameState{
 							break;
 						case 3:
 							box = new Box(cm,ImageHandler.getImage(ImageHandler.ImageType.box4));
-							break;		
+							break;	
 						case 4:
 							box = new Box(cm,ImageHandler.getImage(ImageHandler.ImageType.box5));
 							break;
@@ -134,56 +193,103 @@ public class RichGameState extends GameState{
 					}
 					counter++;
 					boxes.add(box);
-					//Checking if boxes don't overlap.
-					for(Box box2 : boxes)
-						if(box.containsPoint(box2))
-							box.setDead(true);
-						else if(palace != null)
-							if(box.containsPoint(palace))
-								box.setDead(true);
 					box.init();
+					//Checking if rock isnt overlapping
+					if(checkCollision(box)) 
+						box.setDead(true);
 				}
 			}
 			
-			//Checking if boxes are out of the screen:
-			Iterator it = boxes.iterator();
+			//Randomly spawning upgrades: 
+			if(!palace.isDead()) {
+				if(Math.floor(Math.random()*95) == 3) {
+					Upgrade upgrade = new Upgrade(cm);
+					upgrade.init();
+					if(checkCollision(upgrade)) 
+						upgrade.setDead(true);
+					upgrades.add(upgrade);
+						
+				}
+			}
+			
+			//Randomly spawning coins: 
+			if(!palace.isDead()) {
+				if(Math.floor(Math.random()*25) == 3) {
+					Coin coin = new Coin(cm);
+					coins.add(coin);
+					coin.init();
+					if(checkCollision(coin))
+						coin.setDead(true);
+				}
+			}
+			
+			//Checking if rocks are out of the screen & if rocks are dead & if rocks are overlapping:
+			Iterator<Box> it = boxes.iterator();
 			while(it.hasNext()) {
-				Box b = (Box) it.next();
-				if(b.isDead())
+				Box rock = (Box) it.next();
+				if(rock.isDead())
 					it.remove();
 				if(!palace.isDead())
-					b.update();
+					rock.update();
 			}
-
+			
+			//Checking if upgrades are out of the screen & if upgrades are dead & if upgrades are overlapping:
+			Iterator<Upgrade> itU = upgrades.iterator();
+			while(itU.hasNext()) {
+				Upgrade upgrade = (Upgrade) itU.next();
+				if(upgrade.isDead())
+					itU.remove();
+				if(!palace.isDead())
+					upgrade.setMove(true);
+				else
+					upgrade.setMove(false);
+				upgrade.update();
+			}
+			
+			//Checking if rocks are out of the screen & if rocks are dead & if rocks are overlapping:
+			Iterator<Coin> itC = coins.iterator();
+			while(itC.hasNext()) {
+				Coin coin = (Coin) itC.next();
+				if(coin.isDead())
+					itC.remove();
+				if(!palace.isDead())
+					coin.update();
+			}
+			
 			//Checking if crash animation is over:
 			if(playerHit != null) {
 				playerHit.update();
 				if(playerHit.isDead()) 
 					reset();
 			}
-						
 			//Reaching the end of the game:
-			if(counter == 15) {
+			if(counter == 50) {
 				counter++;
 				palace.setDead(false);
-				palace.setPositionY(-100);
+				palace.setPositionY(-178);
 			}
 					
-			//Palace fully popped out of the top of the screen & also checking if person collides with the palace:
+			//Pier fully popped out of the top of the screen & also checking if boat collides with the pier:
 			if(palace.isDead()) {
 				guy.setCollisionPalace(false);
-				if(guy.containsPoint(palace)) {
-					guy.setReachedEnd(true);
+				if(guy.containsPoint(palace))
 					guy.setCollisionPalace(true);
-				}
-			}	
-			
-			//Boat reached top of the screen:
-			if(guy.reachedEnd()) {
-				if(alpha < 0.95) 
-					alpha += 0.033;
 				else
-					cm.getGameStateManager().next();
+					guy.setCollisionPalace(false);
+			}
+			
+			if(guy.reachedEnd()) {
+				if(pointCounter == 0)
+					endText = "Gefeliciteerd!";
+				if(pointCounter < points) {
+					if(alpha < 0.2)
+						alpha += 0.0033;
+					pointCounter+=3;
+				}
+				else {
+					pointCounter = points;
+					
+				}
 			}
 		}
 		
@@ -205,7 +311,7 @@ public class RichGameState extends GameState{
 		 */
 		public void collision() {
 			if(playerHit == null) {
-				if(lives > 0) {
+				if(lives > 1) {
 					lives--;
 					if(!palace.isDead())
 						playerHit = new PlayerHit(cm,guy.getPositionX(),guy.getPositionY(),true);
@@ -214,7 +320,9 @@ public class RichGameState extends GameState{
 					guy.collision();
 				}
 				else {
+					endText = "Helaas! U heeft het eind niet bereikt";
 					guy.setReachedEnd(true); //Alternate ending when dead <- here
+					palace.setDead(true);
 				}
 			}
 		}
@@ -222,14 +330,51 @@ public class RichGameState extends GameState{
 		/**
 		 * Resets the game.
 		 */
+		public void collisionUpgrade(Upgrade upgrade) {
+			upgrade.playSound();
+			upgrade.setDead(true);
+			points += 100;
+		}
+		
+		
+		/**
+		 * Resets the game.
+		 */
 		public void reset() {
-			palace = new Palace(cm,ControlManager.screenHeight+200);
-			boxes = new ArrayList<>(200);
+			palace = new Palace(cm,ControlManager.screenHeight);
+			boxes = new ArrayList<Box>();
+			coins = new ArrayList<Coin>();
+			upgrades = new ArrayList<Upgrade>();
 			backgroundPositionY = 0;
 			playerHit = null;
 			alpha = 0f;
 			counter = 0;
+			if(points > 200)
+				points -= 200;
+			else 
+				points = 0;
+			pointCounter = 0;
 			guy.reset();
+		}
+		
+		public boolean checkCollision(Entity object) {
+			//Overlap with rock:
+			for(Box box : boxes) 
+				if(object.containsPoint(box)) 
+					return true;
+			//Overlap met coin:
+			for(Coin coin : coins)
+				if(object.containsPoint(coin))
+					return true;
+			//Overlap met upgrade:
+			for(Upgrade upgrade : upgrades)
+				if(object.containsPoint(upgrade))
+					return true;
+			//Overlap met pier:
+			if(palace != null)
+				if(object.containsPoint(palace))
+					return true;
+			return false;
 		}
 		
 		//Just for testing:
