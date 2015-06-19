@@ -63,19 +63,8 @@ public class Boat extends Entity {
 			g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
 			g2.setColor(Color.WHITE);
 			g2.setFont(new Font("Verdana",Font.BOLD,60));
-			drawCenteredText("Probeer het opnieuw", g2, ControlManager.screenHeight/2);
+			ImageHandler.drawCenteredText("Probeer het opnieuw", g2, ControlManager.screenHeight/2);
 		}
-	}
-	
-	/**
-	 * Method that draws given text in the center of the screen.
-	 * @param text - The text you want to display.
-	 * @param g2 - The graphics2D object.
-	 * @param y - The y position of the text.
-	 */
-	public void drawCenteredText(String text, Graphics2D g2, int y) {
-		int x = (ControlManager.screenWidth-g2.getFontMetrics().stringWidth(text))/2;
-		g2.drawString(text, x, y);
 	}
 	
 	/**
