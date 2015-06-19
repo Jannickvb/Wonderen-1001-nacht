@@ -37,24 +37,24 @@ public class GameStateManager {
 		
 		//Intro
 		gameStates.add(new MenuState(cm));
-		//gameStates.add(new IntroMovState(cm));//Done
-		//gameStates.add(new TutorialState(cm, ImageHandler.getImage(ImageHandler.ImageType.tutorial_plate),0));//Done
+		gameStates.add(new IntroMovState(cm));//Done
+		gameStates.add(new TutorialState(cm, ImageHandler.getImage(ImageHandler.ImageType.tutorial_plate),0));//Done
 		gameStates.add(new BoatGameState(cm));
 		
 		//Story
-		//gameStates.add(new MageTalkState(cm));//Done
-		//gameStates.add(new ArrivalState(cm));//Done
+		gameStates.add(new MageTalkState(cm));
+		gameStates.add(new ArrivalState(cm));
 		gameStates.add(new DoorChoiceState(cm));
-		gameStates.add(new PoorGameState(cm));//Poor
-		gameStates.add(new RichGameState(cm));//Rich
-		gameStates.add(new City1State(cm));//Poor
-		gameStates.add(new City2State(cm));//Rich
+		gameStates.add(new PoorGameState(cm));
+		gameStates.add(new RichGameState(cm));
+		
 		
 		//Before Bossfight
-
+		gameStates.add(new City1State(cm));//nieuwe muziek
+		gameStates.add(new City2State(cm));
 		gameStates.add(new MageTalkState2(cm));
-		//gameStates.add(new TutorialState(cm, ImageHandler.getImage(ImageHandler.ImageType.tutorial_spell),1));
-		//gameStates.add(new BossFightState(cm));
+		gameStates.add(new TutorialState(cm, ImageHandler.getImage(ImageHandler.ImageType.tutorial_spell),1));
+		gameStates.add(new BossFightState(cm));//nieuwe muziek
 	//	gameStates.add(new EndGameState(cm));
 	}
 	

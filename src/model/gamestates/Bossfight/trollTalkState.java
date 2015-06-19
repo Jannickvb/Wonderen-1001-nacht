@@ -47,7 +47,7 @@ public class trollTalkState extends GameState{
 		g2.setTransform(tx);
 		g2.drawImage(tutorial, -bgWidth/2,-bgHeight/2,null);
 		g2.translate(-midX,-midY);
-		DrawFuctions.drawString(g2, introText.get(lineCounter), ControlManager.screenHeight - 300);
+//		DrawFuctions.drawString(g2, introText.get(lineCounter), ControlManager.screenHeight - 300);
 	}
 
 	@Override

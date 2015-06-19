@@ -46,8 +46,8 @@ public class TutorialState extends GameState{
 		g2.setTransform(tx);
 		g2.drawImage(tutorial, -bgWidth/2,-bgHeight/2,null);
 		g2.translate(-midX,-midY);
-		if(tutorialCounter ==0)
-		DrawFuctions.drawString(g2, introText.get(lineCounter), ControlManager.screenHeight - 300);
+//		if(tutorialCounter ==0)
+//		DrawFuctions.drawString(g2, introText.get(lineCounter), ControlManager.screenHeight - 300);
 	}
 
 	@Override
