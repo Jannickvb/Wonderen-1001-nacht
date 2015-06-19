@@ -4,6 +4,9 @@ import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+
+import javax.sound.sampled.LineUnavailableException;
 
 import model.gamestates.GameState;
 import control.ControlManager;
@@ -136,11 +139,11 @@ public class DoorChoiceState extends GameState{
 
 	@Override
 	public void init() {
-//			try {
-//				cm.travelChoiceVoice();
-//			} catch (LineUnavailableException | IOException e) {
-//				e.printStackTrace();
-//			}
+			try {
+				cm.travelChoiceVoice();
+			} catch (LineUnavailableException | IOException e) {
+				e.printStackTrace();
+			}
 		//input.turnPressurePlates(true);
 	}
 

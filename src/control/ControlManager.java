@@ -30,9 +30,22 @@ public class ControlManager {
 		music.playSound(AudioType.intro);
 	}
 	
-	public void playTrollIntro() throws LineUnavailableException, IOException{
-		voice.playSound(AudioType.trollIntro);
+	public void playMageTalk1() throws LineUnavailableException, IOException{
+		voice.playSound(AudioType.wizard1);
 	}
+	
+	public void playMageTalk2() throws LineUnavailableException, IOException{
+		voice.playSound(AudioType.wizard2);
+	}
+	
+	public void playTrollTalk1() throws LineUnavailableException, IOException{
+		voice.playSound(AudioType.troll1);
+	}
+	
+	public void playTrollTalk2() throws LineUnavailableException, IOException{
+		voice.playSound(AudioType.troll2);
+	}
+	
 	public void playIntroVoice() throws LineUnavailableException, IOException{
 		voice.playSound(AudioType.introvoice);
 	}
