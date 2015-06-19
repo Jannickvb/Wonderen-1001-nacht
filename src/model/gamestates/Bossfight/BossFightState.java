@@ -1,5 +1,6 @@
 package model.gamestates.Bossfight;
 
+import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -11,14 +12,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.DrawThread;
 import model.gamestates.GameState;
 import control.ControlManager;
 import control.ImageHandler;
 
 public class BossFightState extends GameState{
 
-	private Thread timer;
 	private BufferedImage currentImage;
 	private List<BufferedImage> spells, particles;
 	private AffineTransform tx;
@@ -29,7 +28,7 @@ public class BossFightState extends GameState{
 	private int outColor,inColor;
 	private int wins, level = 0;
 	private double spellScore, totalScore = 0;
-	private boolean drawing, started, finished;
+	private boolean drawing, finished;
 	
 	public BossFightState(ControlManager cm) {
 		super(cm);				
@@ -69,9 +68,7 @@ public class BossFightState extends GameState{
 		position2 = new Point2D.Double(0,0);
 		positioni1 = new Point2D.Double(-100,-100);
 		positioni2 = new Point2D.Double(-100,-100);
-		this.timer = new Thread(new DrawThread(this));
 		
-		started = false;
 		drawing = true;
 		finished = false;
 		time = 1800;
@@ -196,17 +193,6 @@ public class BossFightState extends GameState{
 			g2.drawImage(particles.get(level*3), tf1, null);
 			g2.drawImage(particles.get(level*3+1), tf2, null);
 		}
-		if(time > 100)
-		{
-			AffineTransform tf1 = new AffineTransform();
-			AffineTransform tf2 = new AffineTransform();
-			tf1.translate(0 - (int) (time*4), -400);
-			tf2.translate(-800 + (int) (time*4), -400);
-			tf1.rotate(Math.PI*(time*0.02), 400, 400);
-			tf2.rotate(-Math.PI*(time*0.02), 400, 400);
-			g2.drawImage(particles.get(level*3), tf1, null);
-			g2.drawImage(particles.get(level*3+1), tf2, null);
-		}
 		else if(time > 0)
 		{
 			if((time % 8 < 4 && level == 4) || level != 4)
@@ -217,6 +203,7 @@ public class BossFightState extends GameState{
 		}
 		else
 		{
+			g2.setComposite(AlphaComposite.SrcOver.derive(AlphaComposite.SRC_OVER));
 			g2.scale(-time*0.16, -time*0.16);
 			g2.drawImage(particles.get(level*3+2), -400, -400, null);
 		}
@@ -301,17 +288,6 @@ public class BossFightState extends GameState{
 	@Override
 	public void update() 
 	{
-		if(!started)
-		{
-			timer.start();
-			started = true;
-		}
-		midX = ControlManager.screenWidth/2;
-		midY = ControlManager.screenHeight/2;
-	}
-	
-	public void refresh()
-	{
 		if(drawing)
 		{
 			if(cm.getInputHandler().getX1() < 500 && cm.getInputHandler().getX1() > 0)
@@ -357,6 +333,8 @@ public class BossFightState extends GameState{
 		{
 			showScore();
 		}
+		midX = ControlManager.screenWidth/2;
+		midY = ControlManager.screenHeight/2;
 	}
 	
 	private double calculateSpellScore()
