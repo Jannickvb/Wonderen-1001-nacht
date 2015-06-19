@@ -25,11 +25,11 @@ public class Boat extends Entity {
 
 	private InputHandler input;
 	private int animationCounter;
-	private float alpha;
+	public float alpha;
 	private boolean reachedEnd;
-	private boolean deadMessage;
+	public boolean deadMessage;
 	private boolean collisionPier;
-	private boolean move;
+	public boolean move;
 	
 	private boolean pressurePlate1; //Right foot
 	private boolean pressurePlate2; //Left foot
@@ -59,12 +59,7 @@ public class Boat extends Entity {
 			g2.drawImage(subImage,getPositionX(),getPositionY(),null);
 		}
 		//Drawing dead message: 
-		if(deadMessage) {
-			g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
-			g2.setColor(Color.WHITE);
-			g2.setFont(new Font("Verdana",Font.BOLD,60));
-			drawCenteredText("Probeer het opnieuw", g2, ControlManager.screenHeight/2);
-		}
+
 	}
 	
 	/**
@@ -135,7 +130,10 @@ public class Boat extends Entity {
 				}
 			}
 		}
+		
 	}
+	
+	
 	
 	/**
 	 * Init method for the Boat object.

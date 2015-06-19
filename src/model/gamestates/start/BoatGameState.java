@@ -37,7 +37,7 @@ public class BoatGameState extends GameState{
 	private Boat boat;
 	private Pier pier;
 	private BoatCrash boatCrash;
-	private BufferedImage background, liveHeart;
+	private BufferedImage background, liveHeart,trees;
 	private int backgroundPositionY;
 	private ArrayList<Rock> rocks;
 	private ArrayList<Upgrade> upgrades;
@@ -81,7 +81,8 @@ public class BoatGameState extends GameState{
 	    TexturePaint tp = new TexturePaint(background,new Rectangle2D.Double(0,backgroundPositionY,ControlManager.screenWidth,ControlManager.screenHeight));
 	    g2.setPaint(tp);
 	    g2.fill(new Rectangle2D.Double(0,0,ControlManager.screenWidth,ControlManager.screenHeight));
-		//Drawing Rocks:   
+		
+	    //Drawing Rocks:   
 	    for(Rock rock : rocks) 
 			rock.draw(g2);
 	    //Drawing upgrades:
@@ -94,19 +95,22 @@ public class BoatGameState extends GameState{
 	    pier.draw(g2);
 	    g2.setColor(Color.WHITE);
 		g2.setFont(new Font("Verdana",Font.BOLD,50)); 
-	    if(!boat.reachedEnd()) {
-	    	//Drawing Lives:
-		    for(int x = 0; x < lives; x++) 
-				g2.drawImage(liveHeart,50+150*x,5,null);
-		    //Drawing points: 
-			g2.drawString("Punten: " + points,50,170);
-	    }
+	  
 	    //Drawing Boat or BoatCrash:
 	    if(boatCrash == null)
 	    	boat.draw(g2);	
 	    else 
 	    	boatCrash.draw(g2);
 	    //Drawing end screen: 
+	    TexturePaint tr = new TexturePaint(trees,new Rectangle2D.Double(0,backgroundPositionY,ControlManager.screenWidth,ControlManager.screenHeight));
+	    g2.setPaint(tr);
+	    g2.fill(new Rectangle2D.Double(0,0,ControlManager.screenWidth,ControlManager.screenHeight));
+		if(boat.deadMessage) {
+			g2.setColor(new Color(1.0f,1.0f,1.0f,boat.alpha));
+			g2.setFont(new Font("Verdana",Font.BOLD,60));
+			drawCenteredText("Probeer het opnieuw", g2, ControlManager.screenHeight/2);
+		}
+		g2.setColor(Color.WHITE);
 	    if(boat.reachedEnd()) {
 	    	drawCenteredText(endText, g2, ControlManager.screenHeight/2-200);
 	    	drawCenteredText("Behaalde punten: " + pointCounter, g2, ControlManager.screenHeight/2-100);
@@ -116,6 +120,13 @@ public class BoatGameState extends GameState{
 	    else {
 	    	//Drawing upgrade thing:
 	    	
+	    }
+	    if(!boat.reachedEnd()) {
+	    	//Drawing Lives:
+		    for(int x = 0; x < lives; x++) 
+				g2.drawImage(liveHeart,50+150*x,5,null);
+		    //Drawing points: 
+			g2.drawString("Punten: " + points,50,170);
 	    }
 	    //Fade out effect:
 	    Shape rect = new Rectangle2D.Double(0,0,ControlManager.screenWidth,ControlManager.screenHeight);
@@ -308,6 +319,8 @@ public class BoatGameState extends GameState{
 	@Override
 	public void init() {
 		background = ImageHandler.getScaledImage(ImageHandler.getImage(ImageHandler.ImageType.grass));
+		trees = ImageHandler.getScaledImage(ImageHandler.getImage(ImageHandler.ImageType.trees));
+		
 		liveHeart = ImageHandler.getImage(ImageHandler.ImageType.heart);
 		pier = new Pier(cm,ControlManager.screenHeight);
 		boat.init();

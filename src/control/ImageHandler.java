@@ -34,7 +34,7 @@ public class ImageHandler {
 			
 			images.add(ImageIO.read(Main.class.getResource("/images/Tutorial.jpg")));
 			images.add(ImageIO.read(Main.class.getResource("/images/spell_tutorial.png")));
-			images.add(ImageIO.read(Main.class.getResource("/images/boat.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/boatgame/boat.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/RunningGuys.png")));
 			
 			images.add(ImageIO.read(Main.class.getResource("/images/spells/circle.png")));
@@ -60,15 +60,16 @@ public class ImageHandler {
 			
 			images.add(ImageIO.read(Main.class.getResource("/images/treasureRoom.jpg")));
 			
-			images.add(ImageIO.read(Main.class.getResource("/images/background.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/boatgame/background.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/boatgame/trees.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/Poorcity.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/Richcity.png")));
-			images.add(ImageIO.read(Main.class.getResource("/images/rock1.png")));
-			images.add(ImageIO.read(Main.class.getResource("/images/rock2.png")));
-			images.add(ImageIO.read(Main.class.getResource("/images/rock3.png")));
-			images.add(ImageIO.read(Main.class.getResource("/images/rock4.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/boatgame/rock1.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/boatgame/rock2.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/boatgame/rock3.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/boatgame/rock4.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/heart.png")));
-			images.add(ImageIO.read(Main.class.getResource("/images/pier.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/boatgame/pier.png")));
 			
 			images.add(ImageIO.read(Main.class.getResource("/images/box1.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/box2.png")));
@@ -130,6 +131,7 @@ public class ImageHandler {
 		
 		treasure_room, 
 		grass, 
+		trees,
 		poorcity, 
 		richcity,
 		rock1, 
