@@ -94,16 +94,16 @@ public class RichGameState extends GameState{
 				g2.drawString("Punten: " + points,50,170);
 		    }
 		    //Drawing Boat or BoatCrash:
-		    if(palace == null)
+		    if(playerHit == null)
 		    	guy.draw(g2);	
 		    else 
-		    	palace.draw(g2);
+		    	playerHit.draw(g2);
 		    //Drawing end screen: 
 		    if(guy.reachedEnd()) {
-		    	drawCenteredText(endText, g2, ControlManager.screenHeight/2-200);
-		    	drawCenteredText("Behaalde punten: " + pointCounter, g2, ControlManager.screenHeight/2-100);
+		    	ImageHandler.drawCenteredText(endText, g2, ControlManager.screenHeight/2-200);
+		    	ImageHandler.drawCenteredText("Behaalde punten: " + pointCounter, g2, ControlManager.screenHeight/2-100);
 		    	if(pointCounter == points)
-		    		drawCenteredText("Druk op A om verder te gaan", g2, ControlManager.screenHeight/2);
+		    		ImageHandler.drawCenteredText("Druk op A om verder te gaan", g2, ControlManager.screenHeight/2);
 		    }
 		    else {
 		    	//Drawing upgrade thing:
@@ -113,17 +113,6 @@ public class RichGameState extends GameState{
 		    Shape rect = new Rectangle2D.Double(0,0,ControlManager.screenWidth,ControlManager.screenHeight);
 			g2.setColor(new Color(0,0,0,alpha));
 			g2.fill(rect);
-		}
-		
-		/**
-		 * Method that draws given text in the center of the screen.
-		 * @param text - The text you want to display.
-		 * @param g2 - The graphics2D object.
-		 * @param y - The y position of the text.
-		 */
-		public void drawCenteredText(String text, Graphics2D g2, int y) {
-			int x = (ControlManager.screenWidth-g2.getFontMetrics().stringWidth(text))/2;
-			g2.drawString(text, x, y);
 		}
 		
 		/**
@@ -269,13 +258,13 @@ public class RichGameState extends GameState{
 				palace.setPositionY(-178);
 			}
 					
-			//Pier fully popped out of the top of the screen & also checking if boat collides with the pier:
+			//Palace fully popped out of the top of the screen & also checking if person collides with the palace:
 			if(palace.isDead()) {
 				guy.setCollisionPalace(false);
-				if(guy.containsPoint(palace))
+				if(guy.containsPoint(palace)) {
+					guy.setReachedEnd(true);
 					guy.setCollisionPalace(true);
-				else
-					guy.setCollisionPalace(false);
+				}
 			}
 			
 			if(guy.reachedEnd()) {
@@ -291,6 +280,13 @@ public class RichGameState extends GameState{
 					
 				}
 			}
+			//Boat reached top of the screen: <- when player presses A to continue;
+//			if(boat.reachedEnd()) {
+//				if(alpha < 0.95) 
+//					alpha += 0.033;
+//				else
+//					cm.getGameStateManager().next();
+//			}	
 		}
 		
 		/**

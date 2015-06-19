@@ -1,5 +1,6 @@
 package control;
 
+import java.awt.Graphics2D;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.image.BufferedImage;
@@ -172,6 +173,17 @@ public class ImageHandler {
 			mode = Scalr.Mode.FIT_TO_HEIGHT;
 		}
 		return mode;
+	}
+	
+	/**
+	 * Method that draws given text in the center of the screen.
+	 * @param text - The text you want to display.
+	 * @param g2 - The graphics2D object.
+	 * @param y - The y position of the text.
+	 */
+	public static void drawCenteredText(String text, Graphics2D g2, int y) {
+		int x = (ControlManager.screenWidth-g2.getFontMetrics().stringWidth(text))/2;
+		g2.drawString(text, x, y);
 	}
 }
 

@@ -104,10 +104,10 @@ public class BoatGameState extends GameState{
 	    	boatCrash.draw(g2);
 	    //Drawing end screen: 
 	    if(boat.reachedEnd()) {
-	    	drawCenteredText(endText, g2, ControlManager.screenHeight/2-200);
-	    	drawCenteredText("Behaalde punten: " + pointCounter, g2, ControlManager.screenHeight/2-100);
+	    	ImageHandler.drawCenteredText(endText, g2, ControlManager.screenHeight/2-200);
+	    	ImageHandler.drawCenteredText("Behaalde punten: " + pointCounter, g2, ControlManager.screenHeight/2-100);
 	    	if(pointCounter == points)
-	    		drawCenteredText("Druk op A om verder te gaan", g2, ControlManager.screenHeight/2);
+	    		ImageHandler.drawCenteredText("Druk op A om verder te gaan", g2, ControlManager.screenHeight/2);
 	    }
 	    else {
 	    	//Drawing upgrade thing:
@@ -118,17 +118,6 @@ public class BoatGameState extends GameState{
 		g2.setColor(new Color(0,0,0,alpha));
 		g2.fill(rect); 
 		
-	}
-	
-	/**
-	 * Method that draws given text in the center of the screen.
-	 * @param text - The text you want to display.
-	 * @param g2 - The graphics2D object.
-	 * @param y - The y position of the text.
-	 */
-	public void drawCenteredText(String text, Graphics2D g2, int y) {
-		int x = (ControlManager.screenWidth-g2.getFontMetrics().stringWidth(text))/2;
-		g2.drawString(text, x, y);
 	}
 
 	/**

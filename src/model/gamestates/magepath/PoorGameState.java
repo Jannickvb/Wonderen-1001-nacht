@@ -1,6 +1,7 @@
 package model.gamestates.magepath;
 
 	import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.Shape;
@@ -16,9 +17,13 @@ import java.util.Iterator;
 import javax.swing.Timer;
 
 import model.entities.Box;
+import model.entities.Coin;
+import model.entities.Entity;
 import model.entities.Palace;
 import model.entities.Person;
 import model.entities.PlayerHit;
+import model.entities.Rock;
+import model.entities.Upgrade;
 import model.gamestates.GameState;
 import control.ControlManager;
 import control.ImageHandler;
@@ -31,8 +36,13 @@ public class PoorGameState extends GameState{
 		private BufferedImage background, liveHeart;
 		private int backgroundPositionY;
 		private ArrayList<Box> boxes;
+		private ArrayList<Upgrade> upgrades;
+		private ArrayList<Coin> coins;
 		private int counter;
 		private int lives;
+		private int points;
+		private int pointCounter;
+		private String endText;
 		private float alpha;
 		
 		/**
@@ -47,6 +57,8 @@ public class PoorGameState extends GameState{
 			alpha = 0;
 			lives = 3;
 			boxes = new ArrayList<>(1000);
+			upgrades = new ArrayList<>(100);
+			coins = new ArrayList<>(100);
 		}
 
 		/**
@@ -67,16 +79,39 @@ public class PoorGameState extends GameState{
 			//Drawing Boxes:    
 		    for(Box b : boxes) 
 				b.draw(g2);
+		    //Drawing upgrades:
+		    for(Upgrade upgrade : upgrades)
+		    	upgrade.draw(g2);
+		    //Drawing coins: 
+		    for(Coin coin : coins)
+		    	coin.draw(g2);
 		    //Drawing the Palace:
 		    palace.draw(g2);
-		    //Drawing Lives:
-		    for(int x = 0; x < lives; x++) 
-				g2.drawImage(liveHeart,50+150*x,5,null);
+		    g2.setColor(Color.WHITE);
+			g2.setFont(new Font("Verdana",Font.BOLD,50)); 
+		    if(!guy.reachedEnd()) {
+		    	//Drawing Lives:
+			    for(int x = 0; x < lives; x++) 
+					g2.drawImage(liveHeart,50+150*x,5,null);
+			    //Drawing points: 
+				g2.drawString("Punten: " + points,50,170);
+		    }
 		    //Drawing Person or PlayerHit:
 		    if(playerHit == null)
 		    	guy.draw(g2);	
 		    else 
 		    	playerHit.draw(g2);
+		    //Drawing end screen: 
+		    if(guy.reachedEnd()) {
+		    	ImageHandler.drawCenteredText(endText, g2, ControlManager.screenHeight/2-200);
+		    	ImageHandler.drawCenteredText("Behaalde punten: " + pointCounter, g2, ControlManager.screenHeight/2-100);
+		    	if(pointCounter == points)
+		    		ImageHandler.drawCenteredText("Druk op A om verder te gaan", g2, ControlManager.screenHeight/2);
+		    }
+		    else {
+		    	//Drawing upgrade thing:
+		    	
+		    }
 		    //Fade out effect:
 		    Shape rect = new Rectangle2D.Double(0,0,ControlManager.screenWidth,ControlManager.screenHeight);
 			g2.setColor(new Color(0,0,0,alpha));
@@ -102,6 +137,22 @@ public class PoorGameState extends GameState{
 			for(Box b : boxes) {
 				if(guy.containsPoint(b)) {
 					collision();
+				}
+			}
+			
+			//Checking for collision with upgrades:
+			for(Upgrade upgrade : upgrades) {
+				if(guy.containsPoint(upgrade)) {
+					collisionUpgrade(upgrade);
+				}
+			}
+			
+			//Checking for collision with coins:
+			for(Coin coin : coins) {
+				if(guy.containsPoint(coin)) {
+					coin.playSound();
+					coin.setDead(true);
+					points += 20;
 				}
 			}
 			
@@ -134,25 +185,67 @@ public class PoorGameState extends GameState{
 					}
 					counter++;
 					boxes.add(box);
-					//Checking if boxes don't overlap.
-					for(Box box2 : boxes)
-						if(box.containsPoint(box2))
-							box.setDead(true);
-						else if(palace != null)
-							if(box.containsPoint(palace))
-								box.setDead(true);
 					box.init();
+					//Checking if rock isnt overlapping
+					if(checkCollision(box)) 
+						box.setDead(true);
+				}
+			}
+			
+			//Randomly spawning upgrades: 
+			if(!palace.isDead()) {
+				if(Math.floor(Math.random()*95) == 3) {
+					Upgrade upgrade = new Upgrade(cm);
+					upgrade.init();
+					if(checkCollision(upgrade)) 
+						upgrade.setDead(true);
+					upgrades.add(upgrade);
+						
+				}
+			}
+			
+			//Randomly spawning coins: 
+			if(!palace.isDead()) {
+				if(Math.floor(Math.random()*25) == 3) {
+					Coin coin = new Coin(cm);
+					coins.add(coin);
+					coin.init();
+					if(checkCollision(coin))
+						coin.setDead(true);
 				}
 			}
 			
 			//Checking if boxes are out of the screen:
-			Iterator it = boxes.iterator();
+			Iterator<Box> it = boxes.iterator();
 			while(it.hasNext()) {
 				Box b = (Box) it.next();
 				if(b.isDead())
 					it.remove();
 				if(!palace.isDead())
 					b.update();
+			}
+			
+			//Checking if upgrades are out of the screen & if upgrades are dead & if upgrades are overlapping:
+			Iterator<Upgrade> itU = upgrades.iterator();
+			while(itU.hasNext()) {
+				Upgrade upgrade = (Upgrade) itU.next();
+				if(upgrade.isDead())
+					itU.remove();
+				if(!palace.isDead())
+					upgrade.setMove(true);
+				else
+					upgrade.setMove(false);
+				upgrade.update();
+			}
+			
+			//Checking if rocks are out of the screen & if rocks are dead & if rocks are overlapping:
+			Iterator<Coin> itC = coins.iterator();
+			while(itC.hasNext()) {
+				Coin coin = (Coin) itC.next();
+				if(coin.isDead())
+					itC.remove();
+				if(!palace.isDead())
+					coin.update();
 			}
 			
 			//Checking if crash animation is over:
@@ -178,13 +271,27 @@ public class PoorGameState extends GameState{
 				}
 			}
 			
-			//Person reached top of the screen:
 			if(guy.reachedEnd()) {
-				if(alpha < 0.95) 
-					alpha += 0.033;
-				else
-					cm.getGameStateManager().next();
+				if(pointCounter == 0)
+					endText = "Gefeliciteerd!";
+				if(pointCounter < points) {
+					if(alpha < 0.2)
+						alpha += 0.0033;
+					pointCounter+=3;
+				}
+				else {
+					pointCounter = points;
+					
+				}
 			}
+			
+//			//Person reached top of the screen:
+//			if(guy.reachedEnd()) {
+//				if(alpha < 0.95) 
+//					alpha += 0.033;
+//				else
+//					cm.getGameStateManager().next();
+//			}
 		}
 		
 		/**
@@ -205,7 +312,7 @@ public class PoorGameState extends GameState{
 		 */
 		public void collision() {
 			if(playerHit == null) {
-				if(lives > 0) {
+				if(lives > 1) {
 					lives--;
 					if(!palace.isDead())
 						playerHit = new PlayerHit(cm,guy.getPositionX(),guy.getPositionY(),true);
@@ -215,7 +322,9 @@ public class PoorGameState extends GameState{
 					guy.collision();
 				}
 				else {
+					endText = "Helaas! U heeft het eind niet bereikt";
 					guy.setReachedEnd(true); //Alternate ending when dead <- here
+					palace.setDead(true);
 				}
 			}
 		}
@@ -230,7 +339,42 @@ public class PoorGameState extends GameState{
 			playerHit = null;
 			alpha = 0f;
 			counter = 0;
+			if(points > 200)
+				points -= 200;
+			else 
+				points = 0;
+			pointCounter = 0;
 			guy.reset();
+		}
+		
+		/**
+		 * Called on collision with a upgrade.
+		 * @param upgrade - The upgrade that collided.
+		 */
+		public void collisionUpgrade(Upgrade upgrade) {
+			upgrade.playSound();
+			upgrade.setDead(true);
+			points += 100;
+		}
+		
+		public boolean checkCollision(Entity object) {
+			//Overlap with rock:
+			for(Box box : boxes) 
+				if(object.containsPoint(box)) 
+					return true;
+			//Overlap met coin:
+			for(Coin coin : coins)
+				if(object.containsPoint(coin))
+					return true;
+			//Overlap met upgrade:
+			for(Upgrade upgrade : upgrades)
+				if(object.containsPoint(upgrade))
+					return true;
+			//Overlap met pier:
+			if(palace != null)
+				if(object.containsPoint(palace))
+					return true;
+			return false;
 		}
 		
 		//Just for testing:
