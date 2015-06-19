@@ -20,7 +20,7 @@ public class BossFightState extends GameState{
 
 	private Thread timer;
 	private BufferedImage currentImage;
-	private List<BufferedImage> spells;
+	private List<BufferedImage> spells, particles;
 	private AffineTransform tx;
 	private int midX,midY, time;
 	private Point2D position1, position2, positioni1, positioni2;
@@ -28,7 +28,7 @@ public class BossFightState extends GameState{
 	private int outCounter,inCounter;
 	private int outColor,inColor;
 	private int wins, level = 0;
-	private double spellScore;
+	private double spellScore, totalScore = 0;
 	private boolean drawing, started, finished;
 	
 	public BossFightState(ControlManager cm) {
@@ -38,7 +38,23 @@ public class BossFightState extends GameState{
 		spells.add(ImageHandler.getImage(ImageHandler.ImageType.spell2));
 		spells.add(ImageHandler.getImage(ImageHandler.ImageType.spell3));
 		spells.add(ImageHandler.getImage(ImageHandler.ImageType.spell4));
-		spells.add(ImageHandler.getImage(ImageHandler.ImageType.spell5));		
+		spells.add(ImageHandler.getImage(ImageHandler.ImageType.spell5));
+		particles = new ArrayList<BufferedImage>();
+		particles.add(ImageHandler.getImage(ImageHandler.ImageType.spell1_particle1));
+		particles.add(ImageHandler.getImage(ImageHandler.ImageType.spell1_particle2));
+		particles.add(ImageHandler.getImage(ImageHandler.ImageType.spell1_particle3));
+		particles.add(ImageHandler.getImage(ImageHandler.ImageType.spell2_particle1));
+		particles.add(ImageHandler.getImage(ImageHandler.ImageType.spell2_particle2));
+		particles.add(ImageHandler.getImage(ImageHandler.ImageType.spell2_particle3));
+		particles.add(ImageHandler.getImage(ImageHandler.ImageType.spell3_particle1));
+		particles.add(ImageHandler.getImage(ImageHandler.ImageType.spell3_particle2));
+		particles.add(ImageHandler.getImage(ImageHandler.ImageType.spell3_particle3));
+		particles.add(ImageHandler.getImage(ImageHandler.ImageType.spell4_particle1));
+		particles.add(ImageHandler.getImage(ImageHandler.ImageType.spell4_particle2));
+		particles.add(ImageHandler.getImage(ImageHandler.ImageType.spell4_particle3));
+		particles.add(ImageHandler.getImage(ImageHandler.ImageType.spell5_particle1));
+		particles.add(ImageHandler.getImage(ImageHandler.ImageType.spell5_particle2));
+		particles.add(ImageHandler.getImage(ImageHandler.ImageType.spell5_particle3));
 		currentImage = spells.get(level);
 		try {
 			outColor = currentImage.getRGB(0, 0);
@@ -114,29 +130,39 @@ public class BossFightState extends GameState{
 		tx.translate(midX, midY);
 		
 		g2.setTransform(tx);
-		g2.drawImage(currentImage,-currentImage.getWidth()/2, -currentImage.getHeight()/2, null);
-		
-		g2.setTransform(oldAF);	
-		g2.setColor(Color.BLUE);
-		g2.setStroke(new BasicStroke(60f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
-		g2.drawRect((int)position1.getX(),(int)position1.getY(), 1, 1);
-		g2.setColor(Color.RED);
-		g2.drawRect((int)position2.getX(),(int)position2.getY(), 1, 1);
-		g2.setColor(new Color(0,0,255,122)); // blue
-		g2.drawRect((int)positioni1.getX(),(int)positioni1.getY(), 1, 1);
-		g2.setColor(new Color(255,0,0,122)); // red
-		g2.drawRect((int)positioni2.getX(),(int)positioni2.getY(), 1, 1);
-		g2.setColor(Color.GRAY);
-		g2.setStroke(new BasicStroke(10f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
-		g2.drawLine((int)(midX/1.8), 0, (int)(midX/1.8), midY*2);
-		if(cm.getInputHandler().isA1Pressed() && drawing)
+		if(drawing)
 		{
-			drawPointsLeft(cm.getInputHandler().getX1(),cm.getInputHandler().getY1());
+			g2.drawImage(currentImage,-currentImage.getWidth()/2, -currentImage.getHeight()/2, null);
+		}
+		else
+		{
+			drawAttackAnimation(g2);
 		}
 		
-		if(cm.getInputHandler().isA2Pressed() && drawing)
+		g2.setTransform(oldAF);	
+		if(drawing)
 		{
-			drawPointsRight(cm.getInputHandler().getX2(),cm.getInputHandler().getY2());
+			g2.setColor(Color.BLUE);
+			g2.setStroke(new BasicStroke(60f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+			g2.drawRect((int)position1.getX(),(int)position1.getY(), 1, 1);
+			g2.setColor(Color.RED);
+			g2.drawRect((int)position2.getX(),(int)position2.getY(), 1, 1);
+			g2.setColor(new Color(0,0,255,122)); // blue
+			g2.drawRect((int)positioni1.getX(),(int)positioni1.getY(), 1, 1);
+			g2.setColor(new Color(255,0,0,122)); // red
+			g2.drawRect((int)positioni2.getX(),(int)positioni2.getY(), 1, 1);
+			g2.setColor(Color.GRAY);
+			g2.setStroke(new BasicStroke(10f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+			g2.drawLine((int)(midX/1.8), 0, (int)(midX/1.8), midY*2);
+			if(cm.getInputHandler().isA1Pressed())
+			{
+				drawPointsLeft(cm.getInputHandler().getX1(),cm.getInputHandler().getY1());
+			}
+			
+			if(cm.getInputHandler().isA2Pressed())
+			{
+				drawPointsRight(cm.getInputHandler().getX2(),cm.getInputHandler().getY2());
+			}
 		}
 		g2.setColor(Color.black);
 		if(drawing)
@@ -154,6 +180,45 @@ public class BossFightState extends GameState{
 			{
 				g2.drawString("You Win!", (int) (midX/1.8), 20);
 			}
+		}
+	}
+	
+	private void drawAttackAnimation(Graphics2D g2)
+	{
+		if(time > 100)
+		{
+			AffineTransform tf1 = new AffineTransform();
+			AffineTransform tf2 = new AffineTransform();
+			tf1.translate(0 - (int) (time*4), -400);
+			tf2.translate(-800 + (int) (time*4), -400);
+			tf1.rotate(Math.PI*(time*0.02), 400, 400);
+			tf2.rotate(-Math.PI*(time*0.02), 400, 400);
+			g2.drawImage(particles.get(level*3), tf1, null);
+			g2.drawImage(particles.get(level*3+1), tf2, null);
+		}
+		if(time > 100)
+		{
+			AffineTransform tf1 = new AffineTransform();
+			AffineTransform tf2 = new AffineTransform();
+			tf1.translate(0 - (int) (time*4), -400);
+			tf2.translate(-800 + (int) (time*4), -400);
+			tf1.rotate(Math.PI*(time*0.02), 400, 400);
+			tf2.rotate(-Math.PI*(time*0.02), 400, 400);
+			g2.drawImage(particles.get(level*3), tf1, null);
+			g2.drawImage(particles.get(level*3+1), tf2, null);
+		}
+		else if(time > 0)
+		{
+			if((time % 8 < 4 && level == 4) || level != 4)
+			{
+				g2.scale(0.01*time, 0.01*time);
+				g2.drawImage(particles.get(level*3+2), -400, -400, null);
+			}
+		}
+		else
+		{
+			g2.scale(-time*0.16, -time*0.16);
+			g2.drawImage(particles.get(level*3+2), -400, -400, null);
 		}
 	}
 	
@@ -185,6 +250,8 @@ public class BossFightState extends GameState{
 		if(level < spells.size())
 		{
 			currentImage = spells.get(level);
+			totalScore += spellScore;
+			System.out.println(totalScore);
 			spellScore = 0;
 			inCounter = 0;
 			outCounter = 0;
@@ -194,7 +261,7 @@ public class BossFightState extends GameState{
 				e.printStackTrace();
 			}
 			drawing = true;
-			time = 1800 - (300*level);
+			time = 300; //1800 - (300*level);
 		}
 		else
 		{
@@ -221,7 +288,7 @@ public class BossFightState extends GameState{
 	
 	public void showScore()
 	{
-		if(time != 0)
+		if(time != -150)
 		{
 			time--;
 		}
@@ -279,11 +346,11 @@ public class BossFightState extends GameState{
 			{
 				drawing = false;
 				spellScore = calculateSpellScore();
-				if(spellScore > 80)
+				if(spellScore > 60 + (level*5))
 				{
 					wins++;
 				}
-				time = 300;
+				time = 200;
 			}
 		}
 		else
@@ -302,6 +369,10 @@ public class BossFightState extends GameState{
 		}		
 	}
 	
+	public double getTotalScore()
+	{
+		return totalScore;
+	}
 	
 	@Override
 	public void init() {

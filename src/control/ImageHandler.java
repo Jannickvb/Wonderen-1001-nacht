@@ -43,6 +43,21 @@ public class ImageHandler {
 			images.add(ImageIO.read(Main.class.getResource("/images/spells/hexagon.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/spells/star.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/spells/spiral.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/spells/circle_particle1.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/spells/circle_particle2.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/spells/circle_particle3.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/spells/triangle_particle1.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/spells/triangle_particle2.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/spells/triangle_particle3.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/spells/hexagon_particle1.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/spells/hexagon_particle2.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/spells/hexagon_particle3.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/spells/star_particle1.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/spells/star_particle2.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/spells/star_particle3.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/spells/spiral_particle1.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/spells/spiral_particle2.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/spells/spiral_particle3.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/Tovenaar.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/Tovenaar2.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/Trol.png")));
@@ -112,7 +127,22 @@ public class ImageHandler {
 		spell2,
 		spell3,
 		spell4, 
-		spell5, 
+		spell5,
+		spell1_particle1,
+		spell1_particle2,
+		spell1_particle3,
+		spell2_particle1,
+		spell2_particle2,
+		spell2_particle3,
+		spell3_particle1,
+		spell3_particle2,
+		spell3_particle3,
+		spell4_particle1,
+		spell4_particle2,
+		spell4_particle3,
+		spell5_particle1,
+		spell5_particle2,
+		spell5_particle3,
 		mage1, 
 		mage2, 
 		troll, 
