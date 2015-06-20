@@ -136,7 +136,7 @@ public class Mage2State extends GameState implements ActionListener{
 	}
 	
 	public void addParticle(int x, int y, int life){
-        int size = (int)(rand.nextInt(20)*0.7);
+        int size = (int)(rand.nextInt(20)1.1);
         particles.add(new Particle(x,y,size,life));
     }  
 	
