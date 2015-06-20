@@ -18,7 +18,7 @@ hs_err_pid*
 !lib/slick/lib/*
 /bin/
 *.ini
-*.png
+
 resources/images/spells/spiral.png
 src/control/ImageHandler.java
 src/model/gamestates/Bossfight/BossFightState.java
