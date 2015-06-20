@@ -1,6 +1,7 @@
 package model.gamestates.magepath;
 
-	import java.awt.Color;
+	import java.awt.AlphaComposite;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -43,6 +44,10 @@ public class PoorGameState extends GameState{
 		private int lives;
 		private int points;
 		private int pointCounter;
+		private int speed;
+		private boolean upgradeActive;
+		private int keyFrame;
+		private int animationKeyFrame;
 		private String endText;
 		private float alpha;
 		
@@ -56,6 +61,7 @@ public class PoorGameState extends GameState{
 			guy = new Person(cm);
 			backgroundPositionY = 0;
 			alpha = 0;
+			speed = 6;
 			lives = 3;
 			boxes = new ArrayList<>(1000);
 			upgrades = new ArrayList<>(100);
@@ -90,6 +96,7 @@ public class PoorGameState extends GameState{
 		    palace.draw(g2);
 		    g2.setColor(Color.WHITE);
 			g2.setFont(new Font("Verdana",Font.BOLD,50)); 
+			//Drawing lives and points: 
 		    if(!guy.reachedEnd()) {
 		    	//Drawing Lives:
 			    for(int x = 0; x < lives; x++) 
@@ -109,14 +116,36 @@ public class PoorGameState extends GameState{
 		    	if(pointCounter == points)
 		    		ImageHandler.drawCenteredText("Druk op A om verder te gaan", g2, ControlManager.screenHeight/2);
 		    }
-		    else {
-		    	//Drawing upgrade thing:
-		    	
+		    //Showing upgrade text;
+		    if(upgradeActive && animationKeyFrame <= 60) {
+		    	if(speed == 12) { 
+		    		if(animationKeyFrame%16 == 0) 
+		    			g2.setColor(Color.RED);
+		    		else if(animationKeyFrame%8 == 0) 
+		    			g2.setColor(Color.YELLOW);
+		    		else if(animationKeyFrame%4 == 0) 
+		    			g2.setColor(Color.GREEN);
+		    		else if(animationKeyFrame%2 == 0) 
+		    			g2.setColor(Color.BLUE);
+		    		g2.setFont(new Font("Verdana",Font.BOLD,80));
+		    		g2.drawString("SNELHEID!!!",(ControlManager.screenWidth-g2.getFontMetrics().stringWidth("SNELHEID!!!"))/2,100);
+		    	}
+		    	else if(speed == 2) {
+		    		g2.setComposite(AlphaComposite.SrcOver.derive(alpha));
+		    		BufferedImage freezeLogo = ImageHandler.getImage(ImageHandler.ImageType.freeze);
+		    		g2.drawImage(freezeLogo,ControlManager.screenWidth/2-freezeLogo.getWidth()/2,100,null);
+		    	}
+		    	else if(speed == 6) {
+		    		g2.setComposite(AlphaComposite.SrcOver.derive(alpha));
+		    		ImageHandler.drawCenteredText("Bonus punten!", g2, 100);
+		    	}
 		    }
 		    //Fade out effect:
-		    Shape rect = new Rectangle2D.Double(0,0,ControlManager.screenWidth,ControlManager.screenHeight);
-			g2.setColor(new Color(0,0,0,alpha));
-			g2.fill(rect); 
+		    if(guy.reachedEnd()) {
+			    Shape rect = new Rectangle2D.Double(0,0,ControlManager.screenWidth,ControlManager.screenHeight);
+				g2.setColor(new Color(0,0,0,alpha));
+				g2.fill(rect);
+		    }
 		}
 		
 		/**
@@ -132,7 +161,7 @@ public class PoorGameState extends GameState{
 			
 			//updating background:
 			if(!palace.isDead())
-				backgroundPositionY += 6;
+				backgroundPositionY += speed;
 			
 			//Checking for collision:
 			for(Box b : boxes) {
@@ -288,6 +317,76 @@ public class PoorGameState extends GameState{
 				}
 			}
 			
+			//Upgrades:
+			if(upgradeActive) {
+				keyFrame++;
+				animationKeyFrame++;
+				if(speed == 12) { //Speed upgrade;
+					if(keyFrame >= 180) {
+						speed = 6;
+						if(playerHit != null)
+							playerHit.setSpeed(6);
+						for(Coin coin : coins)
+							coin.setSpeed(6);
+						for(Upgrade upgrade2 : upgrades)
+							upgrade2.setSpeed(6);
+						for(Box box : boxes)
+							box.setSpeed(6);
+						upgradeActive = false;
+						alpha = 0;
+						keyFrame = 0;
+						animationKeyFrame = 0;
+					} 
+					else {
+						if(playerHit != null)
+							playerHit.setSpeed(12);
+						for(Coin coin : coins)
+							coin.setSpeed(12);
+						for(Upgrade upgrade2 : upgrades)
+							upgrade2.setSpeed(12);
+						for(Box box : boxes)
+							box.setSpeed(12);
+					}
+				}
+				else if(speed == 2) {
+					if(keyFrame >= 280) {
+						speed = 6;
+						if(playerHit != null)
+							playerHit.setSpeed(6);
+						for(Coin coin : coins)
+							coin.setSpeed(6);
+						for(Upgrade upgrade2 : upgrades)
+							upgrade2.setSpeed(6);
+						for(Box box : boxes)
+							box.setSpeed(6);
+						upgradeActive = false;
+						alpha = 0;
+						keyFrame = 0;
+						animationKeyFrame = 0;
+					} 
+					else {
+						if(playerHit != null)
+							playerHit.setSpeed(2);
+						for(Coin coin : coins)
+							coin.setSpeed(2);
+						for(Upgrade upgrade2 : upgrades)
+							upgrade2.setSpeed(2);
+						for(Box box : boxes)
+							box.setSpeed(2);
+					}	
+				}
+				else if(speed == 6) { //Bonus points
+					if(keyFrame >= 65) {
+						alpha = 0;
+						upgradeActive = false;
+						keyFrame = 0;
+						animationKeyFrame = 0;
+					}
+				}
+				if(alpha > 0.1)
+					alpha -= 0.025;	
+			}
+			
 //			//Person reached top of the screen:
 //			if(guy.reachedEnd()) {
 //				if(alpha < 0.95) 
@@ -357,7 +456,29 @@ public class PoorGameState extends GameState{
 		public void collisionUpgrade(Upgrade upgrade) {
 			upgrade.playSound();
 			upgrade.setDead(true);
-			points += 100;
+			//Determining what upgrade will be:
+			alpha = 1.0f;
+			if(!upgradeActive) {
+				if(!palace.isDead()) {
+					switch((int) Math.floor(Math.random()*3)) {
+						case 0: // Speed upgraded;
+							speed = 12;
+							upgradeActive = true;
+							break;
+						case 1: //Speed freezed
+							speed = 2;
+							upgradeActive = true;
+							break;
+						case 2: //Bonus points: 
+							points += 50 + (int) Math.floor(Math.random()*80);
+							upgradeActive = true;
+					}
+				}
+				else {
+					points += 100;
+					upgradeActive = true;
+				}
+			}
 		}
 		
 		public boolean checkCollision(Entity object) {

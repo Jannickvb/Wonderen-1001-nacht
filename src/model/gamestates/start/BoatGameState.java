@@ -122,10 +122,7 @@ public class BoatGameState extends GameState{
 	    	if(pointCounter == points)
 	    		ImageHandler.drawCenteredText("Druk op A om verder te gaan", g2, ControlManager.screenHeight/2);
 	    }
-	    else {
-	    	//Drawing upgrade thing:
-	    	
-	    }
+	    //Drawing lives and score: 
 	    if(!boat.reachedEnd()) {
 	    	//Drawing Lives:
 		    for(int x = 0; x < lives; x++) 

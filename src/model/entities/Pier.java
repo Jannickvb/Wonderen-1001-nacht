@@ -46,7 +46,7 @@ public class Pier extends Entity {
 			setDead(true);
 		}
 		else
-			positionY += 6;
+			positionY += getSpeed();
 	}
 	
 	/**
