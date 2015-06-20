@@ -27,6 +27,7 @@ public class Mage2State extends GameState implements ActionListener{
 	private boolean anim;
 	private Random rand;
 	private int x1,y1;
+	private int a1,b1;
 	private double counter;
 	private double reversecounter;
 	private Timer timer;
@@ -39,8 +40,10 @@ public class Mage2State extends GameState implements ActionListener{
 		midY = cm.screenHeight/2;
 		bgWidth = image.getWidth(null);
 		bgHeight = image.getHeight(null);
-		int x1 = this.midX;
-		int y1 = this.midY;
+		this.x1 = this.midX;
+		this.y1 = this.midY;
+		this.a1 = this.midX;
+		this.b1 = this.midY;
 		this.counter = 0;
 		this.reversecounter = 20;
 		rand = new Random();
@@ -63,80 +66,47 @@ public class Mage2State extends GameState implements ActionListener{
 	@Override
 	public void update() {
 		if(anim){
-		if(counter < 20){
+//		if(counter < 20){
 		addParticle(x1,y1,0);addParticle(x1,y1,0);
 		addParticle(x1,y1,0);addParticle(x1,y1,0);
 		addParticle(x1,y1,0);addParticle(x1,y1,0);
 		addParticle(x1,y1,0);addParticle(x1,y1,0);
 		
-		Iterator<Particle> i = particles.iterator();
-			while (i.hasNext()) {
-			   Particle p = i.next(); 
-			   if(p.getLife() == 100){
-			   i.remove();
-			   }
-		}
-			
 		int x2 = (int)(20*counter*(Math.cos(counter)));
 		int y2= (int)(20*counter*(Math.sin(counter)));
 				
 		this.x1 = x2;
 		this.y1 = y2;
 		
-		counter += 0.1;
-		}else if(reversecounter ==0){
-			int a1 = 0;
-			int b1 = 0;
+		addParticle(a1,b1,0);addParticle(a1,b1,0);
+		addParticle(a1,b1,0);addParticle(a1,b1,0);
+		addParticle(a1,b1,0);addParticle(a1,b1,0);
+		addParticle(a1,b1,0);addParticle(a1,b1,0);
+		
 			
-			addParticle(a1,b1,1);addParticle(a1,b1,1);
-			addParticle(a1,b1,1);addParticle(a1,b1,1);
-			addParticle(a1,b1,1);addParticle(a1,b1,1);
-			addParticle(a1,b1,1);addParticle(a1,b1,1);
-			
+		int a2 = (int)(20*reversecounter*(Math.cos(reversecounter)));
+		int b2= (int)(20*reversecounter*(Math.sin(reversecounter)));
+				
+		this.a1 = a2;
+		this.b1 = b2;
+		
+		reversecounter -= 0.05;
+		counter += 0.05;
+				
 			Iterator<Particle> i = particles.iterator();
 				while (i.hasNext()) {
 				   Particle p = i.next(); 
-				   if(p.getLife() == 300){
+				   if(p.getLife() == 100){
 				   i.remove();
 				   }
 			}
-		}else {
-			
-			addParticle(x1,y1,0);addParticle(x1,y1,0);
-			addParticle(x1,y1,0);addParticle(x1,y1,0);
-			addParticle(x1,y1,0);addParticle(x1,y1,0);
-			addParticle(x1,y1,0);addParticle(x1,y1,0);
-				
-			int x2 = (int)(20*reversecounter*(Math.cos(reversecounter)));
-			int y2= (int)(20*reversecounter*(Math.sin(reversecounter)));
-					
-			this.x1 = x2;
-			this.y1 = y2;
-						
-			int a1 = 0;
-			int b1 = 0;
-			
-			addParticle(a1,b1,1);addParticle(a1,b1,1);
-			addParticle(a1,b1,1);addParticle(a1,b1,1);
-			addParticle(a1,b1,1);addParticle(a1,b1,1);
-			addParticle(a1,b1,1);addParticle(a1,b1,1);
-			
-			Iterator<Particle> i = particles.iterator();
-				while (i.hasNext()) {
-				   Particle p = i.next(); 
-				   if(p.getLife() == 300){
-				   i.remove();
-				   }
-			}
-			
-				reversecounter -= 0.1;
 				
 		}
-		}
+		
 	}
 	
 	public void addParticle(int x, int y, int life){
-        int size = (int)(rand.nextInt(20)1.1);
+        int size = (int)(rand.nextInt(20)*1.1);
         particles.add(new Particle(x,y,size,life));
     }  
 	
