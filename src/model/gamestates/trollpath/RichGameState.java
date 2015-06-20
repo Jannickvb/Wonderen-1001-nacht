@@ -299,7 +299,8 @@ public class RichGameState extends GameState{
 			
 			if(guy.reachedEnd()) {
 				if(pointCounter == 0) {
-					ScoreHandler.setScore(ScoreHandler.getScore()+points);
+					cm.getScoreHandler().cityScore = points;
+					cm.getScoreHandler().armGekozen = false;
 					endText = "Gefeliciteerd!";
 				}
 				if(pointCounter < points) {

@@ -311,7 +311,7 @@ public class BoatGameState extends GameState{
 		if(boat.reachedEnd()) {
 			if(pointCounter == 0) {
 				endText = "Gefeliciteerd!";
-				ScoreHandler.setScore(ScoreHandler.getScore()+points);
+				cm.getScoreHandler().bootScore = points;
 			}
 			if(pointCounter < points) {
 				if(alpha < 0.2)

@@ -2,13 +2,9 @@ package control;
 
 public class ScoreHandler {
 
-	private static int score = 0;
+	public int bootScore = 0;
+	public int cityScore = 0;
+	public int bossScore = 0;
+	public boolean armGekozen = false;
 	
-	public static int getScore() {
-		return score;
-	}
-	
-	public static void setScore(int newScore) {
-		score = newScore;
-	}
 }

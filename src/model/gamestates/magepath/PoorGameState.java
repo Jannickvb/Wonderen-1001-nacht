@@ -303,7 +303,8 @@ public class PoorGameState extends GameState{
 			
 			if(guy.reachedEnd()) {
 				if(pointCounter == 0) {
-					ScoreHandler.setScore(ScoreHandler.getScore()+points);
+					cm.getScoreHandler().cityScore = points;
+					cm.getScoreHandler().armGekozen = true;
 					endText = "Gefeliciteerd!";
 				}
 				if(pointCounter < points) {

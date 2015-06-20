@@ -74,7 +74,7 @@ public class ImageHandler {
 			images.add(ImageIO.read(Main.class.getResource("/images/poorrich/pr_poor.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/poorrich/pr_rich.png")));
 			
-			images.add(ImageIO.read(Main.class.getResource("/images/treasureRoom.jpg")));
+			
 			
 			images.add(ImageIO.read(Main.class.getResource("/images/boatgame/background.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/boatgame/trees.png")));
@@ -98,6 +98,10 @@ public class ImageHandler {
 			images.add(ImageIO.read(Main.class.getResource("/images/palace.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/upgrade.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/coin.png")));
+			
+			images.add(ImageIO.read(Main.class.getResource("/images/endChoiceImage.png")));
+			
+			
 			
 			
 		}catch(IOException e){
@@ -160,8 +164,7 @@ public class ImageHandler {
 		pr_cloud_right,
 		pr_poor,
 		pr_rich,
-		
-		treasure_room, 
+		 
 		grass, 
 		trees,
 		poorcity, 
@@ -184,7 +187,9 @@ public class ImageHandler {
 		box7, 
 		palace,
 		upgrade,
-		coin; 
+		coin, 
+		
+		endChoice;
 	}
 	
 	public static BufferedImage getImage(ImageType img){

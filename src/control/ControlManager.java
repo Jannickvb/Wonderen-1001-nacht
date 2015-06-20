@@ -10,6 +10,7 @@ import view.GameFrame;
 import control.MusicHandler.AudioType;
 
 public class ControlManager {
+	private ScoreHandler scoreHandler;
 	private GameStateManager gsm;
 	private GameFrame frame;
 	private InputHandler input;
@@ -22,7 +23,7 @@ public class ControlManager {
 		this.input = new InputHandler("COM7");
 		this.frame = frame;
 		this.gsm = new GameStateManager(this);
-		
+		scoreHandler = new ScoreHandler();
 		this.music = new MusicHandler();
 		this.voice = new MusicHandler();
 		this.video = new VideoHandler(this);
@@ -30,6 +31,10 @@ public class ControlManager {
 		music.playSound(AudioType.intro);
 	}
 	
+	public ScoreHandler getScoreHandler() {
+		return scoreHandler;
+	}
+
 	public void playMageTalk1() throws LineUnavailableException, IOException{
 		voice.playSound(AudioType.wizard1);
 	}

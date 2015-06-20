@@ -250,7 +250,7 @@ public class BossFightState extends GameState{
 		if(level < spells.size())
 		{
 			currentImage = spells.get(level);
-			totalScore += spellScore;
+			totalScore += spellScore * 0.75 * level;
 			System.out.println(totalScore);
 			spellScore = 0;
 			inCounter = 0;
@@ -282,6 +282,7 @@ public class BossFightState extends GameState{
 		}
 		else
 		{
+			cm.getScoreHandler().bossScore = (int) Math.round(totalScore);
 			cm.getGameStateManager().next();
 		}
 	}
@@ -367,11 +368,6 @@ public class BossFightState extends GameState{
 			e.printStackTrace();
 			return 0;
 		}		
-	}
-	
-	public double getTotalScore()
-	{
-		return totalScore;
 	}
 	
 	@Override
