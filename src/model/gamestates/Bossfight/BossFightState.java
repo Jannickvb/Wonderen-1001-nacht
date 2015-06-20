@@ -3,6 +3,7 @@ package model.gamestates.Bossfight;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
@@ -11,14 +12,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.DrawThread;
+import javax.sound.sampled.LineUnavailableException;
+
 import model.gamestates.GameState;
 import control.ControlManager;
 import control.ImageHandler;
 
 public class BossFightState extends GameState{
 
-	private Thread timer;
 	private BufferedImage currentImage;
 	private List<BufferedImage> spells, particles;
 	private AffineTransform tx;
@@ -56,24 +57,14 @@ public class BossFightState extends GameState{
 		particles.add(ImageHandler.getImage(ImageHandler.ImageType.spell5_particle2));
 		particles.add(ImageHandler.getImage(ImageHandler.ImageType.spell5_particle3));
 		currentImage = spells.get(level);
-		try {
-			outColor = currentImage.getRGB(0, 0);
-			inColor = Color.black.getRGB();
-			outCounter = 0;
-			inCounter = 0;
-			initScanBMPImage(currentImage);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 		position1 = new Point2D.Double(0,0);
 		position2 = new Point2D.Double(0,0);
 		positioni1 = new Point2D.Double(-100,-100);
 		positioni2 = new Point2D.Double(-100,-100);
-		this.timer = new Thread(new DrawThread(this));
 		
-		started = false;
 		drawing = true;
 		finished = false;
+		started = false;
 		time = 1800;
 	}
 	
@@ -123,6 +114,7 @@ public class BossFightState extends GameState{
 	@Override
 	public void draw(Graphics2D g2) 
 	{
+		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		AffineTransform oldAF = new AffineTransform();
 		oldAF.setTransform(g2.getTransform());
 		oldAF.scale(1.8,1.8);
@@ -134,7 +126,7 @@ public class BossFightState extends GameState{
 		{
 			g2.drawImage(currentImage,-currentImage.getWidth()/2, -currentImage.getHeight()/2, null);
 		}
-		else
+		else if(level < 5)
 		{
 			drawAttackAnimation(g2);
 		}
@@ -196,17 +188,6 @@ public class BossFightState extends GameState{
 			g2.drawImage(particles.get(level*3), tf1, null);
 			g2.drawImage(particles.get(level*3+1), tf2, null);
 		}
-		if(time > 100)
-		{
-			AffineTransform tf1 = new AffineTransform();
-			AffineTransform tf2 = new AffineTransform();
-			tf1.translate(0 - (int) (time*4), -400);
-			tf2.translate(-800 + (int) (time*4), -400);
-			tf1.rotate(Math.PI*(time*0.02), 400, 400);
-			tf2.rotate(-Math.PI*(time*0.02), 400, 400);
-			g2.drawImage(particles.get(level*3), tf1, null);
-			g2.drawImage(particles.get(level*3+1), tf2, null);
-		}
 		else if(time > 0)
 		{
 			if((time % 8 < 4 && level == 4) || level != 4)
@@ -218,7 +199,7 @@ public class BossFightState extends GameState{
 		else
 		{
 			g2.scale(-time*0.16, -time*0.16);
-			g2.drawImage(particles.get(level*3+2), -400, -400, null);
+			g2.drawImage(particles.get((level*3)+2), -400, -400, null);
 		}
 	}
 	
@@ -251,7 +232,6 @@ public class BossFightState extends GameState{
 		{
 			currentImage = spells.get(level);
 			totalScore += spellScore * 0.75 * level;
-			System.out.println(totalScore);
 			spellScore = 0;
 			inCounter = 0;
 			outCounter = 0;
@@ -261,7 +241,7 @@ public class BossFightState extends GameState{
 				e.printStackTrace();
 			}
 			drawing = true;
-			time = 300; //1800 - (300*level);
+			time = 1800 - (300*level);
 		}
 		else
 		{
@@ -282,7 +262,9 @@ public class BossFightState extends GameState{
 		}
 		else
 		{
+			
 			cm.getScoreHandler().bossScore = (int) Math.round(totalScore);
+			started = false;
 			cm.getGameStateManager().next();
 		}
 	}
@@ -302,17 +284,41 @@ public class BossFightState extends GameState{
 	@Override
 	public void update() 
 	{
-		if(!started)
-		{
-			timer.start();
-			started = true;
-		}
 		midX = ControlManager.screenWidth/2;
 		midY = ControlManager.screenHeight/2;
-	}
-	
-	public void refresh()
-	{
+		if(!started)
+		{
+			try {
+				cm.playMusic3();
+			} catch (LineUnavailableException | IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			spellScore = 0;	//resetting game
+			inCounter = 0;
+			outCounter = 0;
+			level = 0;
+			totalScore = 0;
+			wins = 0;
+			finished = false;
+			drawing = true;
+			currentImage = spells.get(level);
+			try {
+				outColor = currentImage.getRGB(0, 0);
+				inColor = Color.black.getRGB();
+				outCounter = 0;
+				inCounter = 0;
+				initScanBMPImage(currentImage);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			position1 = new Point2D.Double(0,0);
+			position2 = new Point2D.Double(0,0);
+			positioni1 = new Point2D.Double(-100,-100);
+			positioni2 = new Point2D.Double(-100,-100);
+			time = 1800;
+			started = true;
+		}
 		if(drawing)
 		{
 			if(cm.getInputHandler().getX1() < 500 && cm.getInputHandler().getX1() > 0)
