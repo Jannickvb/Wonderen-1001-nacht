@@ -47,7 +47,7 @@ public class Upgrade extends Entity {
 	@Override
 	public void update() {
 		if(move)
-			positionY += 6;
+			positionY += getSpeed();
 		animationCounter++;
 		if(positionY > ControlManager.screenHeight+50) 
 			setDead(true);

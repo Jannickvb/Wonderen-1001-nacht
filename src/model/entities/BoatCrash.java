@@ -68,7 +68,7 @@ public class BoatCrash extends Entity {
 			setDead(true);
 		if(move)
 			if(!isDead())
-				positionY += 6;
+				positionY += getSpeed();
 	}
 
 	/**

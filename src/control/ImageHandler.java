@@ -33,7 +33,7 @@ public class ImageHandler {
 			images.add(ImageIO.read(Main.class.getResource("/images/menu/menu_grad.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/menu/menu_instr.png")));		
 			
-			images.add(ImageIO.read(Main.class.getResource("/images/Tutorial.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/Tutorial.jpg ")));
 			images.add(ImageIO.read(Main.class.getResource("/images/spell_tutorial.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/boatgame/boat.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/RunningGuys.png")));
@@ -86,6 +86,7 @@ public class ImageHandler {
 			images.add(ImageIO.read(Main.class.getResource("/images/boatgame/rock4.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/heart.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/boatgame/pier.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/boatgame/freeze.png")));
 			
 			images.add(ImageIO.read(Main.class.getResource("/images/box1.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/box2.png")));
@@ -165,12 +166,15 @@ public class ImageHandler {
 		trees,
 		poorcity, 
 		richcity,
+		//Boat game: 
 		rock1, 
 		rock2, 
 		rock3, 
 		rock4, 
 		heart, 
 		pier, 
+		freeze,
+		
 		box1, 
 		box2, 
 		box3, 

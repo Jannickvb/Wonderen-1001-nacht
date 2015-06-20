@@ -1,5 +1,6 @@
 package model.gamestates.start;
 
+import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
@@ -22,6 +23,7 @@ import model.entities.Upgrade;
 import model.gamestates.GameState;
 import control.ControlManager;
 import control.ImageHandler;
+import control.ScoreHandler;
 
 /**
  * The boat game state.
@@ -42,6 +44,10 @@ public class BoatGameState extends GameState{
 	private int lives;
 	private int points;
 	private int pointCounter;
+	private int speed;
+	private boolean upgradeActive;
+	private int keyFrame;
+	private int animationKeyFrame;
 	private String endText;
 	private float alpha;
 	
@@ -54,8 +60,9 @@ public class BoatGameState extends GameState{
 		backgroundPositionY = 0;
 		counter = 0;
 		points = 0;
+		speed = 6;
 		lives = 3;
-		alpha = 1.0F;
+		alpha = 0f;
 		boat = new Boat(cm);
 		rocks = new ArrayList<>(100);
 		upgrades = new ArrayList<>(100);
@@ -126,6 +133,31 @@ public class BoatGameState extends GameState{
 		    //Drawing points: 
 			g2.drawString("Punten: " + points,50,170);
 	    }
+	    
+	    //Showing upgrade text;
+	    if(upgradeActive && animationKeyFrame <= 60) {
+	    	if(speed == 12) { 
+	    		if(animationKeyFrame%16 == 0) 
+	    			g2.setColor(Color.RED);
+	    		else if(animationKeyFrame%8 == 0) 
+	    			g2.setColor(Color.YELLOW);
+	    		else if(animationKeyFrame%4 == 0) 
+	    			g2.setColor(Color.GREEN);
+	    		else if(animationKeyFrame%2 == 0) 
+	    			g2.setColor(Color.BLUE);
+	    		g2.setFont(new Font("Verdana",Font.BOLD,80));
+	    		g2.drawString("SNELHEID!!!",(ControlManager.screenWidth-g2.getFontMetrics().stringWidth("SNELHEID!!!"))/2,100);
+	    	}
+	    	else if(speed == 2) {
+	    		g2.setComposite(AlphaComposite.SrcOver.derive(alpha));
+	    		BufferedImage freezeLogo = ImageHandler.getImage(ImageHandler.ImageType.freeze);
+	    		g2.drawImage(freezeLogo,ControlManager.screenWidth/2-freezeLogo.getWidth()/2,100,null);
+	    	}
+	    	else if(speed == 6) {
+	    		g2.setComposite(AlphaComposite.SrcOver.derive(alpha));
+	    		ImageHandler.drawCenteredText("Bonus punten!", g2, 100);
+	    	}
+	    }
 	    //Fade out effect:
 	    if(boat.reachedEnd()) {
 		    Shape rect = new Rectangle2D.Double(0,0,ControlManager.screenWidth,ControlManager.screenHeight);
@@ -145,7 +177,7 @@ public class BoatGameState extends GameState{
 		
 		//Updating background: 
 		if(!pier.isDead())
-			backgroundPositionY += 6;
+			backgroundPositionY += speed;
 		
 		//Updating the Pier:
 		pier.update();
@@ -202,10 +234,10 @@ public class BoatGameState extends GameState{
 		
 		//Randomly spawning upgrades: 
 		if(!pier.isDead()) {
-			if(Math.floor(Math.random()*95) == 3) {
+			if(Math.floor(Math.random()*175) == 3) {
 				Upgrade upgrade = new Upgrade(cm);
 				upgrade.init();
-				if(checkCollision(upgrade)) 
+				if(checkCollision(upgrade) || upgradeActive) 
 					upgrade.setDead(true);
 				upgrades.add(upgrade);
 					
@@ -263,7 +295,7 @@ public class BoatGameState extends GameState{
 				reset();
 		}
 		//Reaching the end of the game:
-		if(counter == 50) {
+		if(counter == 100) {
 			counter++;
 			pier.setDead(false);
 			pier.setPositionY(-178);
@@ -278,9 +310,12 @@ public class BoatGameState extends GameState{
 				boat.setCollisionPier(false);
 		}
 		
+		//Boat reached end showing score: 
 		if(boat.reachedEnd()) {
-			if(pointCounter == 0)
+			if(pointCounter == 0) {
 				endText = "Gefeliciteerd!";
+				ScoreHandler.setScore(ScoreHandler.getScore()+points);
+			}
 			if(pointCounter < points) {
 				if(alpha < 0.2)
 					alpha += 0.0033;
@@ -290,6 +325,77 @@ public class BoatGameState extends GameState{
 				pointCounter = points;
 			}
 		}
+		
+		//Upgrades:
+		if(upgradeActive) {
+			keyFrame++;
+			animationKeyFrame++;
+			if(speed == 12) { //Speed upgrade;
+				if(keyFrame >= 180) {
+					speed = 6;
+					if(boatCrash != null)
+						boatCrash.setSpeed(6);
+					for(Coin coin : coins)
+						coin.setSpeed(6);
+					for(Upgrade upgrade2 : upgrades)
+						upgrade2.setSpeed(6);
+					for(Rock rock : rocks)
+						rock.setSpeed(6);
+					upgradeActive = false;
+					alpha = 0;
+					keyFrame = 0;
+					animationKeyFrame = 0;
+				} 
+				else {
+					if(boatCrash != null)
+						boatCrash.setSpeed(12);
+					for(Coin coin : coins)
+						coin.setSpeed(12);
+					for(Upgrade upgrade2 : upgrades)
+						upgrade2.setSpeed(12);
+					for(Rock rock : rocks)
+						rock.setSpeed(12);
+				}
+			}
+			else if(speed == 2) {
+				if(keyFrame >= 280) {
+					speed = 6;
+					if(boatCrash != null)
+						boatCrash.setSpeed(6);
+					for(Coin coin : coins)
+						coin.setSpeed(6);
+					for(Upgrade upgrade2 : upgrades)
+						upgrade2.setSpeed(6);
+					for(Rock rock : rocks)
+						rock.setSpeed(6);
+					upgradeActive = false;
+					alpha = 0;
+					keyFrame = 0;
+					animationKeyFrame = 0;
+				} 
+				else {
+					if(boatCrash != null)
+						boatCrash.setSpeed(2);
+					for(Coin coin : coins)
+						coin.setSpeed(2);
+					for(Upgrade upgrade2 : upgrades)
+						upgrade2.setSpeed(2);
+					for(Rock rock : rocks)
+						rock.setSpeed(2);
+				}	
+			}
+			else if(speed == 6) { //Bonus points
+				if(keyFrame >= 65) {
+					alpha = 0;
+					upgradeActive = false;
+					keyFrame = 0;
+					animationKeyFrame = 0;
+				}
+			}
+			if(alpha > 0.1)
+				alpha -= 0.025;	
+		}
+		
 		//Boat reached top of the screen: <- when player presses A to continue;
 		if(boat.reachedEnd()) {
 			if(pointCounter == points)
@@ -310,7 +416,6 @@ public class BoatGameState extends GameState{
 	public void init() {
 		background = ImageHandler.getScaledImage(ImageHandler.getImage(ImageHandler.ImageType.grass));
 		trees = ImageHandler.getScaledImage(ImageHandler.getImage(ImageHandler.ImageType.trees));
-		
 		liveHeart = ImageHandler.getImage(ImageHandler.ImageType.heart);
 		pier = new Pier(cm,ControlManager.screenHeight);
 		boat.init();
@@ -344,7 +449,29 @@ public class BoatGameState extends GameState{
 	public void collisionUpgrade(Upgrade upgrade) {
 		upgrade.playSound();
 		upgrade.setDead(true);
-		points += 100;
+		//Determining what upgrade will be:
+		alpha = 1.0f;
+		if(!upgradeActive) {
+			if(!pier.isDead()) {
+				switch((int) Math.floor(Math.random()*3)) {
+					case 0: // Speed upgraded;
+						speed = 12;
+						upgradeActive = true;
+						break;
+					case 1: //Speed freezed
+						speed = 2;
+						upgradeActive = true;
+						break;
+					case 2: //Bonus points: 
+						points += 50 + (int) Math.floor(Math.random()*80);
+						upgradeActive = true;
+				}
+			}
+			else {
+				points += 100;
+				upgradeActive = true;
+			}
+		}
 	}
 	
 	

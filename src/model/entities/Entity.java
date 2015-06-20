@@ -19,6 +19,7 @@ public abstract class Entity {
 
 	protected int positionX, positionY;
 	private boolean isDead;
+	private int speed;
 	private ControlManager cm;
 	private BufferedImage sprite;
 	
@@ -30,6 +31,7 @@ public abstract class Entity {
 	public Entity(ControlManager cm, BufferedImage sprite) {
 		this.cm = cm;
 		this.sprite = sprite;
+		this.speed = 6;
 	}
 
 	/**
@@ -94,6 +96,22 @@ public abstract class Entity {
 	 */
 	public void setDead(boolean isDead) {
 		this.isDead = isDead;
+	}
+	
+	/**
+	 * The current scroll down speed.
+	 * @return - The speed.
+	 */
+	public int getSpeed() {
+		return speed;
+	}
+	
+	/**
+	 * Set the current scroll down speed.
+	 * @param speed - The new speed.
+	 */
+	public void setSpeed(int speed) {
+		this.speed = speed;
 	}
 	
 	/**

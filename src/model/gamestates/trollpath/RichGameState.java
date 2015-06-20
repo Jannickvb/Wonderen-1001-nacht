@@ -23,6 +23,7 @@ import model.entities.Upgrade;
 import model.gamestates.GameState;
 import control.ControlManager;
 import control.ImageHandler;
+import control.ScoreHandler;
 
 public class RichGameState extends GameState{
 
@@ -268,8 +269,10 @@ public class RichGameState extends GameState{
 			}
 			
 			if(guy.reachedEnd()) {
-				if(pointCounter == 0)
+				if(pointCounter == 0) {
+					ScoreHandler.setScore(ScoreHandler.getScore()+points);
 					endText = "Gefeliciteerd!";
+				}
 				if(pointCounter < points) {
 					if(alpha < 0.2)
 						alpha += 0.0033;
