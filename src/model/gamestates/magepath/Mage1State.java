@@ -82,7 +82,7 @@ public class Mage1State extends GameState{
 			                cm.getGameStateManager().next();
 			            }
 			        }, 
-			        17000 
+			        17000
 			);
 		} catch (LineUnavailableException | IOException e) {
 			e.printStackTrace();
