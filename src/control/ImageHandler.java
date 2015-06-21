@@ -75,6 +75,12 @@ public class ImageHandler {
 			images.add(ImageIO.read(Main.class.getResource("/images/magestate/magestate.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/magestate/mirror_bg.png")));
 			
+			//trollstate
+			images.add(ImageIO.read(Main.class.getResource("/images/trollstate/background.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/trollstate/darken.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/trollstate/foreground.png")));
+			
+			
 			//poor rich state
 			images.add(ImageIO.read(Main.class.getResource("/images/poorrich/pr_vignette.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/poorrich/pr_door.png")));
@@ -178,6 +184,11 @@ public class ImageHandler {
 		//magestate
 		magestate,
 		mirror_bg,
+		
+		//trollstate
+		troll_bg,
+		troll_darken,
+		troll_fg,
 		
 		//poorich
 		pr_vignette,
