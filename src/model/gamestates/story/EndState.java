@@ -79,10 +79,24 @@ public class EndState extends GameState {
 		}else if(choiceMade && opacity > 0.93f){
 			if(choicePoor){
 				//input audio
+				
+				try {
+			            		cm.playOhNee();
+							} catch (LineUnavailableException | IOException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
 				cm.getScoreHandler().bossScore += 2500;
 				cm.getGameStateManager().next();
 			}else{
 				//input audio
+				
+				try {
+			            		cm.playEvilLaugh();
+							} catch (LineUnavailableException | IOException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
 				cm.getGameStateManager().next();
 			}
 		}
