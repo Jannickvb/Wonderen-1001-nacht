@@ -2,6 +2,7 @@ package model.gamestates.Bossfight;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.TexturePaint;
@@ -37,7 +38,7 @@ public class BossFightState extends GameState{
 	private int outColor,inColor;
 	private int wins, level = 0;
 	private double spellScore, totalScore = 0;
-	private boolean drawing, started, finished;
+	private boolean drawing, started, finished, win;
 	
 	public BossFightState(ControlManager cm) {
 		super(cm);
@@ -81,6 +82,7 @@ public class BossFightState extends GameState{
 		drawing = true;
 		finished = false;
 		started = false;
+		win = false;
 		time = 1800;
 	}
 	
@@ -138,9 +140,14 @@ public class BossFightState extends GameState{
 	    TexturePaint tp = new TexturePaint(background,new Rectangle2D.Double(0,-bgPosY,ControlManager.screenWidth,ControlManager.screenHeight));
 	    g2.setPaint(tp);
 	    g2.fill(tpRect);
-	    
-	    g2.drawImage(trollState,0,0,null);
-	    
+	    if(win && time < 0)
+	    {
+	    	g2.drawImage(trollHit, 0, 0, null);
+	    }
+	    else
+	    {
+	    	g2.drawImage(trollState,0,0,null);
+	    }
 	    g2.drawImage(vignette,0,0,null);
 		
 		/////////////////////////
@@ -169,13 +176,18 @@ public class BossFightState extends GameState{
 			g2.drawRect((int)position1.getX(),(int)position1.getY(), 1, 1);
 			g2.setColor(Color.RED);
 			g2.drawRect((int)position2.getX(),(int)position2.getY(), 1, 1);
+			if(time > 25*60 && level == 0)
+			{
+				g2.setFont(new Font("Verdana", Font.BOLD, 40));
+				g2.setColor(Color.BLUE);
+				g2.drawString("Speler 1", 190, 320);
+				g2.setColor(Color.RED);
+				g2.drawString("Speler 2", 690, 320);
+			}
 			g2.setColor(new Color(0,0,255,122)); // blue
 			g2.drawRect((int)positioni1.getX(),(int)positioni1.getY(), 1, 1);
 			g2.setColor(new Color(255,0,0,122)); // red
 			g2.drawRect((int)positioni2.getX(),(int)positioni2.getY(), 1, 1);
-			g2.setColor(Color.GRAY);
-			g2.setStroke(new BasicStroke(10f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
-			g2.drawLine((int)(midX/1.8), 0, (int)(midX/1.8), midY*2);
 			if(cm.getInputHandler().isA1Pressed())
 			{
 				drawPointsLeft(cm.getInputHandler().getX1(),cm.getInputHandler().getY1());
@@ -186,50 +198,69 @@ public class BossFightState extends GameState{
 				drawPointsRight(cm.getInputHandler().getX2(),cm.getInputHandler().getY2());
 			}
 		}
-		g2.setColor(Color.black);
+		g2.setColor(Color.white);
+		g2.setFont(new Font("Verdana", Font.BOLD, 20));
+		g2.drawString("Aantal punten: " + (int) totalScore, 0, 40);
 		if(drawing)
 		{
-			g2.drawString(time/60 + "", 0, 10);
+			g2.drawString(time/60 + "", 0, 20);
+			g2.drawString("Minimaal percentage: " + (60 + (level*5)) + "%", 0, 60);
 		}
 		else
 		{
-			g2.drawString(spellScore + "%" , 20, 20);
-			g2.drawString("Wins: " + wins, 30, 10);
+			g2.drawString(spellScore + "%" , 0, 60);
+			g2.drawString("Wins: " + wins, 0, 20);
 		}
 		if(finished)
 		{
 			if(wins > 3)
 			{
-				g2.drawString("You Win!", (int) (midX/1.8), 20);
+				g2.drawString("Jullie hebben gewonnen!", (int) (midX/1.8), 20);
 			}
 		}
 	}
 	
 	private void drawAttackAnimation(Graphics2D g2)
 	{
-		if(time > 100)
+		if(win)
 		{
-			AffineTransform tf1 = new AffineTransform();
-			AffineTransform tf2 = new AffineTransform();
-			tf1.translate(0 - (int) (time*4), -400);
-			tf2.translate(-800 + (int) (time*4), -400);
-			tf1.rotate(Math.PI*(time*0.02), 400, 400);
-			tf2.rotate(-Math.PI*(time*0.02), 400, 400);
-			g2.drawImage(particles.get(level*3), tf1, null);
-			g2.drawImage(particles.get(level*3+1), tf2, null);
-		}
-		else if(time > 0)
-		{
-			if((time % 8 < 4 && level == 4) || level != 4)
+			if(time > 100)
 			{
-				g2.scale(0.01*time, 0.01*time);
-				g2.drawImage(particles.get(level*3+2), -400, -400, null);
+				AffineTransform tf1 = new AffineTransform();
+				AffineTransform tf2 = new AffineTransform();
+				tf1.translate(0 - (int) (time*4), -400);
+				tf2.translate(-800 + (int) (time*4), -400);
+				tf1.rotate(Math.PI*(time*0.02), 400, 400);
+				tf2.rotate(-Math.PI*(time*0.02), 400, 400);
+				g2.drawImage(particles.get(level*3), tf1, null);
+				g2.drawImage(particles.get(level*3+1), tf2, null);
+			}
+			else if(time > 0)
+			{
+				if((time % 8 < 4 && level == 4) || level != 4)
+				{
+					g2.scale(0.01*time, 0.01*time);
+					g2.drawImage(particles.get(level*3+2), -400, -400, null);
+				}
+			}
+			else
+			{
+				g2.scale(-time*0.16, -time*0.16);
+				g2.drawImage(particles.get((level*3)+2), -400, -400, null);
 			}
 		}
 		else
 		{
-			g2.scale(-time*0.16, -time*0.16);
-			g2.drawImage(particles.get((level*3)+2), -400, -400, null);
+			if(time > 0 && time % 20 > 10)
+			{
+				g2.drawImage(particles.get(level*3), 0, -400, null);
+				g2.drawImage(particles.get(level*3+1), -800, -400, null);
+			}
+			else if(time <= 0)
+			{
+				g2.drawImage(particles.get(level*3), 0, (int) (-400 + (time*0.2*time)), null);
+				g2.drawImage(particles.get(level*3+1), -800, (int) (-400 + (time*0.2*time)), null);
+			}
 		}
 	}
 	
@@ -292,7 +323,9 @@ public class BossFightState extends GameState{
 		}
 		else
 		{
-			
+			time = 0;
+			level = 0;
+			wins = 0;
 			cm.getScoreHandler().bossScore = (int) Math.round(totalScore);
 			started = false;
 			cm.getGameStateManager().next();
@@ -338,7 +371,7 @@ public class BossFightState extends GameState{
 			currentImage = spells.get(level);
 			try {
 				outColor = currentImage.getRGB(0, 0);
-				inColor = Color.black.getRGB();
+				inColor = Color.white.getRGB();
 				outCounter = 0;
 				inCounter = 0;
 				initScanBMPImage(currentImage);
@@ -388,6 +421,7 @@ public class BossFightState extends GameState{
 				spellScore = calculateSpellScore();
 				if(spellScore > 60 + (level*5))
 				{
+					win = true;
 					wins++;
 				}
 				time = 200;
