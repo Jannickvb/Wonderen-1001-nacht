@@ -20,7 +20,7 @@ public class Cloud extends Entity {
 
 	@Override
 	public void update() {
-		positionY += 3;
+		positionY += getSpeed()/2;
 	}
 
 	@Override
@@ -28,14 +28,14 @@ public class Cloud extends Entity {
 		//Setting x-position:
 		switch((int)Math.floor(Math.random()*2)) {
 			case 0: 
-				positionX = (int) Math.floor(Math.random()*ControlManager.screenWidth/4);
+				positionX = (int) (Math.floor(Math.random()*ControlManager.screenWidth/4))-100;
 				break;
 			case 1: 
-				positionX = (((ControlManager.screenWidth/4)*3)+100) + (int) Math.floor(Math.random()*ControlManager.screenWidth/4);
+				positionX = ((((ControlManager.screenWidth/4)*3)+100) + (int) Math.floor(Math.random()*ControlManager.screenWidth/4))-200;
 				goRight = false;
 				break;
 		}
 		//Setting the y-position: 
-		positionY = -100;
+		positionY = -200;
 	}
 }

@@ -2,12 +2,12 @@ package model.gamestates.magepath;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.TexturePaint;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -37,7 +37,9 @@ public class Mage2State extends GameState implements ActionListener{
 	private int a1,b1;
 	private double counter;
 	private double reversecounter;
+	private Ellipse2D ellipse;
 	private Timer timer;
+	private double ellipseWidth,ellipseHeight,ellipseX,ellipseY;
 	
 	public Mage2State(ControlManager cm)
 	{
@@ -54,6 +56,11 @@ public class Mage2State extends GameState implements ActionListener{
 		this.b1 = this.midY;
 		this.counter = 0;
 		this.reversecounter = 20;
+		this.ellipseWidth = 0;
+		this.ellipseHeight =0;
+		this.ellipseX = 0;
+		this.ellipseY = 0;
+		this.ellipse = new Ellipse2D.Double(ellipseWidth, ellipseHeight, ellipseX, ellipseY);
 		rand = new Random();
 		timer = new Timer(1000/60,this);
 		timer.start();
@@ -81,6 +88,10 @@ public class Mage2State extends GameState implements ActionListener{
 		AffineTransform tx = new AffineTransform();
 		tx.translate(midX, midY);
 		g2.setTransform(tx);
+		this.ellipse = new Ellipse2D.Double(ellipseX, ellipseY, ellipseWidth, ellipseHeight);
+		g2.setColor(Color.BLUE);
+		g2.fill(ellipse);
+		g2.draw(ellipse);
 		for(Particle particle: particles){
 	        particle.paintComponent(g2);
 		}
@@ -97,13 +108,13 @@ public class Mage2State extends GameState implements ActionListener{
 			fadeIn = false;
 			opacity = 0;
 		}
-		if(frame > 1120 && opacity < 0.95f){
+		if(frame > 1220 && opacity < 0.95f){
 			opacity += (0.1/4);
 			fadeOut = true;
 		}
 		
 		if(anim){
-//		if(counter < 20){
+
 		addParticle(x1,y1,0);addParticle(x1,y1,0);
 		addParticle(x1,y1,0);addParticle(x1,y1,0);
 		addParticle(x1,y1,0);addParticle(x1,y1,0);
@@ -138,6 +149,12 @@ public class Mage2State extends GameState implements ActionListener{
 				   }
 			}
 				
+			if(reversecounter < 10){
+			this.ellipseWidth = ellipseWidth + 1.0 * 4;
+			this.ellipseHeight = ellipseHeight + 1.0 * 4;
+			this.ellipseX = 0-this.ellipseWidth/2;
+			this.ellipseY = 0-this.ellipseHeight/2;
+			}
 		}
 		
 	}
@@ -176,7 +193,7 @@ public class Mage2State extends GameState implements ActionListener{
 			    			                cm.getGameStateManager().next();
 			    			            }
 			    			        }, 
-			    			        9500
+			    			        11000
 			    			);
 			            }
 			        }, 

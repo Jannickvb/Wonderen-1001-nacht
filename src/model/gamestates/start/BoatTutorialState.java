@@ -73,17 +73,17 @@ public class BoatTutorialState extends GameState{
 		}else{
 			screenY = 0;
 		}
-		if(frame == 600)
+		if(frame == 500)
 		{
 			isPPLeft = true;
 			isPPRight = false;
 		}
-		if(frame == 900)
+		if(frame == 780)
 		{
 			isPPLeft = false;
 			isPPRight = true;
 		}
-		if(frame == 1200){
+		if(frame == 1000){
 			isPPRight = false;
 			isPPLeft = false;
 		}

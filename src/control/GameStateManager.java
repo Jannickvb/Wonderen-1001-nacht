@@ -35,6 +35,14 @@ public class GameStateManager {
 		initializeSequence();
 	}
 	
+	public void reset()
+	{
+		index = 0;
+		//reloadGameStates();
+		currentstate = gameStates.get(0);
+		initializeSequence();
+	}
+	
 	public void reloadGameStates() { 
 		gameStates.clear();
 		
@@ -89,18 +97,19 @@ public class GameStateManager {
 	 */
 	
 	public void initializeSequence(){
+		gameSequence.clear();
 		gameSequence.add(gameStates.get(0));
 		gameSequence.add(gameStates.get(1));
-//		gameSequence.add(gameStates.get(2));
-//		gameSequence.add(gameStates.get(3));
-//		gameSequence.add(gameStates.get(4));
-//		gameSequence.add(gameStates.get(5));
-//		gameSequence.add(gameStates.get(6));
-//		gameSequence.add(gameStates.get(7));
-//		gameSequence.add(gameStates.get(8));
-//		gameSequence.add(gameStates.get(9));
-//		gameSequence.add(gameStates.get(10));
-//		gameSequence.add(gameStates.get(11));
+		gameSequence.add(gameStates.get(2));
+		gameSequence.add(gameStates.get(3));
+		gameSequence.add(gameStates.get(4));
+		gameSequence.add(gameStates.get(5));
+		gameSequence.add(gameStates.get(6));
+		gameSequence.add(gameStates.get(7));
+		gameSequence.add(gameStates.get(8));
+		gameSequence.add(gameStates.get(9));
+		gameSequence.add(gameStates.get(10));
+		gameSequence.add(gameStates.get(11));
 //		gameSequence.add(gameStates.get(12));
 //		gameSequence.add(gameStates.get(13));
 	}
