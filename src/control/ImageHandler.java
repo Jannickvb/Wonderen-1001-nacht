@@ -62,6 +62,11 @@ public class ImageHandler {
 			images.add(ImageIO.read(Main.class.getResource("/images/Tovenaar2.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/Trol.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/PalaceOutside.png")));
+			
+			//magestate
+			images.add(ImageIO.read(Main.class.getResource("/images/magestate/magestate.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/magestate/mirror_bg.png")));
+			
 			//poor rich state
 			images.add(ImageIO.read(Main.class.getResource("/images/poorrich/pr_vignette.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/poorrich/pr_door.png")));
@@ -153,6 +158,10 @@ public class ImageHandler {
 		mage2, 
 		troll, 
 		arrival, 
+		
+		//magestate
+		magestate,
+		mirror_bg,
 		
 		//poorich
 		pr_vignette,

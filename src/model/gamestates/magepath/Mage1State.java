@@ -1,9 +1,12 @@
 package model.gamestates.magepath;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Image;
+import java.awt.TexturePaint;
 import java.awt.event.KeyEvent;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.sound.sampled.LineUnavailableException;
@@ -14,37 +17,61 @@ import control.ImageHandler;
 
 public class Mage1State extends GameState{
 	
-	private Image image;
-	private int width,height,midX,midY,bgWidth,bgHeight,counter;
-	
+	private BufferedImage foreground,background;
+	private boolean fadeIn= true,fadeOut = false;
+	private int bgPosY,frame = 0;
+	private float opacity = 1f;
+	private Rectangle2D tpRect,fade;
 	public Mage1State(ControlManager cm)
 	{
 		super(cm);
-		this.counter = 0;
-		image = ImageHandler.getImage(ImageHandler.ImageType.mage2);
-		midX = cm.screenWidth/2;
-		midY = cm.screenHeight/2;
-		bgWidth = image.getWidth(null);
-		bgHeight = image.getHeight(null);
+		foreground = ImageHandler.getImage(ImageHandler.ImageType.magestate);
+		background = ImageHandler.getImage(ImageHandler.ImageType.mirror_bg);
+		tpRect = new Rectangle2D.Double(0,0,ControlManager.screenWidth,ControlManager.screenHeight);
+		fade = new Rectangle2D.Double(0,0,ControlManager.screenWidth,ControlManager.screenHeight);
 	}
 
 	@Override
 	public void draw(Graphics2D g2) {
 		AffineTransform tx = new AffineTransform();
-		tx.translate(midX, midY);
+		tx.translate(0, 0);
 		g2.setTransform(tx);
-		g2.drawImage(image, -bgWidth/2,-bgHeight/2,null);
+		 //Drawing background: 
+	    TexturePaint tp = new TexturePaint(background,new Rectangle2D.Double(0,-bgPosY,ControlManager.screenWidth,ControlManager.screenHeight));
+	    g2.setPaint(tp);
+	    g2.fill(tpRect);
+	    
+	    g2.drawImage(foreground,0,0,null);
+	    
+	    if(fadeIn || fadeOut)
+	    {
+	    	g2.setColor(new Color(0,0,0,opacity));
+	    	g2.fill(fade);
+	    	g2.draw(fade);
+	    }
+	    	
 	}
 
 	@Override
 	public void update() {
-		
+		frame++;
+		bgPosY += 2;
+		if(frame<120 && opacity>0.05f){
+			opacity-=(0.1/4);
+		}else if(!fadeOut){
+			fadeIn = false;
+			opacity = 0;
+		}
+		if(frame > 1020 && opacity < 0.95f){
+			opacity += (0.1/4);
+			fadeOut = true;
+		}
 	}
 
 	@Override
 	public void init() {
 		// TODO Auto-generated method stub
-		if(image.equals(ImageHandler.getImage(ImageHandler.ImageType.mage2))){
+		if(foreground.equals(ImageHandler.getImage(ImageHandler.ImageType.magestate))){
 		try {
 			cm.playMusic2();
 			cm.playMageTalk1();
