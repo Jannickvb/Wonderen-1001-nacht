@@ -8,6 +8,7 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 
 import control.ControlManager;
+import control.ImageHandler;
 import model.gamestates.GameState;
 
 public class ScoreState extends GameState{
@@ -22,22 +23,24 @@ public class ScoreState extends GameState{
 		super(cm);
 		midX = ControlManager.screenWidth/2;
 		midY = ControlManager.screenHeight/2;
+		this.background = ImageHandler.getScaledImage(ImageHandler.getImage(ImageHandler.ImageType.menubg));
 	}
 
 	@Override
 	public void draw(Graphics2D g2) {
 		g2.setColor(Color.YELLOW);
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		g2.drawImage(background, 0,0,null);
 		g2.setFont(new Font("Verdana", Font.BOLD, 80));
-		g2.drawString("Jouw score: " + scoreDisplay, midX-400, midY-80);
+		g2.drawString("Jouw score: " + scoreDisplay, midX-350, midY-80);
 		if(time > 20)
 		{
-			g2.drawString("Je bent een: " + tier, midX-500, midY);
+			g2.drawString("Je bent een: " + tier, midX-400 - (10*tier.length()), midY);
 		}
 		if(time > 40)
 		{
 			g2.setFont(new Font("Verdana", Font.BOLD, 40));
-			g2.drawString("Hoogste score van vandaag: " + highScore, midX-400, midY+50);
+			g2.drawString("Hoogste score van vandaag: " + highScore, midX-350, midY+50);
 		} 
 		if(time > 80)
 		{
@@ -122,7 +125,6 @@ public class ScoreState extends GameState{
 		if(e.getKeyCode() == KeyEvent.VK_UP){
 			cm.getGameStateManager().reset();
 		}
-		
 	}
 
 	@Override

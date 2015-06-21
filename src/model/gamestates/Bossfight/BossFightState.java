@@ -13,10 +13,12 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.sound.sampled.LineUnavailableException;
 
+import model.entities.Particle;
 import model.gamestates.GameState;
 import control.ControlManager;
 import control.ImageHandler;
@@ -25,9 +27,9 @@ public class BossFightState extends GameState{
 
 	private BufferedImage currentImage,troll,trollHit,background,vignette,trollState;
 	private int bgPosY,frame = 0;
-	private float opacity = 1f;
+	private float opacity = 1f; //kunnen deze weg?
 	private Rectangle2D tpRect;
-	
+	private ArrayList<Particle> confusion = new ArrayList<>(5000);
 	
 	private List<BufferedImage> spells, particles;
 	private AffineTransform tx;
@@ -149,7 +151,9 @@ public class BossFightState extends GameState{
 	    	g2.drawImage(trollState,0,0,null);
 	    }
 	    g2.drawImage(vignette,0,0,null);
-		
+	    for(Particle particle: confusion){
+	        particle.paintComponent(g2);
+		}
 		/////////////////////////
 		
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -209,7 +213,7 @@ public class BossFightState extends GameState{
 		else
 		{
 			g2.drawString(spellScore + "%" , 0, 60);
-			g2.drawString("Wins: " + wins, 0, 20);
+			g2.drawString("Succesvolle spreuken: " + wins, 0, 20);
 		}
 		if(finished)
 		{
@@ -239,14 +243,26 @@ public class BossFightState extends GameState{
 			{
 				if((time % 8 < 4 && level == 4) || level != 4)
 				{
+					
 					g2.scale(0.01*time, 0.01*time);
 					g2.drawImage(particles.get(level*3+2), -400, -400, null);
 				}
 			}
 			else
 			{
+				if(time % 10 == 0)
+		 	    {
+		 	    	confusion.add(new Particle(midX-100,250,10,0));
+		 	    }
 				g2.scale(-time*0.16, -time*0.16);
 				g2.drawImage(particles.get((level*3)+2), -400, -400, null);
+			}
+			if(time < 0 && time > -10)
+			{
+				for(int i = 0; i < 5; i++)
+				{
+					confusion.add(new Particle(midX,midY,20,0));
+				}
 			}
 		}
 		else
@@ -347,6 +363,17 @@ public class BossFightState extends GameState{
 	@Override
 	public void update() 
 	{
+		for(Particle particle: confusion){
+			particle.update(true);
+			particle.update(true);
+		}
+		Iterator<Particle> i = confusion.iterator();
+		while (i.hasNext()) {
+			Particle p = i.next(); 
+			if(p.getLife() == 200){
+				i.remove();
+			}
+		}
 		frame++;
 		bgPosY += 2;
 		
@@ -357,7 +384,6 @@ public class BossFightState extends GameState{
 			try {
 				cm.playMusic3();
 			} catch (LineUnavailableException | IOException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			spellScore = 0;	//resetting game
