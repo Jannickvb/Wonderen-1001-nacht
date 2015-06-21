@@ -87,6 +87,7 @@ public class ImageHandler {
 			images.add(ImageIO.read(Main.class.getResource("/images/heart.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/boatgame/pier.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/boatgame/freeze.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/boatgame/cloud.png")));
 			
 			images.add(ImageIO.read(Main.class.getResource("/images/box1.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/box2.png")));
@@ -177,6 +178,7 @@ public class ImageHandler {
 		heart, 
 		pier, 
 		freeze,
+		cloud,
 		
 		box1, 
 		box2, 
