@@ -34,6 +34,8 @@ public static ArrayList<AudioInputStream> audio = new ArrayList<AudioInputStream
 			audio.add(AudioSystem.getAudioInputStream(Main.class.getResource("/audio/TrolTalk1.aiff")));
 			audio.add(AudioSystem.getAudioInputStream(Main.class.getResource("/audio/TrolTalk2.aiff")));
 			audio.add(AudioSystem.getAudioInputStream(Main.class.getResource("/audio/GetMagic.aiff")));
+			audio.add(AudioSystem.getAudioInputStream(Main.class.getResource("/audio/EvilLaugh.aiff")));
+			audio.add(AudioSystem.getAudioInputStream(Main.class.getResource("/audio/OhNee.aiff")));
 		} catch(Exception ex) {
 	        System.out.println("Error with playing sound.");
 	        ex.printStackTrace();
@@ -78,7 +80,8 @@ public static ArrayList<AudioInputStream> audio = new ArrayList<AudioInputStream
 	}
 	
 	public enum AudioType{
-		intro, poor, rich, end, introvoice, boattutorial, arrival1, arrival2, introwizard, choicepoor, choicerich, wizard1, wizard2, troll1, troll2, getmagic
+		intro, poor, rich, end, introvoice, boattutorial, arrival1, arrival2, introwizard, choicepoor, 
+		choicerich, wizard1, wizard2, troll1, troll2, getmagic, evillaugh, ohnee
 	}
 	
 }

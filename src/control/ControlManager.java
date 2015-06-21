@@ -43,6 +43,14 @@ public class ControlManager {
 		voice.playSound(AudioType.getmagic);
 	}
 	
+	public void playEvilLaugh() throws LineUnavailableException, IOException{
+		voice.playSound(AudioType.evillaugh);
+	}
+	
+	public void playOhNee() throws LineUnavailableException, IOException{
+		voice.playSound(AudioType.ohnee);
+	}
+	
 	public void playMageTalk2() throws LineUnavailableException, IOException{
 		voice.playSound(AudioType.wizard2);
 	}
