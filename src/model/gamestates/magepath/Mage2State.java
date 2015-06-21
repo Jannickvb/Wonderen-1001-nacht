@@ -2,12 +2,12 @@ package model.gamestates.magepath;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.TexturePaint;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -108,7 +108,7 @@ public class Mage2State extends GameState implements ActionListener{
 			fadeIn = false;
 			opacity = 0;
 		}
-		if(frame > 1320 && opacity < 0.95f){
+		if(frame > 1220 && opacity < 0.95f){
 			opacity += (0.1/4);
 			fadeOut = true;
 		}
