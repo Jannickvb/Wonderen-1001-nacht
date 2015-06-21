@@ -4,9 +4,11 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.TexturePaint;
 import java.awt.event.KeyEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,7 +22,12 @@ import control.ImageHandler;
 
 public class BossFightState extends GameState{
 
-	private BufferedImage currentImage, background;
+	private BufferedImage currentImage,troll,trollHit,background,vignette,trollState;
+	private int bgPosY,frame = 0;
+	private float opacity = 1f;
+	private Rectangle2D tpRect;
+	
+	
 	private List<BufferedImage> spells, particles;
 	private AffineTransform tx;
 	private int midX,midY, time;
@@ -33,7 +40,16 @@ public class BossFightState extends GameState{
 	private boolean drawing, started, finished;
 	
 	public BossFightState(ControlManager cm) {
-		super(cm);				
+		super(cm);
+
+		//images
+		background = ImageHandler.getImage(ImageHandler.ImageType.troll_bg);
+		vignette = ImageHandler.getImage(ImageHandler.ImageType.troll_darken);
+		troll = ImageHandler.getImage(ImageHandler.ImageType.bf_troll_normal);
+		trollHit = ImageHandler.getImage(ImageHandler.ImageType.bf_troll_hit);
+		tpRect = new Rectangle2D.Double(0,0,ControlManager.screenWidth,ControlManager.screenHeight);
+		trollState = troll;
+		//spells		
 		spells = new ArrayList<BufferedImage>();
 		spells.add(ImageHandler.getImage(ImageHandler.ImageType.spell1));
 		spells.add(ImageHandler.getImage(ImageHandler.ImageType.spell2));
@@ -57,7 +73,6 @@ public class BossFightState extends GameState{
 		particles.add(ImageHandler.getImage(ImageHandler.ImageType.spell5_particle2));
 		particles.add(ImageHandler.getImage(ImageHandler.ImageType.spell5_particle3));
 		currentImage = spells.get(level);
-		background = ImageHandler.getImage(ImageHandler.ImageType.menubg);
 		position1 = new Point2D.Double(0,0);
 		position2 = new Point2D.Double(0,0);
 		positioni1 = new Point2D.Double(-100,-100);
@@ -115,13 +130,27 @@ public class BossFightState extends GameState{
 	@Override
 	public void draw(Graphics2D g2) 
 	{
+		AffineTransform tx = new AffineTransform();
+		tx.translate(0, 0);
+		g2.setTransform(tx);
+		
+		 //Drawing background: 
+	    TexturePaint tp = new TexturePaint(background,new Rectangle2D.Double(0,-bgPosY,ControlManager.screenWidth,ControlManager.screenHeight));
+	    g2.setPaint(tp);
+	    g2.fill(tpRect);
+	    
+	    g2.drawImage(trollState,0,0,null);
+	    
+	    g2.drawImage(vignette,0,0,null);
+		
+		/////////////////////////
+		
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		AffineTransform oldAF = new AffineTransform();
 		oldAF.setTransform(g2.getTransform());
 		oldAF.scale(1.8,1.8);
 		this.tx = new AffineTransform();
 		tx.translate(midX, midY);
-		g2.drawImage(background, 0, 0, null);
 		g2.setTransform(tx);
 		if(drawing)
 		{
@@ -285,6 +314,9 @@ public class BossFightState extends GameState{
 	@Override
 	public void update() 
 	{
+		frame++;
+		bgPosY += 2;
+		
 		midX = ControlManager.screenWidth/2;
 		midY = ControlManager.screenHeight/2;
 		if(!started)

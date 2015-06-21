@@ -80,6 +80,9 @@ public class ImageHandler {
 			images.add(ImageIO.read(Main.class.getResource("/images/trollstate/darken.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/trollstate/foreground.png")));
 			
+			//bossfightstate bg
+			images.add(ImageIO.read(Main.class.getResource("/images/trollstate/bossfight.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/trollstate/bossfight_hit.png")));
 			
 			//poor rich state
 			images.add(ImageIO.read(Main.class.getResource("/images/poorrich/pr_vignette.png")));
@@ -189,6 +192,10 @@ public class ImageHandler {
 		troll_bg,
 		troll_darken,
 		troll_fg,
+		
+		//bossfight
+		bf_troll_normal,
+		bf_troll_hit,
 		
 		//poorich
 		pr_vignette,
