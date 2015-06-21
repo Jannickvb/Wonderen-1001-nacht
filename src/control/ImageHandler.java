@@ -89,18 +89,19 @@ public class ImageHandler {
 			images.add(ImageIO.read(Main.class.getResource("/images/trollstate/bossfight_hit.png")));
 			
 			//poor rich state
-			images.add(ImageIO.read(Main.class.getResource("/images/poorrich/pr_vignette.png")));
-			images.add(ImageIO.read(Main.class.getResource("/images/poorrich/pr_door.png")));
-			images.add(ImageIO.read(Main.class.getResource("/images/poorrich/pr_door_left.png")));
-			images.add(ImageIO.read(Main.class.getResource("/images/poorrich/pr_door_right.png")));
-			images.add(ImageIO.read(Main.class.getResource("/images/poorrich/pr_wizard.png")));
-			images.add(ImageIO.read(Main.class.getResource("/images/poorrich/pr_djinn.png")));
+
+			images.add(ImageIO.read(Main.class.getResource("/images/poorrich/pr_bg.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/poorrich/pr_cloud_left.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/poorrich/pr_cloud_right.png")));
-			images.add(ImageIO.read(Main.class.getResource("/images/poorrich/pr_poor.png")));
-			images.add(ImageIO.read(Main.class.getResource("/images/poorrich/pr_rich.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/poorrich/pr_cloud_troll.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/poorrich/pr_cloud_wiz.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/poorrich/pr_wiz_troll.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/poorrich/overlay.png")));
 			
-			
+			//endstate
+			images.add(ImageIO.read(Main.class.getResource("/images/endstate/bg.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/endstate/sign.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/endstate/armen.png")));
 			
 			images.add(ImageIO.read(Main.class.getResource("/images/boatgame/background.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/boatgame/trees.png")));
@@ -206,17 +207,19 @@ public class ImageHandler {
 		bf_troll_hit,
 		
 		//poorich
-		pr_vignette,
-		pr_door,
-		pr_door_left,
-		pr_door_right,
-		pr_wizard,
-		pr_djinn,
+		pr_bg,
 		pr_cloud_left,
 		pr_cloud_right,
-		pr_poor,
-		pr_rich,
+		pr_cloud_troll,
+		pr_cloud_wiz,
+		pr_wiz_troll,
+		pr_overlay,
 		 
+		//endstate
+		end_bg,
+		end_sign,
+		end_poor,
+		
 		grass, 
 		trees,
 		poorcity, 

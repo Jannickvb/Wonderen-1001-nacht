@@ -3,22 +3,8 @@ package control;
 import java.util.ArrayList;
 
 import model.gamestates.GameState;
-import model.gamestates.Bossfight.BossFightState;
-import model.gamestates.Bossfight.MageTalkState2;
-import model.gamestates.magepath.Mage1State;
-import model.gamestates.magepath.Mage2State;
-import model.gamestates.magepath.PoorGameState;
-import model.gamestates.start.BoatGameState;
-import model.gamestates.start.IntroMovState;
 import model.gamestates.start.MenuState;
-import model.gamestates.start.BoatTutorialState;
-import model.gamestates.story.ArrivalState;
-import model.gamestates.story.DoorChoiceState;
-import model.gamestates.story.MageTalkState;
-import model.gamestates.story.ScoreState;
-import model.gamestates.trollpath.RichGameState;
-import model.gamestates.trollpath.Troll1State;
-import model.gamestates.trollpath.Troll2State;
+import model.gamestates.story.EndState;
 
 public class GameStateManager {
 	private ArrayList<GameState> gameStates = new ArrayList<GameState>();
@@ -26,7 +12,6 @@ public class GameStateManager {
 	private GameState currentstate;
 	private int index = 0;
 	private ControlManager cm;
-	
 	
 	public GameStateManager(ControlManager cm){
 		this.cm = cm;
@@ -38,7 +23,7 @@ public class GameStateManager {
 	public void reset()
 	{
 		index = 0;
-		//reloadGameStates();
+		reloadGameStates();
 		currentstate = gameStates.get(0);
 		initializeSequence();
 	}
@@ -48,27 +33,26 @@ public class GameStateManager {
 		
 		//Intro
 		gameStates.add(new MenuState(cm));
-		gameStates.add(new IntroMovState(cm));//Done
-		gameStates.add(new BoatTutorialState(cm));//Done
-		gameStates.add(new BoatGameState(cm));
+//		gameStates.add(new IntroMovState(cm));//Done
+//		gameStates.add(new BoatTutorialState(cm));//Done
+//		gameStates.add(new BoatGameState(cm));
 		
 		//Story
-		gameStates.add(new MageTalkState(cm));//nieuwe muziek
-		gameStates.add(new ArrivalState(cm));
-		gameStates.add(new DoorChoiceState(cm));
-		gameStates.add(new PoorGameState(cm));
-		gameStates.add(new RichGameState(cm));
-		
+//		gameStates.add(new MageTalkState(cm));//nieuwe muziek
+//		gameStates.add(new ArrivalState(cm));
+//		gameStates.add(new DoorChoiceState(cm));
+//		gameStates.add(new PoorGameState(cm));
+//		gameStates.add(new RichGameState(cm));
 		
 		//Before Bossfight
-		gameStates.add(new Mage1State(cm));//nieuwe muziek
-		gameStates.add(new Troll1State(cm));
-		gameStates.add(new Mage2State(cm));
-		gameStates.add(new Troll2State(cm));
-		gameStates.add(new MageTalkState2(cm));
-//		gameStates.add(new TutorialState(cm, ImageHandler.getImage(ImageHandler.ImageType.tutorial_spell),1));
+//		gameStates.add(new Mage1State(cm));//nieuwe muziek
+//		gameStates.add(new Troll1State(cm));
+//		gameStates.add(new Mage2State(cm));
+//		gameStates.add(new Troll2State(cm));
+//		gameStates.add(new Tutorial2State(cm));
 //		gameStates.add(new BossFightState(cm));//nieuwe muziek
-		gameStates.add(new ScoreState(cm));
+		gameStates.add(new EndState(cm));
+//		gameStates.add(new ScoreState(cm));
 	}
 	
 	public void select(int i) {
@@ -100,16 +84,16 @@ public class GameStateManager {
 		gameSequence.clear();
 		gameSequence.add(gameStates.get(0));
 		gameSequence.add(gameStates.get(1));
-		gameSequence.add(gameStates.get(2));
-		gameSequence.add(gameStates.get(3));
-		gameSequence.add(gameStates.get(4));
-		gameSequence.add(gameStates.get(5));
-		gameSequence.add(gameStates.get(6));
-		gameSequence.add(gameStates.get(7));
-		gameSequence.add(gameStates.get(8));
-		gameSequence.add(gameStates.get(9));
-		gameSequence.add(gameStates.get(10));
-		gameSequence.add(gameStates.get(11));
+//		gameSequence.add(gameStates.get(2));
+//		gameSequence.add(gameStates.get(3));
+//		gameSequence.add(gameStates.get(4));
+//		gameSequence.add(gameStates.get(5));
+//		gameSequence.add(gameStates.get(6));
+//		gameSequence.add(gameStates.get(7));
+//		gameSequence.add(gameStates.get(8));
+//		gameSequence.add(gameStates.get(9));
+//		gameSequence.add(gameStates.get(10));
+//		gameSequence.add(gameStates.get(11));
 //		gameSequence.add(gameStates.get(12));
 //		gameSequence.add(gameStates.get(13));
 	}

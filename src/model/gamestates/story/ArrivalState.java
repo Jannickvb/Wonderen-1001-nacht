@@ -72,7 +72,7 @@ public class ArrivalState extends GameState{
 	@Override
 	public void update() {
 		frame++;
-		bgPosX += 2;
+		bgPosX += 1;
 		if(frame<120 && opacity>0.05f){
 			opacity-=(0.1/4);
 		}else if(!fadeOut){
