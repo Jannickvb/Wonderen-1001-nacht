@@ -1,9 +1,11 @@
 package model.gamestates.story;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
 
 import control.ControlManager;
 import model.gamestates.GameState;
@@ -11,8 +13,9 @@ import model.gamestates.GameState;
 public class ScoreState extends GameState{
 	
 	private String tier;
-	private int score, scoreDisplay, time = 0;
+	private int score, scoreDisplay, highScore, time = 0;
 	private int midX, midY;
+	private BufferedImage background;
 	private boolean started = false;
 
 	public ScoreState(ControlManager cm) {
@@ -23,10 +26,23 @@ public class ScoreState extends GameState{
 
 	@Override
 	public void draw(Graphics2D g2) {
+		g2.setColor(Color.YELLOW);
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-		g2.setFont(new Font("Impact", Font.BOLD, 20));
-		g2.drawString("Jouw score: " + scoreDisplay, midX-10, midY+20);
-		g2.drawString("Je bent een: " + tier, midX-10, midY-20);
+		g2.setFont(new Font("Verdana", Font.BOLD, 80));
+		g2.drawString("Jouw score: " + scoreDisplay, midX-400, midY-80);
+		if(time > 20)
+		{
+			g2.drawString("Je bent een: " + tier, midX-500, midY);
+		}
+		if(time > 40)
+		{
+			g2.setFont(new Font("Verdana", Font.BOLD, 40));
+			g2.drawString("Hoogste score van vandaag: " + highScore, midX-400, midY+50);
+		} 
+		if(time > 80)
+		{
+			g2.drawString("Druk op A om opnieuw te beginnen", midX-400, midY+240);
+		}
 	}
 
 	@Override
@@ -67,11 +83,15 @@ public class ScoreState extends GameState{
 			{
 				tier = "Kampioen";
 			}
+			if(score > highScore)
+			{
+				highScore = score;
+			}
 			started = true;
 		}
-		time++;
-		if(time > 600)
+		if(time > 60 && (cm.getInputHandler().isA1Pressed() || cm.getInputHandler().isA2Pressed()))
 		{
+			started = false;
 			cm.getGameStateManager().next();
 		}
 		else
@@ -83,6 +103,10 @@ public class ScoreState extends GameState{
 			else if(scoreDisplay < score)
 			{
 				scoreDisplay = score;
+			}
+			else
+			{
+				time++;
 			}
 		}
 	}
