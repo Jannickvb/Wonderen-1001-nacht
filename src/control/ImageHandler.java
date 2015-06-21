@@ -33,6 +33,14 @@ public class ImageHandler {
 			images.add(ImageIO.read(Main.class.getResource("/images/menu/menu_grad.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/menu/menu_instr.png")));		
 			
+			//boat Tutorial
+			images.add(ImageIO.read(Main.class.getResource("/images/boatTutorial/background.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/boatTutorial/tuthelpframe.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/boatTutorial/tutscreen.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/boatTutorial/ppleft.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/boatTutorial/ppoff.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/boatTutorial/ppright.png")));
+			
 			images.add(ImageIO.read(Main.class.getResource("/images/Tutorial.jpg ")));
 			images.add(ImageIO.read(Main.class.getResource("/images/spell_tutorial.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/boatgame/boat.png")));
@@ -128,6 +136,14 @@ public class ImageHandler {
 		menu_header,
 		menu_grad,
 		menu_instr,
+		
+		//boat Tutorial
+		boat_tut_bg,
+		boat_tut_help,
+		boat_tut_screen,
+		boat_tut_pp_left,
+		boat_tut_pp_off,
+		boat_tut_pp_right,
 		
 		/** sorteer onderstaande: */
 		tutorial_plate,
