@@ -15,6 +15,7 @@ import java.util.Iterator;
 
 import model.entities.Boat;
 import model.entities.BoatCrash;
+import model.entities.Cloud;
 import model.entities.Coin;
 import model.entities.Entity;
 import model.entities.Pier;
@@ -23,7 +24,6 @@ import model.entities.Upgrade;
 import model.gamestates.GameState;
 import control.ControlManager;
 import control.ImageHandler;
-import control.ScoreHandler;
 
 /**
  * The boat game state.
@@ -40,6 +40,7 @@ public class BoatGameState extends GameState{
 	private ArrayList<Rock> rocks;
 	private ArrayList<Upgrade> upgrades;
 	private ArrayList<Coin> coins;
+	private ArrayList<Cloud> clouds;
 	private int counter;
 	private int lives;
 	private int points;
@@ -67,6 +68,7 @@ public class BoatGameState extends GameState{
 		rocks = new ArrayList<>(100);
 		upgrades = new ArrayList<>(100);
 		coins = new ArrayList<>(100);
+		clouds = new ArrayList<>(100);
 	}
 
 	/**
@@ -108,6 +110,9 @@ public class BoatGameState extends GameState{
 	    TexturePaint tr = new TexturePaint(trees,new Rectangle2D.Double(0,backgroundPositionY,ControlManager.screenWidth,ControlManager.screenHeight));
 	    g2.setPaint(tr);
 	    g2.fill(new Rectangle2D.Double(0,0,ControlManager.screenWidth,ControlManager.screenHeight));
+	    //Drawing clouds: 
+	    for(Cloud cloud : clouds)
+	    	cloud.draw(g2);
 	    //Drawing message:
 		if(boat.getDeadMessage()) {
 			g2.setColor(new Color(1.0f,1.0f,1.0f,boat.getAlpha()));
@@ -162,7 +167,7 @@ public class BoatGameState extends GameState{
 			g2.fill(rect); 
 	    }
 		
-	}
+	} 
 
 	/**
 	 * Updating the boat game state.
@@ -251,6 +256,19 @@ public class BoatGameState extends GameState{
 					coin.setDead(true);
 			}
 		}
+		
+		//Randomly spawning clouds:
+		if(!pier.isDead()) {
+			if(Math.floor(Math.random()*25) == 3) {
+				Cloud cloud = new Cloud(cm);
+				clouds.add(cloud);
+				cloud.init();
+			}
+		}
+		
+		for(Cloud cloud : clouds)
+			cloud.update();
+		
 		
 		//Checking if rocks are out of the screen & if rocks are dead & if rocks are overlapping:
 		Iterator<Rock> it = rocks.iterator();
