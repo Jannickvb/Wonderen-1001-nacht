@@ -41,6 +41,11 @@ public class ImageHandler {
 			images.add(ImageIO.read(Main.class.getResource("/images/boatTutorial/ppoff.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/boatTutorial/ppright.png")));
 			
+			//spell Tutorial
+			images.add(ImageIO.read(Main.class.getResource("/images/boatTutorial/spelltut.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/boatTutorial/tuthelpframespell.png")));
+			
+			
 			//arrival
 			images.add(ImageIO.read(Main.class.getResource("/images/arrival/arr_fg.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/arrival/arr_stars.png")));
@@ -89,7 +94,6 @@ public class ImageHandler {
 			images.add(ImageIO.read(Main.class.getResource("/images/trollstate/bossfight_hit.png")));
 			
 			//poor rich state
-
 			images.add(ImageIO.read(Main.class.getResource("/images/poorrich/pr_bg.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/poorrich/pr_cloud_left.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/poorrich/pr_cloud_right.png")));
@@ -158,6 +162,10 @@ public class ImageHandler {
 		boat_tut_pp_left,
 		boat_tut_pp_off,
 		boat_tut_pp_right,
+		
+		//spellTutorial
+		spell_tut_help,
+		spell_tut_frame,
 		
 		//arrival
 		arr_fg,

@@ -3,6 +3,7 @@ package control;
 import java.util.ArrayList;
 
 import model.gamestates.GameState;
+import model.gamestates.Bossfight.SpellTutorialState;
 import model.gamestates.start.MenuState;
 import model.gamestates.story.EndState;
 
@@ -49,7 +50,7 @@ public class GameStateManager {
 //		gameStates.add(new Troll1State(cm));
 //		gameStates.add(new Mage2State(cm));
 //		gameStates.add(new Troll2State(cm));
-//		gameStates.add(new Tutorial2State(cm));
+		gameStates.add(new SpellTutorialState(cm));
 //		gameStates.add(new BossFightState(cm));//nieuwe muziek
 		gameStates.add(new EndState(cm));
 //		gameStates.add(new ScoreState(cm));
@@ -84,7 +85,7 @@ public class GameStateManager {
 		gameSequence.clear();
 		gameSequence.add(gameStates.get(0));
 		gameSequence.add(gameStates.get(1));
-//		gameSequence.add(gameStates.get(2));
+		gameSequence.add(gameStates.get(2));
 //		gameSequence.add(gameStates.get(3));
 //		gameSequence.add(gameStates.get(4));
 //		gameSequence.add(gameStates.get(5));
