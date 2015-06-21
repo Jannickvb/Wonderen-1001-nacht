@@ -1,9 +1,13 @@
 package model.gamestates.story;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.TexturePaint;
 import java.awt.event.KeyEvent;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -17,20 +21,23 @@ import control.MapReader;
 
 public class ArrivalState extends GameState{
 	
-	private Image image;
-	private int midX,midY,bgWidth,bgHeight,counter;
+	private BufferedImage foreground,background,vignette;
+	private boolean fadeIn= true,fadeOut = false;
+	private int bgPosX,frame = 0;
+	private float opacity = 1f;
+	private Rectangle2D tpRect,fade;
+	
 	private ArrayList<String> introText;
 	private int lineCounter = 0;
 	
 	public ArrivalState(ControlManager cm)
 	{
 		super(cm);
-		this.counter = 0;
-		image = ImageHandler.getImage(ImageHandler.ImageType.arrival);
-		bgWidth = image.getWidth(null);
-		bgHeight = image.getHeight(null);
-		midX = ControlManager.screenWidth/2;
-		midY = ControlManager.screenHeight/2;
+		vignette = ImageHandler.getImage(ImageHandler.ImageType.troll_darken);
+		foreground = ImageHandler.getImage(ImageHandler.ImageType.arr_fg);
+		background = ImageHandler.getImage(ImageHandler.ImageType.arr_stars);
+		tpRect = new Rectangle2D.Double(0,0,ControlManager.screenWidth,ControlManager.screenHeight);
+		fade = new Rectangle2D.Double(0,0,ControlManager.screenWidth,ControlManager.screenHeight);
 		try {
 			introText = MapReader.readTextLines("resources/texts/introStad.txt");
 		} catch (IOException e) {
@@ -41,16 +48,41 @@ public class ArrivalState extends GameState{
 
 	@Override
 	public void draw(Graphics2D g2) {
+		
 		AffineTransform tx = new AffineTransform();
-		tx.translate(midX, midY);
+		tx.translate(0, 0);
 		g2.setTransform(tx);
-		g2.drawImage(image, -bgWidth/2,-bgHeight/2,null);
-//		g2.translate(-midX,-midY);
-//		DrawFuctions.drawString(g2, introText.get(lineCounter), ControlManager.screenHeight - 300);
+		 //Drawing background: 
+	    TexturePaint tp = new TexturePaint(background,new Rectangle2D.Double(bgPosX,0,ControlManager.screenWidth,ControlManager.screenHeight));
+	    g2.setPaint(tp);
+	    g2.fill(tpRect);
+	    
+	    g2.drawImage(foreground,0,0,null);
+	    
+	    g2.drawImage(vignette,0,0,null);
+	    
+	    if(fadeIn || fadeOut)
+	    {
+	    	g2.setColor(new Color(0,0,0,opacity));
+	    	g2.fill(fade);
+	    	g2.draw(fade);
+	    }
 	}
 
 	@Override
 	public void update() {
+		frame++;
+		bgPosX += 2;
+		if(frame<120 && opacity>0.05f){
+			opacity-=(0.1/4);
+		}else if(!fadeOut){
+			fadeIn = false;
+			opacity = 0;
+		}
+		if(frame > 840 && opacity < 0.95f){
+			opacity += (0.1/4);
+			fadeOut = true;
+		}
 		if(cm.getInputHandler().isA1Pressed() || cm.getInputHandler().isA2Pressed())
 		{
 			if(lineCounter<introText.size()-1)
@@ -63,7 +95,7 @@ public class ArrivalState extends GameState{
 	@Override
 	public void init() {
 		// TODO Auto-generated method stub
-		if(image.equals(ImageHandler.getImage(ImageHandler.ImageType.arrival))){
+		if(foreground.equals(ImageHandler.getImage(ImageHandler.ImageType.arr_fg))){
 			try {
 				cm.arrivalVoice();
 				new java.util.Timer().schedule( 

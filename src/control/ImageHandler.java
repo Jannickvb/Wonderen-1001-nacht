@@ -41,6 +41,10 @@ public class ImageHandler {
 			images.add(ImageIO.read(Main.class.getResource("/images/boatTutorial/ppoff.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/boatTutorial/ppright.png")));
 			
+			//arrival
+			images.add(ImageIO.read(Main.class.getResource("/images/arrival/arr_fg.png")));
+			images.add(ImageIO.read(Main.class.getResource("/images/arrival/arr_stars.png")));
+			
 			images.add(ImageIO.read(Main.class.getResource("/images/Tutorial.jpg ")));
 			images.add(ImageIO.read(Main.class.getResource("/images/spell_tutorial.png")));
 			images.add(ImageIO.read(Main.class.getResource("/images/boatgame/boat.png")));
@@ -153,6 +157,10 @@ public class ImageHandler {
 		boat_tut_pp_left,
 		boat_tut_pp_off,
 		boat_tut_pp_right,
+		
+		//arrival
+		arr_fg,
+		arr_stars,
 		
 		/** sorteer onderstaande: */
 		tutorial_plate,
