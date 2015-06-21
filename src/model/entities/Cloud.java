@@ -20,7 +20,7 @@ public class Cloud extends Entity {
 
 	@Override
 	public void update() {
-		positionX += 12;
+		positionY += 3;
 	}
 
 	@Override
@@ -28,15 +28,14 @@ public class Cloud extends Entity {
 		//Setting x-position:
 		switch((int)Math.floor(Math.random()*2)) {
 			case 0: 
-				positionX = -300;
-				goRight = true;
+				positionX = (int) Math.floor(Math.random()*ControlManager.screenWidth/4);
 				break;
 			case 1: 
-				positionX = ControlManager.screenWidth + 300;
+				positionX = (((ControlManager.screenWidth/4)*3)+100) + (int) Math.floor(Math.random()*ControlManager.screenWidth/4);
 				goRight = false;
 				break;
 		}
 		//Setting the y-position: 
-		positionY = 50 + (int) Math.floor(Math.random()*50);
+		positionY = -100;
 	}
 }

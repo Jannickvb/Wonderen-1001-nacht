@@ -167,7 +167,7 @@ public class BoatGameState extends GameState{
 			g2.fill(rect); 
 	    }
 		
-	}
+	} 
 
 	/**
 	 * Updating the boat game state.
@@ -258,7 +258,16 @@ public class BoatGameState extends GameState{
 		}
 		
 		//Randomly spawning clouds:
+		if(!pier.isDead()) {
+			if(Math.floor(Math.random()*25) == 3) {
+				Cloud cloud = new Cloud(cm);
+				clouds.add(cloud);
+				cloud.init();
+			}
+		}
 		
+		for(Cloud cloud : clouds)
+			cloud.update();
 		
 		
 		//Checking if rocks are out of the screen & if rocks are dead & if rocks are overlapping:
