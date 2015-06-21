@@ -58,7 +58,6 @@ public class ScoreState extends GameState{
 			{
 				score = 0;
 			}
-			score = 2000;
 			if(score == 0)
 			{
 				tier = "Trol";
@@ -92,7 +91,9 @@ public class ScoreState extends GameState{
 		if(time > 60 && (cm.getInputHandler().isA1Pressed() || cm.getInputHandler().isA2Pressed()))
 		{
 			started = false;
-			cm.getGameStateManager().next();
+			time = 0;
+			scoreDisplay = 0;
+			cm.getGameStateManager().reset();
 		}
 		else
 		{

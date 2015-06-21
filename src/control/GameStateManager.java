@@ -35,6 +35,14 @@ public class GameStateManager {
 		initializeSequence();
 	}
 	
+	public void reset()
+	{
+		index = 0;
+		//reloadGameStates();
+		currentstate = gameStates.get(0);
+		initializeSequence();
+	}
+	
 	public void reloadGameStates() { 
 		gameStates.clear();
 		
@@ -89,6 +97,7 @@ public class GameStateManager {
 	 */
 	
 	public void initializeSequence(){
+		gameSequence.clear();
 		gameSequence.add(gameStates.get(0));
 		gameSequence.add(gameStates.get(1));
 		gameSequence.add(gameStates.get(2));

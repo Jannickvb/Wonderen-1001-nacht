@@ -20,7 +20,7 @@ import control.ImageHandler;
 
 public class BossFightState extends GameState{
 
-	private BufferedImage currentImage;
+	private BufferedImage currentImage, background;
 	private List<BufferedImage> spells, particles;
 	private AffineTransform tx;
 	private int midX,midY, time;
@@ -57,6 +57,7 @@ public class BossFightState extends GameState{
 		particles.add(ImageHandler.getImage(ImageHandler.ImageType.spell5_particle2));
 		particles.add(ImageHandler.getImage(ImageHandler.ImageType.spell5_particle3));
 		currentImage = spells.get(level);
+		background = ImageHandler.getImage(ImageHandler.ImageType.menubg);
 		position1 = new Point2D.Double(0,0);
 		position2 = new Point2D.Double(0,0);
 		positioni1 = new Point2D.Double(-100,-100);
@@ -120,7 +121,7 @@ public class BossFightState extends GameState{
 		oldAF.scale(1.8,1.8);
 		this.tx = new AffineTransform();
 		tx.translate(midX, midY);
-		
+		g2.drawImage(background, 0, 0, null);
 		g2.setTransform(tx);
 		if(drawing)
 		{
