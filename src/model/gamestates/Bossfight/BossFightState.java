@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
 import javax.sound.sampled.LineUnavailableException;
 
@@ -26,33 +27,36 @@ import control.ImageHandler;
 public class BossFightState extends GameState{
 
 	private BufferedImage currentImage,troll,trollHit,background,vignette,trollState;
-	private int bgPosY,frame = 0;
+	private int bgPosY;
 	private float opacity = 1f; //kunnen deze weg?
 	private Rectangle2D tpRect;
 	private ArrayList<Particle> confusion = new ArrayList<>(5000);
 	
 	private List<BufferedImage> spells, particles;
 	private AffineTransform tx;
-	private int midX,midY, time;
+	private int midX,midY, time, x1, y1, a1, b1;
 	private Point2D position1, position2, positioni1, positioni2;
 	
 	private int outCounter,inCounter;
 	private int outColor,inColor;
 	private int wins, level = 0;
-	private double spellScore, totalScore = 0;
+	private double spellScore, totalScore, counter, reversecounter = 0;
+	private double ellipseWidth, ellipseHeight, ellipseX, ellipseY;
 	private boolean drawing, started, finished, win;
+	private Random rand;
 	
 	public BossFightState(ControlManager cm) {
 		super(cm);
 
 		//images
+		rand = new Random();
 		background = ImageHandler.getImage(ImageHandler.ImageType.troll_bg);
 		vignette = ImageHandler.getImage(ImageHandler.ImageType.troll_darken);
 		troll = ImageHandler.getImage(ImageHandler.ImageType.bf_troll_normal);
 		trollHit = ImageHandler.getImage(ImageHandler.ImageType.bf_troll_hit);
 		tpRect = new Rectangle2D.Double(0,0,ControlManager.screenWidth,ControlManager.screenHeight);
 		trollState = troll;
-		//spells		
+		//spells
 		spells = new ArrayList<BufferedImage>();
 		spells.add(ImageHandler.getImage(ImageHandler.ImageType.spell1));
 		spells.add(ImageHandler.getImage(ImageHandler.ImageType.spell2));
@@ -80,7 +84,14 @@ public class BossFightState extends GameState{
 		position2 = new Point2D.Double(0,0);
 		positioni1 = new Point2D.Double(-100,-100);
 		positioni2 = new Point2D.Double(-100,-100);
-		
+		this.x1 = this.midX;
+		this.y1 = this.midY;
+		this.a1 = this.midX;
+		this.b1 = this.midY;
+		this.ellipseWidth = 0;
+		this.ellipseHeight = 0;
+		this.ellipseX = 0;
+		this.ellipseY = 0;
 		drawing = true;
 		finished = false;
 		started = false;
@@ -142,7 +153,7 @@ public class BossFightState extends GameState{
 	    TexturePaint tp = new TexturePaint(background,new Rectangle2D.Double(0,-bgPosY,ControlManager.screenWidth,ControlManager.screenHeight));
 	    g2.setPaint(tp);
 	    g2.fill(tpRect);
-	    if(win && time < 0)
+	    if((win && time < 0) || finished)
 	    {
 	    	g2.drawImage(trollHit, 0, 0, null);
 	    }
@@ -217,12 +228,59 @@ public class BossFightState extends GameState{
 		}
 		if(finished)
 		{
+			confusion.add(new Particle(midX-80,270,10,0));
 			if(wins > 3)
 			{
-				g2.drawString("Jullie hebben gewonnen!", (int) (midX/1.8), 20);
+				g2.drawString("Jullie hebben gewonnen!", (int) (midX/1.8-125), 50);
+			}
+			else
+			{
+				System.out.println(time);
+				for(int i = 0; i < 8; i++)
+				{
+					int size = (int)(rand.nextInt(20)*1.1);
+					confusion.add(new Particle(x1+midX,y1+midY,size,0));
+				}
+				
+				int x2 = (int)(20*counter*(Math.cos(counter)));
+				int y2= (int)(20*counter*(Math.sin(counter)));
+						
+				this.x1 = x2;
+				this.y1 = y2;
+				
+				for(int i = 0; i < 8; i++)
+				{
+					int size = (int)(rand.nextInt(20)*1.1);
+					confusion.add(new Particle(a1+midX,b1+midY,size,0));
+				}
+				
+					
+				int a2 = (int)(20*reversecounter*(Math.cos(reversecounter)));
+				int b2= (int)(20*reversecounter*(Math.sin(reversecounter)));
+						
+				this.a1 = a2;
+				this.b1 = b2;
+				
+				reversecounter -= 0.05;
+				counter += 0.05;
+						
+					Iterator<Particle> i = confusion.iterator();
+						while (i.hasNext()) {
+						   Particle p = i.next(); 
+						   if(p.getLife() == 100){
+						   i.remove();
+						   }
+					}
+						
+					if(reversecounter < 10){
+					this.ellipseWidth = ellipseWidth + 1.0 * 4;
+					this.ellipseHeight = ellipseHeight + 1.0 * 4;
+					this.ellipseX = 0-this.ellipseWidth/2;
+					this.ellipseY = 0-this.ellipseHeight/2;
+					}
+				}
 			}
 		}
-	}
 	
 	private void drawAttackAnimation(Graphics2D g2)
 	{
@@ -252,7 +310,7 @@ public class BossFightState extends GameState{
 			{
 				if(time % 10 == 0)
 		 	    {
-		 	    	confusion.add(new Particle(midX-100,250,10,0));
+					confusion.add(new Particle(midX-100,250,10,0));
 		 	    }
 				g2.scale(-time*0.16, -time*0.16);
 				g2.drawImage(particles.get((level*3)+2), -400, -400, null);
@@ -318,7 +376,7 @@ public class BossFightState extends GameState{
 				e.printStackTrace();
 			}
 			drawing = true;
-			time = 1800 - (300*level);
+			time = 1300 - (100*level);
 		}
 		else
 		{
@@ -374,7 +432,6 @@ public class BossFightState extends GameState{
 				i.remove();
 			}
 		}
-		frame++;
 		bgPosY += 2;
 		
 		midX = ControlManager.screenWidth/2;
