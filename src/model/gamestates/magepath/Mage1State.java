@@ -73,12 +73,15 @@ public class Mage1State extends GameState{
 		// TODO Auto-generated method stub
 		if(foreground.equals(ImageHandler.getImage(ImageHandler.ImageType.magestate))){
 		try {
+			cm.getInputHandler().resetLedStrip();
 			cm.playMusic2();
 			cm.playMageTalk1();
+			cm.getInputHandler().enableWizardTalk();
+			
 			new java.util.Timer().schedule( 
 			        new java.util.TimerTask() {
 			            @Override
-			            public void run() {
+			            public void run() {			            	
 			                cm.getGameStateManager().next();
 			            }
 			        }, 

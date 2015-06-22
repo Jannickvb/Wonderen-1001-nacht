@@ -97,9 +97,10 @@ public class MageTalkState extends GameState{
 		// TODO Auto-generated method stub
 		if(foreground.equals(ImageHandler.getImage(ImageHandler.ImageType.magestate))){
 		try {
-			
+			cm.getInputHandler().enableWizardTalk();
 				cm.playMusic1();
 				cm.playIntroWizard();
+				
 				new java.util.Timer().schedule( 
 				        new java.util.TimerTask() {
 				            @Override

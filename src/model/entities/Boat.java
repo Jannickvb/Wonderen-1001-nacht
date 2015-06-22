@@ -65,27 +65,27 @@ public class Boat extends Entity {
 	 * Get's pressure plate status and moves the boat.
 	 */
 	public void update() {
-		//boolean pressurePlate1 = input.getPressurePlate1(); //Right foot
-		//boolean pressurePlate2 = input.getPressurePlate2(); //Left foot
-		//boolean pressurePlate3 = input.getPressurePlate3(); //Right foot
-		//boolean pressurePlate4 = input.getPressurePlate4(); //Left foot
+		boolean pressurePlate1 = input.getPressurePlate1(); //Right foot
+		boolean pressurePlate2 = input.getPressurePlate2(); //Left foot
+		boolean pressurePlate3 = input.getPressurePlate3(); //Right foot
+		boolean pressurePlate4 = input.getPressurePlate4(); //Left foot
 		if(move) {
-			if(pressurePlate1 && pressurePlate3 && !pressurePlate2 && !pressurePlate4) { // Go to the rights
+			if(pressurePlate1 && pressurePlate3 ) { // Go to the rights
 				if( positionY < 178) {
 					if(positionX > ControlManager.screenWidth/2-(getSprite().getWidth()/2)-45 && positionX <= ControlManager.screenWidth/4*3-ControlManager.screenWidth/8)
-						positionX += 4;
+						positionX += 7;
 				}
 				else if(positionX <= ControlManager.screenWidth/4*3-ControlManager.screenWidth/8) 
-					positionX += 4;
+					positionX += 7;
 					
 			}
-			else if(!pressurePlate1 && !pressurePlate3 && pressurePlate2 && pressurePlate4) {// Go to the left
+			else if( pressurePlate2 && pressurePlate4) {// Go to the left
 				if( positionY < 178) {
 					if(positionX < ControlManager.screenWidth/2+13 && positionX > ControlManager.screenWidth/4+ControlManager.screenWidth/20)
-						positionX -= 4;
+						positionX -= 7;
 				}
 				else if(positionX > ControlManager.screenWidth/4+ControlManager.screenWidth/20)
-					positionX -= 4;
+					positionX -= 7;
 			}
 		}
 		//Animtating the ship: 
@@ -129,14 +129,14 @@ public class Boat extends Entity {
 		positionY = ControlManager.screenHeight - 250;
 		collisionPier = true;
 		move = true;
-		//input.turnPressurePlates(true);
+		input.turnPressurePlates(true);
 	}
 	
 	/**
 	 * Get's called when the ship collides with a Rock object.
 	 */
 	public void collision() {
-		//input.deadStageOne();
+		input.deadStageOne();
 		deadMessage = true;
 	}
 	
@@ -144,7 +144,7 @@ public class Boat extends Entity {
 	 * Resets the position to start position.
 	 */
 	public void reset() {
-		//input.deadStageTwo();
+		input.deadStageTwo();
 		collisionPier = true;
 		reachedEnd = false;
 		move = true;

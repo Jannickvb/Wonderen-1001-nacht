@@ -18,6 +18,7 @@ import java.util.Iterator;
 import javax.swing.Timer;
 
 import model.entities.Box;
+import model.entities.Cloud;
 import model.entities.Coin;
 import model.entities.Entity;
 import model.entities.Palace;
@@ -40,6 +41,7 @@ public class PoorGameState extends GameState{
 		private ArrayList<Box> boxes;
 		private ArrayList<Upgrade> upgrades;
 		private ArrayList<Coin> coins;
+		private ArrayList<Cloud> clouds;
 		private int counter;
 		private int lives;
 		private int points;
@@ -66,6 +68,7 @@ public class PoorGameState extends GameState{
 			boxes = new ArrayList<>(1000);
 			upgrades = new ArrayList<>(100);
 			coins = new ArrayList<>(100);
+			clouds = new ArrayList<>(100);
 		}
 
 		/**
@@ -96,6 +99,9 @@ public class PoorGameState extends GameState{
 		    palace.draw(g2);
 		    g2.setColor(Color.WHITE);
 			g2.setFont(new Font("Verdana",Font.BOLD,50)); 
+			 //Drawing clouds: 
+		    for(Cloud cloud : clouds)
+		    	cloud.draw(g2);
 			//Drawing lives and points: 
 		    if(!guy.reachedEnd()) {
 		    	//Drawing Lives:
@@ -244,6 +250,18 @@ public class PoorGameState extends GameState{
 						coin.setDead(true);
 				}
 			}
+			
+			//Randomly spawning clouds:
+			if(!palace.isDead()) {
+				if(Math.floor(Math.random()*25) == 3) {
+					Cloud cloud = new Cloud(cm);
+					clouds.add(cloud);
+					cloud.init();
+				}
+			}
+			
+			for(Cloud cloud : clouds)
+				cloud.update();
 			
 			//Checking if boxes are out of the screen:
 			Iterator<Box> it = boxes.iterator();

@@ -174,12 +174,15 @@ public class Mage2State extends GameState implements ActionListener{
 		if(foreground.equals(ImageHandler.getImage(ImageHandler.ImageType.magestate))){
 		try {
 			cm.playMageTalk2();
+			cm.getInputHandler().enableWizardTalk();
 			new java.util.Timer().schedule( 
 			        new java.util.TimerTask() {
 			            @Override
 			            public void run() {
 			            	try {
+			            		cm.getInputHandler().resetLedStrip();
 			            		cm.getMagicSound();
+			            		
 							} catch (LineUnavailableException | IOException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
@@ -190,6 +193,7 @@ public class Mage2State extends GameState implements ActionListener{
 			    			        new java.util.TimerTask() {
 			    			            @Override
 			    			            public void run() {
+			    			            	
 			    			                cm.getGameStateManager().next();
 			    			            }
 			    			        }, 

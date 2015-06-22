@@ -78,6 +78,7 @@ public class Troll1State extends GameState{
 		if(background.equals(ImageHandler.getImage(ImageHandler.ImageType.troll_bg))){
 		try {
 			cm.playTrollTalk1();
+			cm.getInputHandler().enableTrollTalk();
 			new java.util.Timer().schedule( 
 			        new java.util.TimerTask() {
 			            @Override

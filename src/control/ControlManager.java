@@ -20,7 +20,7 @@ public class ControlManager {
 	public static int screenWidth = Toolkit.getDefaultToolkit().getScreenSize().width;
 	public static int screenHeight = Toolkit.getDefaultToolkit().getScreenSize().height;
 	public ControlManager(GameFrame frame) throws LineUnavailableException, IOException{
-		this.input = new InputHandler("COM7");
+		this.input = new InputHandler("COM6");
 		this.frame = frame;
 		this.gsm = new GameStateManager(this);
 		this.scoreHandler = new ScoreHandler();

@@ -2,9 +2,6 @@ package model.gamestates.story;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.RenderingHints;
-import java.awt.TexturePaint;
 import java.awt.event.KeyEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
@@ -16,7 +13,6 @@ import javax.sound.sampled.LineUnavailableException;
 import model.gamestates.GameState;
 import control.ControlManager;
 import control.ImageHandler;
-import control.ImageHandler.ImageType;
 
 public class EndState extends GameState {
 	private BufferedImage background,poor,sign;
@@ -84,22 +80,27 @@ public class EndState extends GameState {
 				//input audio
 				
 				try {
-			            		cm.playOhNee();
+					cm.getInputHandler().enableTrollTalk();    		
+					cm.playOhNee();
+			            		
 							} catch (LineUnavailableException | IOException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
 				cm.getScoreHandler().bossScore += 2500;
+				cm.getInputHandler().resetLedStrip(); 
 				cm.getGameStateManager().next();
 			}else{
 				//input audio
 				
 				try {
-			            		cm.playEvilLaugh();
+					cm.getInputHandler().enableTrollTalk();     		
+					cm.playEvilLaugh();
 							} catch (LineUnavailableException | IOException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
+				cm.getInputHandler().resetLedStrip(); 
 				cm.getGameStateManager().next();
 			}
 		}

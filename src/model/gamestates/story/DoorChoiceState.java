@@ -20,7 +20,7 @@ import control.InputHandler;
 public class DoorChoiceState extends GameState{
 	
 
-	private BufferedImage foreground,background,cloudTroll,cloudWiz,overlay;
+	private BufferedImage foreground,background,cloudTroll,cloudL,cloudR,cloudWiz,overlay;
 	private boolean fadeIn= true,fadeOut = false,choiceMade = false,choicePoor = false;
 	private int bgPosY,frame = 0;
 	private float opacity = 1f;
@@ -37,6 +37,9 @@ public class DoorChoiceState extends GameState{
 		cloudWiz =  ImageHandler.getImage(ImageHandler.ImageType.pr_cloud_wiz);
 		background = ImageHandler.getImage(ImageHandler.ImageType.pr_bg);
 		overlay = ImageHandler.getImage(ImageHandler.ImageType.pr_overlay);
+		cloudL = ImageHandler.getScaledImage(ImageHandler.getImage(ImageHandler.ImageType.pr_cloud_left));
+		cloudR = ImageHandler.getScaledImage(ImageHandler.getImage(ImageHandler.ImageType.pr_cloud_right));
+		
 		
 		tpRect = new Rectangle2D.Double(0,0,ControlManager.screenWidth,ControlManager.screenHeight);
 		tpRect2 = new Rectangle2D.Double(0,0,ControlManager.screenWidth,ControlManager.screenHeight);
@@ -59,8 +62,11 @@ public class DoorChoiceState extends GameState{
 	    g2.setPaint(tp1);
 	    g2.fill(tpRect2);
 	    
-	    g2.drawImage(foreground,0,0,null);	    
-	    g2.drawImage(overlay, 0, 0, null);
+	    g2.drawImage(foreground,0,-50,null);	
+	    g2.drawImage(cloudL,0,0,null);	
+	    g2.drawImage(cloudR,0,0,null);	
+
+	    
 	    if(fadeIn || fadeOut)
 	    {
 	    	g2.setColor(new Color(0,0,0,opacity));
@@ -109,7 +115,8 @@ public class DoorChoiceState extends GameState{
 			} catch (LineUnavailableException | IOException e) {
 				e.printStackTrace();
 			}
-		//input.turnPressurePlates(true);
+			 cm.getInputHandler().resetLedStrip();
+		input.turnPressurePlates(true);
 	}
 
 	

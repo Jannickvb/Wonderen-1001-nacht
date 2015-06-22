@@ -98,10 +98,12 @@ public class ArrivalState extends GameState{
 		if(foreground.equals(ImageHandler.getImage(ImageHandler.ImageType.arr_fg))){
 			try {
 				cm.arrivalVoice();
+				
 				new java.util.Timer().schedule( 
 				        new java.util.TimerTask() {
 				            @Override
 				            public void run() {
+				            	
 				                cm.getGameStateManager().next();
 				            }
 				        }, 

@@ -62,26 +62,26 @@ public class Person extends Entity{
 		}
 		
 		public void update() {
-			//boolean pressurePlate1 = input.getPressurePlate1(); //Right foot
-			//boolean pressurePlate2 = input.getPressurePlate2(); //Left foot
-			//boolean pressurePlate3 = input.getPressurePlate3(); //Right foot
-			//boolean pressurePlate4 = input.getPressurePlate4(); //Left foot
-			if(pressurePlate1 && pressurePlate3 && !pressurePlate2 && !pressurePlate4) { // Go to the right
+			boolean pressurePlate1 = input.getPressurePlate1(); //Right foot
+			boolean pressurePlate2 = input.getPressurePlate2(); //Left foot
+			boolean pressurePlate3 = input.getPressurePlate3(); //Right foot
+			boolean pressurePlate4 = input.getPressurePlate4(); //Left foot
+			if(pressurePlate1 && pressurePlate3) { // Go to the right
 				if( positionY < 100) {
 					if(positionX > ControlManager.screenWidth/2-(getSprite().getWidth()/2)-20)
-						positionX += 4;
+						positionX += 7;
 				}
 				else if(positionX <= ControlManager.screenWidth/4*3-ControlManager.screenWidth/8 + 15) 
-					positionX += 4;
+					positionX += 7;
 					
 			}
-			else if(!pressurePlate1 && !pressurePlate3 && pressurePlate2 && pressurePlate4) {// Go to the left
+			else if(pressurePlate2 && pressurePlate4) {// Go to the left
 				if( positionY < 100) {
 					if(positionX < ControlManager.screenWidth/2+13)
-						positionX -= 4;
+						positionX -= 7;
 				}
 				else if(positionX > ControlManager.screenWidth/4+ControlManager.screenWidth/20+55)
-					positionX -= 4;
+					positionX -= 7;
 			}
 			//Animation person:
 			animationCounter++;
@@ -124,7 +124,7 @@ public class Person extends Entity{
 		 * Get's called when the Person collides with a Box object.
 		 */
 		public void collision() {
-			//input.deadStageOne();
+			input.deadStageOne();
 			deadMessage = true;
 		}
 		
@@ -132,7 +132,7 @@ public class Person extends Entity{
 		 * Resets the position to start position.
 		 */
 		public void reset() {
-			//input.deadStageTwo();
+			input.deadStageTwo();
 			collisionPalace = true;
 			reachedEnd = false;
 			positionY = ControlManager.screenHeight-100;

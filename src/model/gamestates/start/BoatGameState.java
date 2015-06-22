@@ -363,13 +363,13 @@ public class BoatGameState extends GameState{
 				} 
 				else {
 					if(boatCrash != null)
-						boatCrash.setSpeed(12);
+						boatCrash.setSpeed(10);
 					for(Coin coin : coins)
-						coin.setSpeed(12);
+						coin.setSpeed(10);
 					for(Upgrade upgrade2 : upgrades)
-						upgrade2.setSpeed(12);
+						upgrade2.setSpeed(10);
 					for(Rock rock : rocks)
-						rock.setSpeed(12);
+						rock.setSpeed(10);
 				}
 			}
 			else if(speed == 2) {
@@ -415,7 +415,7 @@ public class BoatGameState extends GameState{
 		if(boat.reachedEnd()) {
 			if(pointCounter == points)
 			{
-				if(cm.getInputHandler().isA1Pressed() || cm.getInputHandler().isA2Pressed())
+				if(cm.getInputHandler().isA1Pressed() && cm.getInputHandler().isA2Pressed())
 					cm.getGameStateManager().next();	
 				
 			}

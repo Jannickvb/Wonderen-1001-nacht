@@ -81,6 +81,7 @@ public class Troll2State extends GameState{
 		if(background.equals(ImageHandler.getImage(ImageHandler.ImageType.troll_bg))){
 		try {
 			cm.playTrollTalk2();
+			cm.getInputHandler().enableTrollTalk();
 			new java.util.Timer().schedule( 
 			        new java.util.TimerTask() {
 			            @Override
@@ -89,6 +90,7 @@ public class Troll2State extends GameState{
 			    			        new java.util.TimerTask() {
 			    			            @Override
 			    			            public void run() {
+			    			            	cm.getInputHandler().resetLedStrip();
 			    			                cm.getGameStateManager().next();
 			    			            }
 			    			        }, 

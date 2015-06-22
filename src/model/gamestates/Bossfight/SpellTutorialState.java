@@ -61,7 +61,7 @@ public class SpellTutorialState extends GameState{
 		}else{
 			screenY = 0;
 		}
-		if((cm.getInputHandler().isA1Pressed() || cm.getInputHandler().isA2Pressed()) && frame > 2300)
+			if((cm.getInputHandler().isA1Pressed() || cm.getInputHandler().isA2Pressed()) && frame > 2300)
 		{
 			cm.getGameStateManager().next();
 		}
@@ -69,13 +69,14 @@ public class SpellTutorialState extends GameState{
 
 	@Override
 	public void init() {
-		if(screen.equals(ImageHandler.getImage(ImageHandler.ImageType.spell_tut_frame))){
-		try {
-			cm.playBoatTutorialVoice();//VERANDER NAAR SPELL TUTORIAL
-		} catch (LineUnavailableException | IOException e) {
-			e.printStackTrace();
-		}
-		}
+//		if(screen.equals(ImageHandler.getImage(ImageHandler.ImageType.spell_tut_frame))){
+//		try {
+//			
+//			cm.playBoatTutorialVoice();//VERANDER NAAR SPELL TUTORIAL
+//		} catch (LineUnavailableException | IOException e) {
+//			e.printStackTrace();
+//		}
+//		}
 	}
 
 	@Override
