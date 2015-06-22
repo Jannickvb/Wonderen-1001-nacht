@@ -23,7 +23,7 @@ public class ControlManager {
 		this.input = new InputHandler("COM7");
 		this.frame = frame;
 		this.gsm = new GameStateManager(this);
-		scoreHandler = new ScoreHandler();
+		this.scoreHandler = new ScoreHandler();
 		this.music = new MusicHandler();
 		this.voice = new MusicHandler();
 		this.video = new VideoHandler(this);
