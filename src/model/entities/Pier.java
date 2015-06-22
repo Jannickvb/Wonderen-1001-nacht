@@ -1,10 +1,6 @@
 package model.entities;
 
 import java.awt.Graphics2D;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.Timer;
 
 import control.ControlManager;
 import control.ImageHandler;
@@ -13,7 +9,7 @@ import control.ImageHandler.ImageType;
 /**
  * The pier class.
  * @author Wesley de Hek
- * @version 1.1
+ * @version 1.2
  */
 public class Pier extends Entity {
 	

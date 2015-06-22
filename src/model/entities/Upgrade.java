@@ -84,6 +84,10 @@ public class Upgrade extends Entity {
 			return false;
 	}
 	
+	/**
+	 * Set weather or not the coin should move.
+	 * @param state
+	 */
 	public void setMove(boolean state) {
 		move = state;
 	}

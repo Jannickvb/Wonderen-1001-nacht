@@ -1,16 +1,9 @@
 package model.entities;
 
-import java.awt.AlphaComposite;
-import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Shape;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-
-import javax.swing.Timer;
 
 import control.ControlManager;
 import control.ImageHandler;

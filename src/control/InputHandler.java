@@ -22,8 +22,8 @@ public class InputHandler {
 	 */
 	public InputHandler(String arduinoCommPort)
 	{
-		this.arduino = new ArduinoHandler(arduinoCommPort,this);
-		//this.arduino = null;
+//		this.arduino = new ArduinoHandler(arduinoCommPort,this);
+		this.arduino = null;
 		this.wiimote = new WiiMoteHandler();
 		resetPressurePlates();
 	}

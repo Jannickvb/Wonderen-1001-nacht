@@ -131,6 +131,4 @@ public class MageTalkState extends GameState{
 		// TODO Auto-generated method stub
 		
 	}
-
 }
-

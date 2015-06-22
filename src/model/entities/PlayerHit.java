@@ -1,20 +1,22 @@
-	package model.entities;
+package model.entities;
 
-	import java.awt.Graphics2D;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
-import javax.swing.Timer;
 
 import view.Main;
 import control.ControlManager;
 import control.ImageHandler;
 import control.ImageHandler.ImageType;
 
+/**
+ * PlayerHit class.
+ * @author Tim Schijvenaars
+ * @version 1.3
+ */
 public class PlayerHit extends Entity {
 
 		private boolean move;
@@ -50,9 +52,7 @@ public class PlayerHit extends Entity {
 			}
 			crashClip.start();
 		}
-		
-		
-
+	
 		/**
 		 * Draws the animation of the crash.
 		 */
@@ -82,5 +82,4 @@ public class PlayerHit extends Entity {
 		@Override
 		public void init() {
 		}
-	
 }

@@ -24,6 +24,7 @@ import model.entities.Upgrade;
 import model.gamestates.GameState;
 import control.ControlManager;
 import control.ImageHandler;
+import control.ScoreHandler;
 
 /**
  * The boat game state.
@@ -138,7 +139,7 @@ public class BoatGameState extends GameState{
 	    
 	    //Showing upgrade text;
 	    if(upgradeActive && animationKeyFrame <= 60) {
-	    	if(speed == 12) { 
+	    	if(speed == 10) { 
 	    		if(animationKeyFrame%16 == 0) 
 	    			g2.setColor(Color.RED);
 	    		else if(animationKeyFrame%8 == 0) 
@@ -329,7 +330,7 @@ public class BoatGameState extends GameState{
 		if(boat.reachedEnd()) {
 			if(pointCounter == 0) {
 				endText = "Gefeliciteerd!";
-				cm.getScoreHandler().bootScore = points;
+				cm.getScoreHandler().setScore(cm.getScoreHandler().getScore()+points);
 			}
 			if(pointCounter < points) {
 				if(alpha < 0.2)
@@ -345,7 +346,7 @@ public class BoatGameState extends GameState{
 		if(upgradeActive) {
 			keyFrame++;
 			animationKeyFrame++;
-			if(speed == 12) { //Speed upgrade;
+			if(speed == 10) { //Speed upgrade;
 				if(keyFrame >= 180) {
 					speed = 6;
 					if(boatCrash != null)
@@ -451,6 +452,7 @@ public class BoatGameState extends GameState{
 			}
 			else {
 				endText = "Helaas! U heeft het eind niet bereikt";
+				cm.getScoreHandler().setScore(cm.getScoreHandler().getScore()+points);
 				boat.setReachedEnd(true); //Alternate ending when dead <- here
 				pier.setDead(true);
 			}
@@ -470,7 +472,7 @@ public class BoatGameState extends GameState{
 			if(!pier.isDead()) {
 				switch((int) Math.floor(Math.random()*3)) {
 					case 0: // Speed upgraded;
-						speed = 12;
+						speed = 10;
 						upgradeActive = true;
 						break;
 					case 1: //Speed freezed

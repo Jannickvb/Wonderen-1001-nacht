@@ -5,12 +5,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Shape;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-
-import javax.swing.Timer;
 
 import control.ControlManager;
 import control.ImageHandler;
@@ -61,11 +57,14 @@ public class Person extends Entity{
 			}
 		}
 		
+		/**
+		 * Updating the person.
+		 */
 		public void update() {
-			boolean pressurePlate1 = input.getPressurePlate1(); //Right foot
-			boolean pressurePlate2 = input.getPressurePlate2(); //Left foot
-			boolean pressurePlate3 = input.getPressurePlate3(); //Right foot
-			boolean pressurePlate4 = input.getPressurePlate4(); //Left foot
+			pressurePlate1 = input.getPressurePlate1(); //Right foot
+			pressurePlate2 = input.getPressurePlate2(); //Left foot
+			pressurePlate3 = input.getPressurePlate3(); //Right foot
+			pressurePlate4 = input.getPressurePlate4(); //Left foot
 			if(pressurePlate1 && pressurePlate3) { // Go to the right
 				if( positionY < 100) {
 					if(positionX > ControlManager.screenWidth/2-(getSprite().getWidth()/2)-20)
@@ -117,7 +116,7 @@ public class Person extends Entity{
 			positionX = ControlManager.screenWidth/2;
 			positionY = ControlManager.screenHeight - 100;
 			collisionPalace = true;
-			//input.turnPressurePlates(true);
+			input.turnPressurePlates(true);
 		}
 		
 		/**
@@ -199,7 +198,5 @@ public class Person extends Entity{
 				pressurePlate2 = false;
 				pressurePlate4 = false;
 			}
-		}
-		
-	}
-
+		}	
+}

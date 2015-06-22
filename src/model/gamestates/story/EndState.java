@@ -13,6 +13,7 @@ import javax.sound.sampled.LineUnavailableException;
 import model.gamestates.GameState;
 import control.ControlManager;
 import control.ImageHandler;
+import control.ScoreHandler;
 
 public class EndState extends GameState {
 	private BufferedImage background,poor,sign;
@@ -87,31 +88,31 @@ public class EndState extends GameState {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
-				cm.getScoreHandler().bossScore += 2500;
-				cm.getInputHandler().resetLedStrip(); 
+				cm.getScoreHandler().setScore(cm.getScoreHandler().getScore()+2500);
+//				cm.getInputHandler().resetLedStrip(); 
 				cm.getGameStateManager().next();
 			}else{
 				//input audio
 				
 				try {
-					cm.getInputHandler().enableTrollTalk();     		
+//					cm.getInputHandler().enableTrollTalk();     		
 					cm.playEvilLaugh();
 							} catch (LineUnavailableException | IOException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
-				cm.getInputHandler().resetLedStrip(); 
+//				cm.getInputHandler().resetLedStrip(); 
 				cm.getGameStateManager().next();
 			}
 		}
-		if((pressurePlate1&&pressurePlate2)&&frame>1080){//frame > duur audio in sec * 60
-			choiceMade = true;
-			choicePoor = false;
-		}
-		if((pressurePlate3&&pressurePlate4)&&frame>1080){//frame > duur audio in sec * 60
-			choiceMade = true;
-			choicePoor = true;
-		}
+//		if((pressurePlate1&&pressurePlate2)&&frame>1080){//frame > duur audio in sec * 60
+//			choiceMade = true;
+//			choicePoor = false;
+//		}
+//		if((pressurePlate3&&pressurePlate4)&&frame>1080){//frame > duur audio in sec * 60
+//			choiceMade = true;
+//			choicePoor = true;
+//		}
 		
 	}
 	
@@ -128,12 +129,12 @@ public class EndState extends GameState {
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
 		if(e.getKeyCode() == KeyEvent.VK_RIGHT) { // Go to the rights
-			cm.getScoreHandler().geldGehouden = true;
+			cm.getScoreHandler().setKeptMoney(true);
 			cm.getGameStateManager().next();
 			
 		}
 		else if(e.getKeyCode() == KeyEvent.VK_LEFT) {// Go to the left
-			cm.getScoreHandler().geldGehouden = false;
+			cm.getScoreHandler().setKeptMoney(true);
 			cm.getGameStateManager().next();
 		}
 	}
@@ -143,6 +144,4 @@ public class EndState extends GameState {
 		// TODO Auto-generated method stub
 		
 	}
-
-
 }

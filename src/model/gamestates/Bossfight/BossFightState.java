@@ -23,6 +23,7 @@ import model.entities.Particle;
 import model.gamestates.GameState;
 import control.ControlManager;
 import control.ImageHandler;
+import control.ScoreHandler;
 
 public class BossFightState extends GameState{
 
@@ -400,7 +401,7 @@ public class BossFightState extends GameState{
 			time = 0;
 			level = 0;
 			wins = 0;
-			cm.getScoreHandler().bossScore = (int) Math.round(totalScore);
+			cm.getScoreHandler().setScore(cm.getScoreHandler().getScore() + (int) Math.round(totalScore));
 			started = false;
 			cm.getGameStateManager().next();
 		}

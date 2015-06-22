@@ -2,18 +2,14 @@ package model.entities;
 
 import java.awt.Graphics2D;
 import java.awt.Shape;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-
-import javax.swing.Timer;
 
 import control.ControlManager;
 /**
  * Abstract class for all the entities.
  * @author Wesley de Hek
- * @version 1.3
+ * @version 1.4
  */
 public abstract class Entity {
 
@@ -123,7 +119,7 @@ public abstract class Entity {
 	}
 	
 	/**
-	 * Checks if one of the pixels is inside the boats body.
+	 * Checks if one of the pixels is inside the Entity's body.
 	 * @param object - the object you want to check for collision.
 	 * @return if there is an intersection between the two objects.
 	 */
@@ -148,7 +144,7 @@ public abstract class Entity {
 	public abstract void update();
 	
 	/**
-	 * Abstract init method, gets called on initialisation of the gamestate.
+	 * Abstract init method, gets called on initialization of the game state.
 	 */
 	public abstract void init();
 }

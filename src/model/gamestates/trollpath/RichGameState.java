@@ -317,8 +317,8 @@ public class RichGameState extends GameState{
 			
 			if(guy.reachedEnd()) {
 				if(pointCounter == 0) {
-					cm.getScoreHandler().cityScore = points;
-					cm.getScoreHandler().armGekozen = false;
+					cm.getScoreHandler().setScore(cm.getScoreHandler().getScore()+points);
+					cm.getScoreHandler().setArmGekozen(false);
 					endText = "Gefeliciteerd!";
 				}
 				if(pointCounter < points) {
@@ -439,6 +439,8 @@ public class RichGameState extends GameState{
 				}
 				else {
 					endText = "Helaas! U heeft het eind niet bereikt";
+					cm.getScoreHandler().setScore(cm.getScoreHandler().getScore()+points);
+					cm.getScoreHandler().setArmGekozen(false);
 					guy.setReachedEnd(true); //Alternate ending when dead <- here
 					palace.setDead(true);
 				}

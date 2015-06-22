@@ -7,9 +7,9 @@ import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 
+import model.gamestates.GameState;
 import control.ControlManager;
 import control.ImageHandler;
-import model.gamestates.GameState;
 
 public class ScoreState extends GameState{
 	
@@ -23,26 +23,45 @@ public class ScoreState extends GameState{
 		super(cm);
 		midX = ControlManager.screenWidth/2;
 		midY = ControlManager.screenHeight/2;
-		this.background = ImageHandler.getScaledImage(ImageHandler.getImage(ImageHandler.ImageType.menubg));
+		background = ImageHandler.getScaledImage(ImageHandler.getImage(ImageHandler.ImageType.menubg));
 	}
 
 	@Override
 	public void draw(Graphics2D g2) {
-		g2.setColor(Color.YELLOW);
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		g2.drawImage(background, 0,0,null);
-		g2.setFont(new Font("Verdana", Font.BOLD, 80));
-		g2.drawString("Jouw score: " + scoreDisplay, midX-350, midY-80);
-		if(time > 20)
-		{
-			g2.drawString("Je bent een: " + tier, midX-400 - (10*tier.length()), midY);
+		g2.setColor(new Color(0,0,0,120));
+		g2.fillRect(0, 0, ControlManager.screenWidth,ControlManager.screenHeight);
+		g2.setColor(Color.WHITE);
+		g2.setFont(new Font("Verdana", Font.BOLD, 70));
+		ImageHandler.drawCenteredText("Jouw score: " + scoreDisplay, g2, midY-80);
+		g2.setFont(new Font("Verdana", Font.BOLD, 50));
+		if(time > 20) {
+			String keuze;
+			if(cm.getScoreHandler().isArmGekozen())
+				keuze = "Arm  +250 punten";
+			else
+				keuze = "Rijk  -250 punten";
+			ImageHandler.drawCenteredText("Keuze arm/rijk: " + keuze , g2, midY-20);
 		}
-		if(time > 40)
+		if(time > 40) {
+			String keuze;
+			if(cm.getScoreHandler().isKeptMoney())
+				keuze = "Geld gehouden  -500 punten";
+			else
+				keuze = "Geld weg gegeven  +500 punten";
+			ImageHandler.drawCenteredText("Keuze geld: " + keuze , g2, midY+40);
+		}	
+		if(time > 80) {
+			ImageHandler.drawCenteredText("Je bent een: " + tier, g2, midY+100);
+		}
+		
+		if(time > 100)
 		{
 			g2.setFont(new Font("Verdana", Font.BOLD, 40));
-			g2.drawString("Hoogste score van vandaag: " + highScore, midX-350, midY+50);
+			g2.drawString("Hoogste score van vandaag: " + highScore, midX-350, midY+150);
 		} 
-		if(time > 80)
+		if(time > 140)
 		{
 			g2.drawString("Druk op A om opnieuw te beginnen", midX-400, midY+240);
 		}
@@ -52,14 +71,15 @@ public class ScoreState extends GameState{
 	public void update() {
 		if(!started)
 		{
-			score = cm.getScoreHandler().bootScore + cm.getScoreHandler().bossScore + cm.getScoreHandler().cityScore;
-			if(cm.getScoreHandler().armGekozen)
+			score = cm.getScoreHandler().getScore();
+			
+			if(cm.getScoreHandler().isArmGekozen())
 			{
 				score += 250;
 			}
 			else
 			{
-				score = 0;
+				//score = 0;
 			}
 			if(score == 0)
 			{
@@ -85,10 +105,6 @@ public class ScoreState extends GameState{
 			{
 				tier = "Kampioen";
 			}
-			if(score > highScore)
-			{
-				highScore = score;
-			}
 			started = true;
 		}
 		if(time > 60 && (cm.getInputHandler().isA1Pressed() || cm.getInputHandler().isA2Pressed()))
@@ -98,26 +114,36 @@ public class ScoreState extends GameState{
 			scoreDisplay = 0;
 			cm.getGameStateManager().reset();
 		}
-		else
-		{
-			if(scoreDisplay < score - 5)
-			{
-				scoreDisplay += 5;
+			
+		if(scoreDisplay < score - 6 && score > 0) 
+			scoreDisplay += 5;
+		else if(scoreDisplay > score + 6)
+			scoreDisplay -=5;
+		else {
+			scoreDisplay = score;
+			if(score > highScore) {
+				highScore = score;
 			}
-			else if(scoreDisplay < score)
-			{
-				scoreDisplay = score;
-			}
+			time++;
+		}
+		if(time == 20) {
+			if(cm.getScoreHandler().isArmGekozen()) 
+				score += 250;
 			else
-			{
-				time++;
-			}
+				score -= 250;
+			time++;
+		}
+		if(time == 40) {
+			if(cm.getScoreHandler().isKeptMoney()) 
+				score -= 500;
+			else
+				score += 500;
+			time++;
 		}
 	}
 
 	@Override
 	public void init() {
-		
 	}
 
 	@Override
@@ -132,5 +158,4 @@ public class ScoreState extends GameState{
 		// TODO Auto-generated method stub
 		
 	}
-
 }

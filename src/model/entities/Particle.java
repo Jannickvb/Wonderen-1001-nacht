@@ -6,6 +6,11 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.Random;
 
+/**
+ * Particle class.
+ * @author Tim Schijvenaars
+ * @version 1.1
+ */
 public class Particle {
 	 
     private int x;

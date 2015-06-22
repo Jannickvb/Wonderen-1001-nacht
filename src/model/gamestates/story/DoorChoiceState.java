@@ -135,4 +135,3 @@ public class DoorChoiceState extends GameState{
 	public void keyReleased(KeyEvent e) {
 	}
 }
-

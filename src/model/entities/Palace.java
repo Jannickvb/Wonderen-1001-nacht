@@ -1,15 +1,16 @@
 package model.entities;
 
-	import java.awt.Graphics2D;
-	import java.awt.event.ActionEvent;
-	import java.awt.event.ActionListener;
+import java.awt.Graphics2D;
 
-	import javax.swing.Timer;
+import control.ControlManager;
+import control.ImageHandler;
+import control.ImageHandler.ImageType;
 
-	import control.ControlManager;
-	import control.ImageHandler;
-	import control.ImageHandler.ImageType;
-
+/**
+ * Palace class.
+ * @author Tim Schijvenaars.
+ * @version 1.3
+ */
 public class Palace extends Entity {
 				
 		/**

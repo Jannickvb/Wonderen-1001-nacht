@@ -2,19 +2,31 @@ package control;
 
 public class ScoreHandler {
 
-	public int bootScore;
-	public int cityScore;
-	public int bossScore;
-	public boolean armGekozen;
-	public boolean geldGehouden;
+	private int score = 500;
+	private boolean armGekozen;
+	private boolean keptMoney;
 	
-	public ScoreHandler()
-	{
-		bootScore = 0;
-		cityScore = 0;
-		bossScore = 0;
-		armGekozen = false;
-		geldGehouden = false;
+	public int getScore() {
+		return score;
 	}
 	
+	public void setScore(int score) {
+		this.score = score;
+	}
+	
+	public boolean isArmGekozen() {
+		return armGekozen;
+	}
+	
+	public  void setArmGekozen(boolean armGekozen) {
+		this.armGekozen = armGekozen;
+	}
+
+	public boolean isKeptMoney() {
+		return keptMoney;
+	}
+
+	public void setKeptMoney(boolean keptMoney) {
+		this.keptMoney = keptMoney;
+	}
 }

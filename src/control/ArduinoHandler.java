@@ -69,7 +69,7 @@ public class ArduinoHandler implements SerialPortEventListener {
 			try {
 				if(serialReader.ready()) {
 					incommingMessage = serialReader.readLine();
-					System.out.println("read from serial: " + incommingMessage);
+//					System.out.println("read from serial: " + incommingMessage);
 					superClass.inCommingMessage(incommingMessage);
 				}
 			} catch (IOException e1) {
