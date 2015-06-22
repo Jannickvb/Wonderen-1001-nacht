@@ -61,7 +61,7 @@ public class SpellTutorialState extends GameState{
 		}else{
 			screenY = 0;
 		}
-			if((cm.getInputHandler().isA1Pressed() || cm.getInputHandler().isA2Pressed()) && frame > 2300)
+		if((cm.getInputHandler().isA1Pressed() || cm.getInputHandler().isA2Pressed()) && frame > 2300)
 		{
 			cm.getGameStateManager().next();
 		}

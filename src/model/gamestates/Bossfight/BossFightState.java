@@ -96,7 +96,7 @@ public class BossFightState extends GameState{
 		finished = false;
 		started = false;
 		win = false;
-		time = 1800;
+		time = 840;
 	}
 	
 	private void initScanBMPImage(BufferedImage image) throws IOException {
@@ -229,6 +229,7 @@ public class BossFightState extends GameState{
 		if(finished)
 		{
 			confusion.add(new Particle(midX-80,270,10,0));
+			g2.drawString("Druk op A om verder te gaan",(int) (midX/1.8-125), 850);
 			if(wins > 3)
 			{
 				g2.drawString("Jullie hebben gewonnen!", (int) (midX/1.8-125), 50);
@@ -376,7 +377,7 @@ public class BossFightState extends GameState{
 				e.printStackTrace();
 			}
 			drawing = true;
-			time = 1300 - (100*level);
+			time = 840 - (60*level);
 		}
 		else
 		{
@@ -391,11 +392,7 @@ public class BossFightState extends GameState{
 	public void gameCompleted()
 	{
 		finished = true;
-		if(time != 0)
-		{
-			time--;
-		}
-		else
+		if(time < 240 && (cm.getInputHandler().isA1Pressed() || cm.getInputHandler().isA2Pressed()))
 		{
 			time = 0;
 			level = 0;
@@ -465,7 +462,7 @@ public class BossFightState extends GameState{
 			position2 = new Point2D.Double(0,0);
 			positioni1 = new Point2D.Double(-100,-100);
 			positioni2 = new Point2D.Double(-100,-100);
-			time = 1800;
+			time = 840;
 			started = true;
 		}
 		if(drawing)

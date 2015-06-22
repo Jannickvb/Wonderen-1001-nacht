@@ -9,6 +9,9 @@ import java.awt.event.KeyEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+
+import javax.sound.sampled.LineUnavailableException;
 
 import model.gamestates.GameState;
 import control.ControlManager;

@@ -415,7 +415,7 @@ public class BoatGameState extends GameState{
 		if(boat.reachedEnd()) {
 			if(pointCounter == points)
 			{
-				if(cm.getInputHandler().isA1Pressed() && cm.getInputHandler().isA2Pressed())
+				if(cm.getInputHandler().isA1Pressed() || cm.getInputHandler().isA2Pressed())
 					cm.getGameStateManager().next();	
 				
 			}
