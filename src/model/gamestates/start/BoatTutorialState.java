@@ -87,7 +87,7 @@ public class BoatTutorialState extends GameState{
 			isPPRight = false;
 			isPPLeft = false;
 		}
-		if((cm.getInputHandler().isA1Pressed() || cm.getInputHandler().isA2Pressed()) && frame > 2300)
+		if((cm.getInputHandler().isA1Pressed() || cm.getInputHandler().isA2Pressed()) && frame > 1620)
 		{
 			cm.getGameStateManager().next();
 		}

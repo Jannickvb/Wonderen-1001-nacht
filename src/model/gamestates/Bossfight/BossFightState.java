@@ -230,6 +230,7 @@ public class BossFightState extends GameState{
 		if(finished)
 		{
 			confusion.add(new Particle(midX-80,270,10,0));
+			g2.drawString("Druk op A om verder te gaan",(int) (midX/1.8-125), 850);
 			if(wins > 3)
 			{
 				g2.drawString("Jullie hebben gewonnen!", (int) (midX/1.8-125), 50);
@@ -328,8 +329,8 @@ public class BossFightState extends GameState{
 		{
 			if(time > 0 && time % 20 > 10)
 			{
-				g2.drawImage(particles.get(level*3), 0, -400, null);
-				g2.drawImage(particles.get(level*3+1), -800, -400, null);
+				g2.drawImage(particles.get(level*3), -800, -400, null);
+				g2.drawImage(particles.get(level*3+1), 0, -400, null);
 			}
 			else if(time <= 0)
 			{
@@ -392,11 +393,7 @@ public class BossFightState extends GameState{
 	public void gameCompleted()
 	{
 		finished = true;
-		if(time != 0)
-		{
-			time--;
-		}
-		else
+		if(time < 240 && (cm.getInputHandler().isA1Pressed() || cm.getInputHandler().isA2Pressed()))
 		{
 			time = 0;
 			level = 0;
